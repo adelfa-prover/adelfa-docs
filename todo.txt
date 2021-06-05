@@ -2,16 +2,16 @@ TODO:
 
 [x] create the skeleton of main page for Adelfa
 [x] Update script for pushing to the web directory
-[ ] Include a brief description of the system on page
+[x] Include a brief description of the system on page
       can use existing attempt from systems/lf-reasoning or a revised description
-[ ] Determine where the Adelfa repo (or tar ball for now) will live and include on main page
+[x] Determine where the Adelfa repo (or tar ball for now) will live and include on main page
 [ ] Use the system reference file to create a system reference page
 [ ] Use the sample interaction (or another example) to create a simple walkthrough page
-[ ] Create a landing page for examples
+[x] Create a landing page for examples
       note: will not be able to create pages for examples until scripts are updated
 [?] Update README for building Adelfa web page
       note: this is only done if the same structure as with compiler correctness works,
             which we will not know until makefiles and scripts are working.
-[ ] Add acknowledgements to main page
+[x] Add acknowledgements to main page
 [ ] Update ruby scripts for Adelfa
 [ ] Create Makefiles for generating webpage
