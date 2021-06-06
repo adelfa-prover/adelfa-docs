@@ -18,10 +18,52 @@
 
   <section>
     <h1>Canonical LF Specification</h1>
+    
+    <p>The following Canonical LF signature will encode typing in the simply 
+       typed &lambda;-calculus and form the basis for our reasoning.</p>
+    
+    <pre>
+      ty : type.
+      arr : {T:ty}{U:ty}ty.
+
+      tm : type.
+      app : {E1:tm}{E2:tm}tm.
+      abs : {T:ty}{R:{x:tm}tm}tm.
+
+      of : {E:tm}{T:ty}type.
+      of_app : {M:tm}{N:tm}{T:ty}{U:ty}
+               {a1:of M (arr U T)} {a2:of N U} of (app M N) T.
+      of_abs : {R : {x:tm} tm}{T:ty}{U:ty}
+               {a1:({x:tm}{z:of x T} of (R x) U)}
+               of (abs T ([x] R x)) (arr T U).
+
+      eq : {T:ty}{U:ty}type.
+      refl : {T:ty} eq T T.
+    </pre>
+    
+    <p>The property we are intersted in for this example is that of showing
+       that simply typed &lambda;-terms will have at most one type.
+    
+       <br><br>
+       
+       Saving the above signature in a file 'unique.elf` we load it into Adelfa using the following command.
+    </p>
+    
+    <pre> Specification "unique.elf".</pre>
+    
+    
   </section>
 
   <section>
     <h1>Contexts &amp; Context Schemas</h1>
+    
+    <p>The contexts which are of interest for this example will be ones
+       which satisfy the following schema definition.</p>
+       
+    <pre>
+      Schema c =
+        T. x:tm,y:of x T.
+    </pre>
   </section>
 
   <section>
