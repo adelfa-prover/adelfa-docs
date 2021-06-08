@@ -1,0 +1,19 @@
+prop : type.
+top : prop.
+imp : {A:prop}{B:prop}prop.
+and : {A:prop}{B:prop}prop.
+
+hyp : {A:prop} type.
+
+conc : {C:prop} type.
+
+init : {A:prop}{D:hyp A}conc A.
+topR : conc top.
+andL : {A:prop}{B:prop}{C:prop}{D1:{x:hyp A}{y:hyp B}conc C}
+       {D2:hyp (and A B)} conc C.
+andR : {A:prop}{B:prop}{D1:conc A}{D2:conc B}
+       conc (and A B).
+impL : {A:prop}{B:prop}{C:prop}{D1:conc A}{D2:{x:hyp B}conc C}
+       {D3:hyp (imp A B)}conc C.
+impR : {A:prop}{B:prop}{D:{x:hyp A}conc B}
+       conc (imp A B).

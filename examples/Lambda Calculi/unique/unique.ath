@@ -1,0 +1,64 @@
+Specification "unique.elf".
+
+Schema c :=
+ {T}(x:tm,y:of x T).
+
+%%% Strengthening properties for ty and eq.
+Theorem ty_independent : ctx Gamma:c, forall T:o, {Gamma |- T : ty} => {T:ty}.
+induction on 1. intros. case H1. 
+  apply IH to H2. apply IH to H3. search.
+
+Theorem eq_independent : ctx Gamma:c, forall T1 T2 D, {Gamma |- D : eq T1 T2} => {D : eq T1 T2}.
+intros. case H1. apply ty_independent to H2. search.
+
+
+%%% Main lemma which includes context Gamma in the conclusion formula
+Theorem ty_unique_aux : ctx Gamma:c, forall E T1 T2 D1 D2,
+  { Gamma |- T1 : ty} => {Gamma |- T2 : ty} =>
+  { Gamma |- D1 : of E T1 } => { Gamma |- D2 : of E T2 } =>
+  exists D3, { Gamma |- D3 : eq T1 T2 }.
+induction on 3. intros. case H3.
+
+  %case 1: of_abs
+    case H4.
+      assert {Gamma, n1:tm, n2:of n1 T |- U : ty}.
+      weaken H7 with tm.
+      weaken H6 with tm.
+      weaken H13 with (of n6 T).
+      search.
+    assert {Gamma, n1:tm, n2:of n1 T |- T3 : ty}.
+      weaken H10 with tm.
+      weaken H11 with tm. weaken H15 with (of n7 T).
+      search.
+    apply IH to H13 H14 H8 H12 with (Gamma = Gamma, n:tm, n1:of n T).
+    case H15.
+    exists (refl (arr T T3)). search.
+
+  %case 2: of_app
+    case H4.
+    assert {Gamma |- (arr U T1) : ty}.
+      search.
+    assert {Gamma |- (arr U1 T2) : ty}.
+      search.
+    apply IH to H17 H18 H9 H15.
+    case H19.
+    exists (refl T2). search.
+
+  %case 3: context
+    case H4.
+    exists (refl (T2 n n1)). search.
+
+
+%%% Final result is proved by applying the strengthening result to form with a context
+Theorem ty_unique : ctx Gamma:c, forall E T1 T2 D1 D2,
+  { Gamma |- T1 : ty} => {Gamma |- T2 : ty} =>
+  { Gamma |- D1 : of E T1 } => { Gamma |- D2 : of E T2 } =>
+  exists D3, { D3 : eq T1 T2 }.
+intros. apply ty_unique_aux to H1 H2 H3 H4. apply eq_independent to H5. exists D3. search.
+
+
+%%% A short proof that a self application term is untypable
+Theorem self_app_untypable :
+  forall T U P, {P : of (app (abs U ([x] (app x x))) (abs U ([x] (app x x)))) T} => false.
+intros. case H1. case H6. case H7.
+
