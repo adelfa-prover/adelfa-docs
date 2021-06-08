@@ -3,7 +3,7 @@
 
 (defvar adelfa-mode-hook nil)
 
-(add-to-list 'auto-mode-alist '("\\.thm\\'" . adelfa-mode))
+(add-to-list 'auto-mode-alist '("\\.ath\\'" . adelfa-mode))
 
 (defun make-regex (&rest args)
   (concat "\\<\\(" (regexp-opt args) "\\)\\>"))
