@@ -5,7 +5,7 @@ TODO:
 [x] Include a brief description of the system on page
       can use existing attempt from systems/lf-reasoning or a revised description
 [x] Determine where the Adelfa repo (or tar ball for now) will live and include on main page
-[ ] Use the system reference file to create a system reference page
+[x] Use the system reference file to create a system reference page
 [ ] Use the sample interaction (or another example) to create a simple walkthrough page
 [x] Create a landing page for examples
       note: will not be able to create pages for examples until scripts are updated

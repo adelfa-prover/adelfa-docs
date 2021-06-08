@@ -8,7 +8,7 @@
 
 <body>
   <section>
-    <h1 id="main">Walkthrough: Uniqueness of Typing</h1>
+    <h1 id="main">Walkthrough: Subject Reduction</h1>
     <br>
     <p>
       In this walkthrough you will learn how to state and prove theorems
@@ -19,7 +19,7 @@
   <section>
     <h1>Canonical LF Specification</h1>
     
-    <p>The following Canonical LF signature will encode typing in the simply 
+    <p>The following Canonical LF signature will encode typing and evalutation in the simply 
        typed &lambda;-calculus and form the basis for our reasoning.</p>
     
     <pre>
@@ -37,37 +37,107 @@
                {a1:({x:tm}{z:of x T} of (R x) U)}
                of (abs T ([x] R x)) (arr T U).
 
-      eq : {T:ty}{U:ty}type.
-      refl : {T:ty} eq T T.
+      eval : {E1:tm}{E2:tm}type.
+      eval_abs : {R: tm -> tm}{T:ty}eval (abs T ([x] R x)) (abs T ([x] R x)).
+      eval_app : {M:tm}{N:tm}{V:tm}{R:tm -> tm}{T:ty}eval M (abs T ([x] R x)) -> 
+                 eval (R N) V -> eval (app M N) V.
     </pre>
     
     <p>The property we are intersted in for this example is that of showing
-       that simply typed &lambda;-terms will have at most one type.
+       subject reduction.
     
        <br><br>
        
-       Saving the above signature in a file 'unique.elf` we load it into Adelfa using the following command.
+       Saving the above signature in a file 'stlc.elf` we load it into Adelfa using the following command.
     </p>
     
-    <pre> Specification "unique.elf".</pre>
+    <pre> Specification "stlc.elf".</pre>
     
     
-  </section>
-
-  <section>
-    <h1>Contexts &amp; Context Schemas</h1>
-    
-    <p>The contexts which are of interest for this example will be ones
-       which satisfy the following schema definition.</p>
-       
-    <pre>
-      Schema c =
-        T. x:tm,y:of x T.
-    </pre>
   </section>
 
   <section>
     <h1>Reasoning</h1>
+    
+    <p>We state subject reduction in Abella by</p>
+    <pre>Theorem sr_eval : forall E V T D1 D2,
+                         {D1 : eval E V} => {D2 : of E T} => exists D3, {D3 : of V T}.</pre>
+    <p>The formula states that whenever there exist inhabitants <code>D1</code> and <code>D2</code>
+       of types <code>eval E V</code> and <code>of E T</code> respectively, then there must exist
+       an inhabitant exhibiting that <code>V</code> is also of type <code>T</code>.
+    <pre>
+    
+    ============================
+     forall E V T D1 D2, {D1 : eval E V} => {D2 : of E T} => exists D3, {D3 : of V T}
+    </pre>
+    </p>
+    <p>We will prove this theorem by induction on the height of the derivation that <code>E</code> 
+       has type <code>T</code>.
+    <pre>
+    sr_eval > induction on 1.
+    
+    forall E V T D1 D2, {D1 : eval E V}* => {D2 : of E T} => exists D3, {D3 : of V T}
+    ============================
+     forall E V T D1 D2, {D1 : eval E V}@ => {D2 : of E T} => exists D3, {D3 : of V T}
+    </pre>
+    </p>
+    <p>The next step is to introduce eigenvariables and context variables for any quantifiers
+       and introduce the implications in the goal as hypotheses.
+    <pre>
+    sr_eval > intros.
+    
+    Vars: E:o V:o T:o D1:o D2:object
+    IH: forall E V T D1 D2, {D1 : eval E V}* => {D2 : of E T} => exists D3, {D3 : of V T}
+    H1: {D1 : eval E V}@
+    H2: {D2 : of E T}
+    ============================
+     exists D3, {D3 : of V T}
+    </pre>
+    </p>
+    <p>Now we perform case analysis on <code>{D1 : eval E V}@</code> using
+       the <code>case</code> tactic. This will split the proof into two
+       branches based on the two possible ways in which <code>E</code> can
+       evaluate to <code>V</code>. Each of the different proof branches is
+       called a <em>subgoal</em>. In general, only the first subgoal will be
+       displayed in full; the other subgoals will be shown without their
+       hypotheses. When the first subgoal is completed, the prover will move
+       to the next subgoal.
+    <pre>
+    sr_eval > intros.
+    
+    Vars: E:o V:o T:o D1:o D2:o
+    IH: forall E V T D1 D2, {D1 : eval E V}* => {D2 : of E T} => exists D3, {D3 : of V T}
+    H1: {D1 : eval E V}@
+    H2: {D2 : of E T}
+    ============================
+     exists D3, {D3 : of V T}
+    </pre>
+    </p>
+    <p>
+    Now we perform case analysis on <code>{D1 : eval E V}@</code> using the case tactic. 
+    This will split the proof into two branches based on the two possible ways in which 
+    <code>E</code> can evaluate to <code>V</code>. Each of the different proof branches 
+    is called a subgoal. In general, only the first subgoal will be displayed in full; 
+    the other subgoals will be shown without their hypotheses. When the first subgoal is 
+    completed, the prover will move to the next subgoal.
+    <pre>
+    sr_eval > case H1.
+    
+    Vars: V:o T:o D2:o M:o N:o R:o -> o T':o D3:o D4:o
+    IH: forall E V T D1 D2, {D1 : of E T}* => {D2 : eval E V} => exists D3, {D3 : of V T}
+    H2: {D2 : of (app M N) T}
+    H3: {M : tm}
+    H4: {N : tm}
+    H5: {n:tm |- R n  : tm}
+    H6: {T' : ty}
+    H7: {D3 : eval M (abs T' ([x] R x))}*
+    H8: {D4 : eval (R N) V}*
+    ============================
+     exists D3, {D3 : of (app M N) T}
+     
+    Subgoal 2: exists D3, {D3 : of (abs T' ([x] R x)) T}
+    </pre>
+    </p>
   </section>
   
 </body>
