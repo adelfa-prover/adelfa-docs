@@ -9,13 +9,13 @@ TODO:
 [x] Use the sample interaction (or another example) to create a simple walkthrough page
 [x] Create a landing page for examples
       note: will not be able to create pages for examples until scripts are updated
-[ ] Update README for building Adelfa web page
-      note: this is only done if the same structure as with compiler correctness works,
-            which we will not know until makefiles and scripts are working.
+[x] Update README for building Adelfa web page
+      note: have not tested pushing the web page yet, but all the
+      generation pieces are working properly.
 [x] Add acknowledgements to main page
 [x] Update ruby scripts for Adelfa
-[ ] Create Makefiles for generating webpage
+[x] Create Makefiles for generating webpage
 [ ] Add basic navigation support (eg. return to main page, top, etc.)
 [ ] create a logo/icon for the system
 [ ] Determine if possible to display Specification file directly on example page, like Adelfa
-[ ] Set up makefile that will run ruby scripts on all example subdirectory
+[x] Set up makefile that will run ruby scripts on all example subdirectories

@@ -8,7 +8,7 @@ endif
 CUR_DIR = $(shell pwd)
 RUBY_DIR=../../ruby-scripts
 
-ANNOTATE_THM=$(RUBY_DIR)/annotate_thm.rb
+ANNOTATE_ATH=$(RUBY_DIR)/annotate_ath.rb
 DETAILS_RHTML=$(RUBY_DIR)/details.rhtml
 ANNOTATE_SPEC=$(RUBY_DIR)/annotate_spec.rb
 
@@ -31,7 +31,7 @@ $(SPEC_HTMLS) : %_spec.html : %.lf
 	ruby $(ANNOTATE_SPEC) $(ROOT_DIR) $* > $@
 
 $(THM_HTMLS) : %_ath.html : %.ath
-	ruby $(ANNOTATE_THM) $(ROOT_DIR)$< > $@
+	ruby $(ANNOTATE_ATH) $(ROOT_DIR)$< > $@
 
 $(THM_DETAIL_HTMLS) : %_ath_details.html : %.ath
 	head -1 $< > title-line
