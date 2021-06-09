@@ -1,4 +1,4 @@
-Specification "cut.elf".
+Specification "cut.lf".
 
 Schema c :=
   {A}(x:hyp A).
@@ -67,8 +67,8 @@ induction on 1. intros. case H1(keep).
         weaken H5 with (hyp (A n)). weaken H6 with (hyp (B n)). search.
       
 
-Theorem cut : ctx G:c, forall A B D1 D2: o -> o,
- {A : prop} => {G |- D1 : conc A} => {G |- [x]D2 x : {x:hyp A}conc B} =>
+Theorem cut : ctx G:c, forall A B D1 D2: o -> o, 
+ {A : proptm} => {G |- D1 : conc A} => {G |- [x] D2 x : {x:hyp A} conc B} => 
    exists D3, {G |- D3 : conc B}.
 induction on 1. induction on 3. intros.
 case H3(keep).

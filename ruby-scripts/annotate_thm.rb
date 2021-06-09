@@ -1,7 +1,7 @@
 # This does not handle nesting of comments or interactions between
 # different styles of comments.
 
-$details = File.basename(ARGV[0],".thm")  + "_ath_details.html"
+$details = File.basename(ARGV[0],".ath")  + "_ath_details.html"
 
 class Element
   attr_accessor :text, :ref, :tag
@@ -72,7 +72,7 @@ class HTMLComment < Element
 end
 
 def convert(string)
-  regex = /(\/\*.*?\*\/|%.*?\n|(?:Theorem|Schema|Define|Specification|Quit|induction|apply|cut|inst|ctxpermute|case|assert|exists|search|split|unfold|intros|skip|abort|undo|left|right|weaken|strengthen|prune|applydfn)(?:[^%]|%.*?\n)*?\.)/m
+  regex = /(\/\*.*?\*\/|%.*?\n|(?:Theorem|Schema|Define|Specification|Quit|induction|apply|cut|inst|ctxpermute|case|assert|exists|search|split|unfold|intros|skip|abort|undo|left|right|weaken|strengthen|prune|applydfn)(?:[^%]|%.*?\n)*?(?:\.lf")?\.)/m
 
   list = string.split(regex).map do |s|
     case s
@@ -265,12 +265,12 @@ def contents(path, elements)
 
   specification_section = ""
   elements.each do |e|
-    if e.text =~ /^Specification "(.*)"/ then
+    if e.text =~ /^Specification "(.*).lf"/ then
       specification_section = <<-eos
 <div class="section" id="specification">
 <h1>Specification</h1>
 
-<a class="view" href="#{$1}_spec.html">[View #{$1}]</a>
+<a class="view" href="#{$1}_spec.html">[View #{$1}.lf]</a>
 </div>
         eos
       break
@@ -283,7 +283,7 @@ def contents(path, elements)
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Adelfa: #{title}</title>
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="../style.css" rel="stylesheet" type="text/css" />
 <script src="http://abella-prover.org/jquery.js"></script>
 <script type="text/javascript">
 $(function() {
@@ -322,7 +322,7 @@ $(function() {
 
 <div class="section" id="reasoning">
 <h1>Reasoning</h1>
-<a class="view" href="code/#{name}.ath">[View #{name}]</a>
+<a class="view" href="Logic/cut/#{name}.ath">[View #{name}.ath]</a>
 <span id="menubar" />
 <p class="body">
 Click on a command or tactic to see a detailed view of its use.

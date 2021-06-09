@@ -15,4 +15,4 @@ clean:
 
 .PHONY : website
 website: all
-	./push_website.sh
+#	./push_website.sh

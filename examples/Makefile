@@ -13,7 +13,7 @@ DETAILS_RHTML=$(RUBY_DIR)/details.rhtml
 ANNOTATE_SPEC=$(RUBY_DIR)/annotate_spec.rb
 
 ROOT_DIR:=$(dir $(realpath $(lastword $(MAKEFILE_LIST))))
-SRC_CODE_PATH=$(ROOT_DIR)code
+SRC_CODE_PATH=$(ROOT_DIR)Logic/cut
 SPEC_NAMES = $(notdir $(basename $(wildcard $(SRC_CODE_PATH)/*.lf)))
 SPEC_HTMLS = $(patsubst %,%_spec.html, $(SPEC_NAMES))
 THMS = $(notdir $(wildcard $(SRC_CODE_PATH)/*.ath))
@@ -36,16 +36,16 @@ $(THM_HTMLS) : %_ath.html : $(SRC_CODE_PATH)/%.ath
 
 $(THM_DETAIL_HTMLS) : %_ath_details.html : $(SRC_CODE_PATH)/%.ath
 	head -1 $< > title-line
-	(cd $(SRC_CODE_PATH) && $(ADELFA) -a $*.ath) > details
+	(cd $(SRC_CODE_PATH) && $(ADELFA) -i $*.ath) > details
 	erb $(DETAILS_RHTML) > $@
 	rm -f title-line details
 
 $(TARBALL) :
-	(cd $(SRC_CODE_PATH) && tar cvf ../$(TARBALL) Makefile *.lf *.ath)
+	(cd $(SRC_CODE_PATH) && tar cvf ../$(TARBALL) *.lf *.ath)
 
 
 .PHONY : clean
 clean :
-	rm -f $(TARBALL) $(SRC_CODE_PATH)/*.out $(SRC_CODE_PATH)/*.thc $(HTMLFILES)
+	rm -f $(TARBALL) $(HTMLFILES)
 
 
