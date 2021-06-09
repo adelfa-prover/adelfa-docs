@@ -1,3 +1,4 @@
+%Existence of an identity element for addition
 Specification "ident.lf".
 
 Theorem identity : exists I, ((forall X, {X:nat} => exists D, {D:plus I X X}) /\

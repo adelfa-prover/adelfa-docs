@@ -11,7 +11,7 @@ def read_lf(fullname)
   end
 
   file.gsub!(/accumulate ([^.]*)\./,
-             'accumulate \1. <a class="view" href="Logic/cut/\1.lf">[View \1.lf]</a>')
+             'accumulate \1. <a class="view" href="\1.lf">[View \1.lf]</a>')
 
   return file
 end
@@ -40,15 +40,16 @@ def contents(path, name)
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Adelfa: #{title}</title>
-<link href="../style.css" rel="stylesheet" type="text/css" />
+<link href="../../style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
+<h1><a href="../../index.html">Adelfa Home</a></h1>
 
 <div class="section" id="specification">
 <h1>Specification</h1>
 
-<a class="view" href="Logic/cut/#{name}.lf">[View #{name}.lf]</a>
+<a class="view" href="#{name}.lf">[View #{name}.lf]</a>
 <pre class="command">
 #{read_lf(path+"/"+name+".lf")}
 </pre>

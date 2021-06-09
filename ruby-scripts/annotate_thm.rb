@@ -247,17 +247,17 @@ end
 def contents(path, elements)
   name = File.basename(path,".*")
   title = "#{name}"
-  # if (elements[0].tag == :comment) then
-  #   first, *elements = *elements
-  #   title = first.text.gsub(/^%* */, "")
-  # end
+  if (elements[0].tag == :comment) then
+    first, *elements = *elements
+    title = first.text.gsub(/^%* */, "")
+  end
 
   title_comment = title
-  # if (elements[0].tag == :pre_end &&
-  #     elements[1].tag == :html_comment &&
-  #     elements[2].tag == :pre_start) then
-  #   pre_end, title_comment, pre_start, *elements = *elements
-  # end
+  if (elements[0].tag == :pre_end &&
+      elements[1].tag == :html_comment &&
+      elements[2].tag == :pre_start) then
+    pre_end, title_comment, pre_start, *elements = *elements
+  end
 
   while (elements[0].tag == :whitespace) do
     first, *elements = *elements
@@ -283,7 +283,7 @@ def contents(path, elements)
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Adelfa: #{title}</title>
-<link href="../style.css" rel="stylesheet" type="text/css" />
+<link href="../../style.css" rel="stylesheet" type="text/css" />
 <script src="http://abella-prover.org/jquery.js"></script>
 <script type="text/javascript">
 $(function() {
@@ -317,6 +317,11 @@ $(function() {
 </head>
 
 <body>
+<h1><a href="../../index.html">Adelfa Home</a></h1>
+
+<div class="section">
+<h1>#{title}</h1>
+</div>
 
 #{specification_section}
 

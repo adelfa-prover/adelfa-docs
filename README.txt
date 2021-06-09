@@ -5,7 +5,7 @@ Adelfa. Follow the steps below to generate the website:
 
    You can find it at:
    
-      <link to location of Adelfa distribution>
+      files/adelfa.tar
 
 
 2. Set the environment variables for running Adelfa

@@ -1,3 +1,4 @@
+%Every natural number is either even or odd
 Specification "even-or-odd.lf".
 
 Theorem even-or-odd :

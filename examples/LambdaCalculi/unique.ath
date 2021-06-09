@@ -1,3 +1,4 @@
+%Uniqueness of typing for the simply typed lambda-calculus
 Specification "unique.lf".
 
 Schema c :=
