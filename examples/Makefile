@@ -36,7 +36,7 @@ $(THM_HTMLS) : %_ath.html : $(SRC_CODE_PATH)/%.ath
 
 $(THM_DETAIL_HTMLS) : %_ath_details.html : $(SRC_CODE_PATH)/%.ath
 	head -1 $< > title-line
-	(cd $(SRC_CODE_PATH) && $(ADELFA) -i $*.ath) > details
+	(cd $(SRC_CODE_PATH) && $(ADELFA) -a -i $*.ath) > details
 	erb $(DETAILS_RHTML) > $@
 	rm -f title-line details
 

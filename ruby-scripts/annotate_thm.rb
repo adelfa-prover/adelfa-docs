@@ -270,7 +270,7 @@ def contents(path, elements)
 <div class="section" id="specification">
 <h1>Specification</h1>
 
-<a class="view" href="#{$1}_spec.html">[View #{$1}.lf]</a>
+<a class="view" href="#{$1}_spec.html">[View #{$1} Specification]</a>
 </div>
         eos
       break
