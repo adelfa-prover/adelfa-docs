@@ -1,4 +1,4 @@
-Specification "ident.elf".
+Specification "ident.lf".
 
 Theorem identity : exists I, ((forall X, {X:nat} => exists D, {D:plus I X X}) /\
                               (forall X, {X:nat} => exists D, {D:plus X I X})).

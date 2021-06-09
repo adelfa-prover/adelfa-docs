@@ -6,10 +6,16 @@ ADELFA = adelfa
 endif
 
 all :
-        $(MAKE) -C First\ Order
+	$(MAKE) -C FirstOrder
+	$(MAKE) -C LambdaCalculi
+	$(MAKE) -C Logic
+	$(MAKE) -C ProgLang
 
 .PHONY : clean
 clean :
-        $(MAKE) -C First\ Order -k clean
+	$(MAKE) -C FirstOrder -k clean
+	$(MAKE) -C LambdaCalculi -k clean
+	$(MAKE) -C Logic -k clean
+	$(MAKE) -C ProgLang -k clean
 
 

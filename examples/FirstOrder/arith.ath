@@ -1,4 +1,4 @@
-Specification "arith.elf".
+Specification "arith.lf".
 
 Schema c :=
   (x : nat).

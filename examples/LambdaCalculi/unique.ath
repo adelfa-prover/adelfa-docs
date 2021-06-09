@@ -1,4 +1,4 @@
-Specification "unique.elf".
+Specification "unique.lf".
 
 Schema c :=
  {T}(x:tm,y:of x T).

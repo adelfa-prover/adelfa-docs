@@ -1,4 +1,4 @@
-Specification "even-or-odd.elf".
+Specification "even-or-odd.lf".
 
 Theorem even-or-odd :
   forall N, {N : nat} => (exists D, {D : even N}) \/ (exists D, {D : odd N}).
