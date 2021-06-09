@@ -5,47 +5,11 @@ ifndef ADELFA
 ADELFA = adelfa
 endif
 
-CUR_DIR = $(shell pwd)
-RUBY_DIR=../ruby-scripts
-
-ANNOTATE_THM=$(RUBY_DIR)/annotate_thm.rb
-DETAILS_RHTML=$(RUBY_DIR)/details.rhtml
-ANNOTATE_SPEC=$(RUBY_DIR)/annotate_spec.rb
-
-ROOT_DIR:=$(dir $(realpath $(lastword $(MAKEFILE_LIST))))
-SRC_CODE_PATH=$(ROOT_DIR)Logic/cut
-SPEC_NAMES = $(notdir $(basename $(wildcard $(SRC_CODE_PATH)/*.lf)))
-SPEC_HTMLS = $(patsubst %,%_spec.html, $(SPEC_NAMES))
-THMS = $(notdir $(wildcard $(SRC_CODE_PATH)/*.ath))
-THM_HTMLS = $(patsubst %.ath,%_ath.html, $(THMS))
-THM_DETAIL_HTMLS = $(patsubst %.ath,%_ath_details.html, $(THMS))
-HTMLFILES = $(subst index.html,, $(wildcard *.html))
-SIGS = $(notdir $(wildcard $(SRC_CODE_PATH)/*.lf))
-TARBALL = examples.tar
-
-
-all  : $(SPEC_HTMLS) $(THM_HTMLS) $(THM_DETAIL_HTMLS) $(CODE) \
-       $(TARBALL)
-	@echo "Done".
-
-$(SPEC_HTMLS) : %_spec.html : $(SRC_CODE_PATH)/%.lf 
-	ruby $(ANNOTATE_SPEC) $(SRC_CODE_PATH) $* > $@
-
-$(THM_HTMLS) : %_ath.html : $(SRC_CODE_PATH)/%.ath
-	ruby $(ANNOTATE_THM) $< > $@
-
-$(THM_DETAIL_HTMLS) : %_ath_details.html : $(SRC_CODE_PATH)/%.ath
-	head -1 $< > title-line
-	(cd $(SRC_CODE_PATH) && $(ADELFA) -a -i $*.ath) > details
-	erb $(DETAILS_RHTML) > $@
-	rm -f title-line details
-
-$(TARBALL) :
-	(cd $(SRC_CODE_PATH) && tar cvf ../$(TARBALL) *.lf *.ath)
-
+all :
+        $(MAKE) -C First\ Order
 
 .PHONY : clean
 clean :
-	rm -f $(TARBALL) $(HTMLFILES)
+        $(MAKE) -C First\ Order -k clean
 
 
