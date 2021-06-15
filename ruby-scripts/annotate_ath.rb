@@ -3,6 +3,8 @@
 
 $details = File.basename(ARGV[0],".ath")  + "_ath_details.html"
 
+require_relative("annotate_spec")
+
 class Element
   attr_accessor :text, :ref, :tag
   @@input_count = 0
@@ -266,11 +268,15 @@ def contents(path, elements)
   specification_section = ""
   elements.each do |e|
     if e.text =~ /^Specification "(.*).lf"/ then
+      base_path = File.dirname(path)
       specification_section = <<-eos
 <div class="section" id="specification">
 <h1>Specification</h1>
 
-<a class="view" href="#{$1}_spec.html">[View #{$1} Specification]</a>
+<a class="view" href="#{$1}.lf">[View #{$1}.lf]</a>
+<pre class="command">
+#{read_lf(base_path+"/"+$1+".lf")}
+</pre>
 </div>
         eos
       break

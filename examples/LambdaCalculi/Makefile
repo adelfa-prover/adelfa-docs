@@ -28,7 +28,7 @@ all  : $(SPEC_HTMLS) $(THM_HTMLS) $(THM_DETAIL_HTMLS) $(CODE) \
 	@echo "Done".
 
 $(SPEC_HTMLS) : %_spec.html : %.lf 
-	ruby $(ANNOTATE_SPEC) $(ROOT_DIR) $* > $@
+	ruby -r "$(ANNOTATE_SPEC)" -e "print contents('$(ROOT_DIR)', '$*')" > $@
 
 $(THM_HTMLS) : %_ath.html : %.ath
 	ruby $(ANNOTATE_ATH) $(ROOT_DIR)$< > $@

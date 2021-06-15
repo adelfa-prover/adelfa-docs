@@ -16,6 +16,8 @@ TODO:
 [x] Update ruby scripts for Adelfa
 [x] Create Makefiles for generating webpage
 [ ] Add basic navigation support (eg. return to main page, top, etc.)
+    Also look into any other accessability related things for web pages.
 [ ] create a logo/icon for the system
-[ ] Determine if possible to display Specification file directly on example page, like Adelfa
+[x] Determine if possible to display Specification file directly on example page, like Adelfa
 [x] Set up makefile that will run ruby scripts on all example subdirectories
+[ ] Add a publications section to the site and populate

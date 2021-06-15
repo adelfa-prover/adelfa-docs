@@ -59,5 +59,3 @@ def contents(path, name)
 </html>
         eos
 end
-
-print contents(ARGV[0],ARGV[1])

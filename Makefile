@@ -5,7 +5,7 @@ ifndef ADELFA
 export ADELFA = adelfa
 endif
 
-
+# build all the example html pages using Ruby scripts
 all:
 	$(MAKE) -C examples
 
@@ -13,6 +13,7 @@ all:
 clean:
 	$(MAKE) -C examples -k clean
 
+# build all the examples pages and push the website
 .PHONY : website
 website: all
 	./push_website.sh

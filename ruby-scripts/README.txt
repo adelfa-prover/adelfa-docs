@@ -4,9 +4,13 @@ Ruby scripts for generating html files
 annotate_spec.rb
 ----------------
 This script produces an annotated html file from an LF
-specification. It takes two arguments, one is the file name for the
-specification to be annotated and the other is the path to the
-location of that specification file.
+specification. It defines two functions. read_lf takes a single
+argument of the full path to the file to be ready and collects the
+complete signature into html content which is returned. contents takes
+two arguments, the file name of the specification to be annotated and
+the path to the location of that specification file, and wraps the
+contents of the specification with html code to create a complete
+page.
 
 
 annotate_ath.rb
