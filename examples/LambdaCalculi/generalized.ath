@@ -1,3 +1,6 @@
+%Subject Reduction for the simply typed lambda-calculus
+%Completed as part of Daniel Luick's honors thesis which can be accessed <a href="https://hdl.handle.net/11299/220294">here</a>. 
+
 Specification "generalized.lf".
 
 Schema c :=

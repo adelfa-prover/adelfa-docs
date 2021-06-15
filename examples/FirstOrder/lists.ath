@@ -1,4 +1,6 @@
 %Properties of Lists
+%This work was completed as part of Daniel Luick's honors thesis which can be accessed <a href="https://hdl.handle.net/11299/220294">here</a>.
+
 Specification "lists.lf".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -45,7 +47,7 @@ Theorem app_identity : forall L1 L2 D, {D : append L1 nil L2} =>
   search.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% rev_app theorems
+% rev_app (reverse defined using append) theorems
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % proves that the append of two reverses is the reverse of two appends.
@@ -93,7 +95,7 @@ Theorem rev_app_rev : forall L1 L2 D1, {D1 : rev_app L1 L2} =>
   search.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% rev_acc theorems
+% rev_acc (reverse defined using an accumulator list) theorems
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Theorem rev_acc_func : forall L1 L2 L3 L4 D1 D2, {D1 : rev_acc L1 L2 L3} =>
