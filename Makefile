@@ -5,9 +5,24 @@ ifndef ADELFA
 export ADELFA = adelfa
 endif
 
+# If the variable ADELFA_SRC is not defined, set it to the default value
+# of the relative path to the systems/Adelfa directory of this repository.
+# To define this variable, run 'export ADELFA_SRC=<path_to_adelfa_source>'
+# in your shell.
+ifndef ADELFA_SRC
+export ADELFA_SRC = ../../systems/Adelfa
+endif
+
 # build all the example html pages using Ruby scripts
-all:
+examples:
 	$(MAKE) -C examples
+
+# build the adelfa tarball and move here
+tarball:
+	$(MAKE) -C $(ADELFA_SRC) tar
+	mv $(ADELFA_SRC)/adelfa.tar files/adelfa.tar
+
+all: examples tarball
 
 .PHONY : clean
 clean:
