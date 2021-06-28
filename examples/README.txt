@@ -15,6 +15,7 @@ To add a new example to this collection:
 3. Run make to generate the html files for the new example(s) locally,
    and check that they are correct.
 
+For web site administrators:
 To push an updated example set follow the instructions in the README
 contained in the parent directory.
 

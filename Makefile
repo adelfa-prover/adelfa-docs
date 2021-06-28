@@ -29,6 +29,7 @@ clean:
 	$(MAKE) -C examples -k clean
 
 # build all the examples pages and push the website
+# This should only be run by administrators of the web page.
 .PHONY : website
 website: all
 	./push_website.sh
