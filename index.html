@@ -10,7 +10,7 @@
 
   <section>
     <center>
-      <h1 class="title" id="main">Adelfa</h1>
+      <h1 class="title" id="main">The Adelfa Proof Assistant</h1>
     </center>
   </section>
 
@@ -20,16 +20,45 @@
     <p>
       Adelfa is an interactive proof assistant for reasoning about
       specifications written in the Edinburgh Logical Framework (LF).
-      The logic underlying Adelfa is one which is focused on reasoning about
-      properties of LF derivability.
-      LF typing derivations are the atomic formulas and the semantics is based
-      on an understanding of derivability in LF.
-      The logic provides mechanisms for case analysis and for reasoning
-      inductively based on the height of derivations in LF.
-      Another feature of the logic is the ability to reason generally about
-      contexts through the use of context variables classified by schemas
-      identifying a regular structure.
-    </p>
+      Adelfa is based on a new logic named &#x1D4DB;<sub>LF</sub> whose atomic
+      formulas 
+      represent typing judgements in LF and in which complex formulas can be
+      constructed using the usual collection of propositional connectives and
+      quantifiers over variables representing LF terms and
+      contexts. Quantification over terms is qualified by <i>arity types</i>
+      that indicate functional structure but that leave dependency information
+      to the domain of the body of the formula.
+      Context quantification is governed by a special kind of type, referred to
+      as a <i>context schema</i>, that describes a finite collection of patterns
+      of declarations out of which an instantiating (ground) context may be
+      constructed.
+      The meaning of formulas in this logic is described by using derivability
+      in LF to determine the validity of ground atomic formulas and attributing
+      a substitution semantics to the quantifiers. 	  
+      Complementing the logic is a proof system that provides the basis for
+      establishing the validity of formulas in the logic.
+      Particular proof rules in this proof system embody a means for carrying
+      out case analyses relative to LF derivability and for reasoning
+      inductively over the heights of LF derivations.
+      The logic also provides a flexible basis for additional rules, such as
+      ones that encode meta-theorems related to derivability in LF. Adelfa
+      implements a collection of such rules as well.
+
+      <p>
+      An expository presentation of Adelfa can be found in the paper entitled
+      <a href="https://cgi.cse.unsw.edu.au/~eptcs/paper.cgi?LFMTP2021:14">"Adelfa:
+      A system for reasoning about LF specifications."</a> The reader may also
+      consult
+      a <a href="walkthrough.html">walkthough</a>
+      of a development that we have provided on this page and also some of the
+      small, but growing, number of
+      <a href="examples/index.html">reasoning
+      examples</a> that are currently available.
+      A detailed theoretical development of the logic underlying Adelfa is to be found
+      in the paper entitled <a href="https://arxiv.org/abs/2107.00111">"A logic
+      for reasoning about LF specifications."</a>
+
+  </p>
   </section>
   
   <section>
