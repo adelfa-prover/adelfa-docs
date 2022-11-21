@@ -10,7 +10,7 @@
   <h1><a href="index.html">Adelfa Home</a></h1>
   <section>
     <center>
-      <h1  class="title" id="main">Reference Guide</h1>
+      <h1 class="title" id="main">Reference Guide</h1>
     </center>
 
     <p>
@@ -30,7 +30,7 @@
      <li><a href="#lemmas">Lemmas</a></li>
      <li><a href="#typing">Typing</a></li>
      <li><a href="#restrictions">Inductive Restrictions</a></li>
-     <li><a href="#emacs">Emacs Support</a></li>
+     <li><a href="#emacs">Emacs / Proof General Support</a></li>
     </ol>
   </section>
 
@@ -147,6 +147,24 @@
     
     <tr><td>&nbsp;</td></tr>
 
+    <a name="set">
+    <tr><td>
+      <code>Set &lt;OPTION&gt; &lt;VALUE&gt;.</code>
+    </td></tr>
+    <tr><td>
+      <blockquote>
+        Set the value of options during proof development. It may also be used
+        at the top level or inside theorem construction.
+        <br>
+        <br>
+        <h2>Option: search_depth</h2>
+        The maximum number of times to perform type decomposition on assumption
+        judgements during the <code>search</code> tactic. By default, this is 5.
+      </blockquote>
+    </td></tr>
+
+    <tr><td>&nbsp;</td></tr>
+
     <tr><td>
       <code>Define &lt;PRED&gt; : &lt;TYPE&gt; by
               &lt;PRED&gt; M1 M2 ... := &lt;FORMULA&gt;;
@@ -155,12 +173,12 @@
     </td></tr>
     <tr><td>
       <blockquote>
-        Adds to the prover state a definition of the name <prop-name> defined
-        by the given clauses. No nominal constants may appear in a definition,
-        and the formula appearing to the left of the := must be an instance of
-        the defined predicate. Definitions may only be unfolded or applied to
-        an appropriate formula; case analysis cannot be performed on defined
-        formulas.
+        Adds to the prover state a definition of the name
+        <code>&lt;PRED&gt;</code> defined by the given clauses. No nominal
+        constants may appear in a definition, and the formula appearing to the
+        left of the := must be an instance of the defined predicate. Definitions
+        may only be unfolded or applied to an appropriate formula; case analysis
+        cannot be performed on defined formulas.
       </blockquote>
     </td></tr>
   </table>
@@ -176,10 +194,17 @@
         <code>search.</code>
       </tr></td>
       <tr><td>
+        <code>search &lt;NUM&gt;.</code>
+      </td></tr>
+      <tr><td>
       <blockquote>
         Search for a derivation of the current goal using matching with
         assumption formulas and decomposing judgments into subgoals using LF
-        derivation rules.
+        derivation rules. If a <code>&lt;NUM&gt;</code> is provided, assumption
+        judgements are decomposed <code>&lt;NUM&gt;</code> times. If a
+        <code>&lt;NUM&gt;</code> is not provided, the <code>search_depth</code>
+        option is used. The <code>search_depth</code> can be changed with the <a
+        href="#set">Set command</a>.
       </blockquote>
       </td></tr>
       
@@ -238,10 +263,19 @@
         <code>assert &lt;FORMULA&gt;.</code>
       </tr></td>
       <tr><td>
+        <code>assert &lt;FORMULA&gt; &lt;NUM&gt;.</code>
+      </tr></td>
+      <tr><td>
         <blockquote>
           Changes the proof state to one which has the given formula as a goal;
           once derivation of this goal is complete returns to the previous proof
-          state with the given formula added as an assumption.
+          state with the given formula added as an assumption. Providing a
+          <code>&lt;NUM&gt;</code> will decompose assumption judgements
+          <code>&lt;NUM&gt;</code> times. If the asserted
+          <code>&lt;FORMULA&gt;</code> can be proven, it is added to the proof
+          state immediately. This option defaults to <code>search_depth</code>
+          when not provided and may be changed with the <a href="#set">Set
+          command</a>.
         </blockquote>
       </td></tr>
       
@@ -328,7 +362,7 @@
       </tr></td>
       <tr><td>
         <blockquote>
-          Performs case analysis on the given assumption formula. By default the
+          Performs case analysis on the given assumption formula. By default, the
           assumption is removed, use `(keep)' to retain it.
         </blockquote>
       </td></tr>
@@ -337,12 +371,15 @@
       
       <tr><td>
         <code>weaken &lt;HYP NAME&gt; with A.</code>
+      </td></tr>
+      <tr><td>
+        <code>weaken &lt;HYP NAME&gt; with A &lt;NUM&gt;.</code>
       </tr></td>
       <tr><td>
         <blockquote>
           When the given assumption formula is of the form <code>{G |- M : A}</code>, and it can be
           verified that the LF type <code>A</code> must be well formed in the current
-          context under <code>G</code>, then a new assumption is added in which the the
+          context under <code>G</code>, then a new assumption is added in which the
           typing judgment is weakened to include the given type.
         </blockquote>
       </td></tr>
@@ -539,7 +576,7 @@
       hypothesis to an argument which also has the <code>*</code>.
       Because <code>*</code> means smaller, in order to get an argument with
       a <code>*</code> we must perform case analysis on an argument that is
-      "equal" which we denote by <code>@</code>. Thus the above proof
+      "equal" which we denote by <code>@</code>. Thus, the above proof
       proceeds by first doing "intros." and then case analysis on 
       <code>{|- D1 : eval E V}@</code>. This will give us two subgoals, 
       one which is trivial and the other which has hypotheses tagged 
@@ -551,19 +588,55 @@
     <a name="emacs"></a>
     <h1>Emacs Support</h1>
     
-    <p>The file <a href="files/adelfa.el">adelfa.el</a> provides an emacs mode for developing proofs. 
-       To use, save the file and add the following to your .emacs file.
-    </p>
-    <pre>(load "/path/to/file/adelfa.el")</pre>
+    <p>The <a href="files/adelfa-pg.tar">adelfa-pg.tar</a> provides a <a
+      href="https://proofgeneral.github.io/">Proof General</a> mode and syntax
+      highlighting for developing proofs. To use, install Proof General as
+      instructed by its documentation. Then copy the entirety of the
+      <code>adelfa</code> directory into the installation location of Proof
+      General. Add an entry for Adelfa in PG's
+      <code>proof-assistant-table-default</code> resembling <code>(adelfa
+      "Adelfa" "ath")</code>, located in <code>PG/generic/proof-site.el</code>.
+      Afterwards, the <code>proof-assistant-table-default</code> should resemble
+      something similar to:</p>
 
-    <p>Where /path/to/file is replaced with the actual location where the file is saved.
+    <pre>
+(defconst proof-assistant-table-default
+    '(
+      ;; Main instances of PG.
 
-       <br><br>
+      (isar "Isabelle" "thy")
+      (coq "Coq" "v" nil (".vo" ".glob"))
+      (easycrypt "EasyCrypt" "ec" "\\.eca?\\'")
+      (phox "PhoX" "phx" nil (".phi" ".pho"))
+      (adelfa "Adelfa" "ath")
+    </pre>
 
-       Note that reading forward commands works properly with the declaring
-       specifications and schema definitions, but the moving backwards or
-       undoing does not work properly outside of proof development.
-    </p>
+    <p>In your Emacs configuration, commonly located at <code>~/.emacs</code> or
+       <code>~/.emacs.d/init.el</code>, add the following lines: </p>
+
+    <pre>
+(defconst proof-site-file
+  (expand-file-name "path-to-pg/PG/generic/proof-site.el"))
+
+(when (file-exists-p proof-site-file)
+  (setq proof-splash-enable nil
+        proof-output-tooltips nil
+        proof-three-window-mode-policy 'horizontal)
+
+  (load-file proof-site-file)
+
+  (add-hook 'adelfa-mode-hook
+            #'(lambda ()
+                (setq indent-line-function 'indent-relative)))
+
+  (setq auto-mode-alist
+        (append
+         '(("\\.ath\\'" . adelfa-mode))
+         auto-mode-alist)))
+    </pre>
+
+    <p>Where <code>path-to-pg</code> should be changed to the file path of your proof general installation.
+
   </section>
   
 </body>
