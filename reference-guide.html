@@ -588,16 +588,18 @@
     <a name="emacs"></a>
     <h1>Emacs Support</h1>
     
-    <p>The <a href="files/adelfa-pg.tar">adelfa-pg.tar</a> provides a <a
-      href="https://proofgeneral.github.io/">Proof General</a> mode and syntax
-      highlighting for developing proofs. To use, install Proof General as
-      instructed by its documentation. Then copy the entirety of the
-      <code>adelfa</code> directory into the installation location of Proof
-      General. Add an entry for Adelfa in PG's
+    <p>
+      The <a href="files/adelfa.tar">adelfa.tar</a> provides a <a href=
+      "https://proofgeneral.github.io/">Proof General</a> mode and syntax
+      highlighting for developing proofs in its <code>PG/</code> directory. To
+      use it, install Proof General as instructed by its documentation. Then
+      copy the entirety of the <code>adelfa</code> directory into the
+      installation location of Proof General. Add an entry for Adelfa in PG's
       <code>proof-assistant-table-default</code> resembling <code>(adelfa
       "Adelfa" "ath")</code>, located in <code>PG/generic/proof-site.el</code>.
       Afterwards, the <code>proof-assistant-table-default</code> should resemble
-      something similar to:</p>
+      something similar to:
+    </p>
 
     <pre>
 (defconst proof-assistant-table-default

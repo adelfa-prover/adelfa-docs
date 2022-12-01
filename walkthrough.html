@@ -26,27 +26,27 @@
        typed &lambda;-calculus and form the basis for our reasoning.</p>
     
     <pre>
-      ty : type.
-      arr : {T:ty}{U:ty} ty.
+ty : type.
+arr : {T:ty}{U:ty} ty.
 
-      tm : type.
-      app : {E1:tm}{E2:tm} tm.
-      abs : {T:ty}{R:{x:tm}tm} tm.
+tm : type.
+app : {E1:tm}{E2:tm} tm.
+abs : {T:ty}{R:{x:tm}tm} tm.
 
-      of : {E:tm}{T:ty}type.
-      of_app : {M:tm}{N:tm}{T:ty}{U:ty}
-                 {a1:of M (arr U T)} {a2:of N U}
-                 of (app M N) T.
-      of_abs : {R : {x:tm} tm}{T:ty}{U:ty}
-                 {a1:({x:tm}{z:of x T} of (R x) U)}
-                 of (abs T ([x] R x)) (arr T U).
+of : {E:tm}{T:ty}type.
+of_app : {M:tm}{N:tm}{T:ty}{U:ty}
+           {a1:of M (arr U T)} {a2:of N U}
+           of (app M N) T.
+of_abs : {R : {x:tm} tm}{T:ty}{U:ty}
+           {a1:({x:tm}{z:of x T} of (R x) U)}
+           of (abs T ([x] R x)) (arr T U).
 
-      eval : {E1:tm}{E2:tm} type.
-      eval_abs : {R:{x:tm} tm}{T:ty}
-                   eval (abs T ([x] R x)) (abs T ([x] R x)).
-      eval_app : {M:tm}{N:tm}{V:tm}{R:{x:tm} tm}{T:ty}
-                   {a1:eval M (abs T ([x] R x))}{a2:eval (R N) V}
-                   eval (app M N) V.
+eval : {E1:tm}{E2:tm} type.
+eval_abs : {R:{x:tm} tm}{T:ty}
+             eval (abs T ([x] R x)) (abs T ([x] R x)).
+eval_app : {M:tm}{N:tm}{V:tm}{R:{x:tm} tm}{T:ty}
+             {a1:eval M (abs T ([x] R x))}{a2:eval (R N) V}
+             eval (app M N) V.
     </pre>
     
     <p>The property we are interested in for this example is that of showing
@@ -66,69 +66,52 @@
     <h1>Reasoning</h1>
     
     <p>We state subject reduction in Adelfa by</p>
-    <pre>&gt;&gt; Theorem sr_eval : forall E V T D1 D2,
-                    {D1 : eval E V} => {D2 : of E T} => exists D, {D : of V T}.
+    <pre>
+>> Theorem sr_eval : forall E V T D1 D2,
+                   {D1 : eval E V} => {D2 : of E T} => exists D, {D : of V T}.
 
-         Subgoal sr_eval:
+Subgoal sr_eval:
 
-         ==================================
-         forall E, forall V, forall T, forall D1, forall D2,
-           {D1 : eval E V} => {D2 : of E T} => exists D, {D : of V T}</pre>
+==================================
+forall E, forall V, forall T, forall D1, forall D2,
+  {D1 : eval E V} => {D2 : of E T} => exists D, {D : of V T}
+    </pre>
     <p>The formula states that whenever there exist inhabitants <code>D1</code> and <code>D2</code>
        of types <code>eval E V</code> and <code>of E T</code> respectively, then there must exist
-       an inhabitant exhibiting that <code>V</code> is also of type <code>T</code>.
+       an inhabitant, <code>D</code>, exhibiting that <code>V</code> is also of type <code>T</code>.
     </p>
     <p>We will prove this theorem by induction on the height of the derivation that <code>E</code> 
        evaluates to <code>V</code>.
     <pre>
-    sr_eval >> induction on 1.
-    
-    Subgoal sr_eval:
+sr_eval >> induction on 1.
 
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+Subgoal sr_eval:
 
-    ==================================
+IH:
     forall E, forall V, forall T, forall D1, forall D2,
-      {D1 : eval E V}@ => {D2 : of E T} => exists D, {D : of V T}
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+
+==================================
+forall E, forall V, forall T, forall D1, forall D2,
+  {D1 : eval E V}@ => {D2 : of E T} => exists D, {D : of V T}
     </pre>
     </p>
     <p>The next step is to introduce eigenvariables and context variables for any quantifiers
        and introduce the implications in the goal as hypotheses.
     <pre>
-    sr_eval >> intros.
+sr_eval >> intros.
 
-    Subgoal sr_eval:
+Subgoal sr_eval:
 
-    Vars: D2:o, D1:o, T:o, V:o, E:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H1:{D1 : eval E V}@
-    H2:{D2 : of E T}
+Vars: D2:o, D1:o, T:o, V:o, E:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H1:{D1 : eval E V}@
+H2:{D2 : of E T}
 
-    ==================================
-    exists D, {D : of V T}
-    </pre>
-    </p>
-    <p>Now we perform case analysis on <code>{D1 : eval E V}@</code> using
-       the <code>case</code> tactic. This will split the proof into two
-       branches based on the two possible ways in which <code>E</code> can
-       evaluate to <code>V</code>. Each of the different proof branches is
-       called a <em>subgoal</em>. In general, only the first subgoal will be
-       displayed in full; the other subgoals will be shown without their
-       hypotheses. When the first subgoal is completed, the prover will move
-       to the next subgoal.
-    <pre>
-    sr_eval > intros.
-    
-    Vars: E:o V:o T:o D1:o D2:o
-    IH: forall E V T D1 D2, {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H1: {D1 : eval E V}@
-    H2: {D2 : of E T}
-    ============================
-     exists D, {D : of V T}
+==================================
+exists D, {D : of V T}
     </pre>
     </p>
     <p>
@@ -139,134 +122,134 @@
     the other subgoals will be shown without their hypotheses. When the first subgoal is 
     completed, the prover will move to the next subgoal.
     <pre>
-    sr_eval>>  case H1.
+sr_eval >> case H1.
 
-    Subgoal sr_eval.1:
+Subgoal sr_eval.1:
 
-    Vars: R:(o) -> o, T1:o, a1:o, a2:o, M:o, N:o, D2:o, T:o, V:o
-    Nominals: n:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H2:{D2 : of (app M N) T}
-    H3:{M : tm}*
-    H4:{N : tm}*
-    H5:{V : tm}*
-    H6:{n:tm |- R n : tm}*
-    H7:{T1 : ty}*
-    H8:{a1 : eval M (abs T1 ([x]R x))}*
-    H9:{a2 : eval (R N) V}*
+Vars: R:(o) -> o, T1:o, a1:o, a2:o, M:o, N:o, D2:o, T:o, V:o
+Nominals: n:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H2:{D2 : of (app M N) T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{V : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{T1 : ty}*
+H8:{a1 : eval M (abs T1 ([x]R x))}*
+H9:{a2 : eval (R N) V}*
 
-    ==================================
-    exists D, {D : of V T}
+==================================
+exists D, {D : of V T}
 
-    Subgoal sr_eval.2 is:
-     exists D, {D : of (abs T1 ([x]R x)) T}
+Subgoal sr_eval.2 is:
+ exists D, {D : of (abs T1 ([x]R x)) T}
     </pre>
     </p>
     <p>We now perform case analysis on the second hypothesis, <code>{D2 : of (app M N) T}</code>,
        to obtain derivations for the typing of both subterms <code>M</code> and <code>N</code>.
     <pre>
-    sr_eval.1>> case H2.
+sr_eval.1>> case H2.
 
-    Subgoal sr_eval.1:
+Subgoal sr_eval.1:
 
-    Vars: D3:o, D4:o, D5:o, R:(o) -> o, T1:o, a1:o, a2:o, M:o, N:o, T:o, V:o
-    Nominals: n:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H3:{M : tm}*
-    H4:{N : tm}*
-    H5:{V : tm}*
-    H6:{n:tm |- R n : tm}*
-    H7:{T1 : ty}*
-    H8:{a1 : eval M (abs T1 ([x]R x))}*
-    H9:{a2 : eval (R N) V}*
-    H10:{M : tm}
-    H11:{N : tm}
-    H12:{T : ty}
-    H13:{D3 : ty}
-    H14:{D4 : of M (arr D3 T)}
-    H15:{D5 : of N D3}
+Vars: D3:o, D4:o, D5:o, R:(o) -> o, T1:o, a1:o, a2:o, M:o, N:o, T:o, V:o
+Nominals: n:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{V : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{T1 : ty}*
+H8:{a1 : eval M (abs T1 ([x]R x))}*
+H9:{a2 : eval (R N) V}*
+H10:{M : tm}
+H11:{N : tm}
+H12:{T : ty}
+H13:{D3 : ty}
+H14:{D4 : of M (arr D3 T)}
+H15:{D5 : of N D3}
 
-    ==================================
-    exists D, {D : of V T}
+==================================
+exists D, {D : of V T}
 
-    Subgoal sr_eval.2 is:
-     exists D, {D : of (abs T1 ([x]R x)) T}
+Subgoal sr_eval.2 is:
+ exists D, {D : of (abs T1 ([x]R x)) T}
     </pre>
     </p>
     <p>We are now able to apply the inductive hypothesis with the assumptions
-       <code>H8</code> and <code>H15</code>.
+       <code>H8</code> and <code>H14</code>.
     <pre>
-    sr_eval.1>> apply IH to H8 H15 with E = M, V = abs T1 ([x]R x), T = (arr D3 T), D1 = a1, D2 = D4.
+sr_eval.1>> apply IH to H8 H14.
 
-    Subgoal sr_eval.1:
+Subgoal sr_eval.1:
 
-    Vars: D:(o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, T1:o, a1:o, a2:o, M:o, N:o, T
-            :o, V:o
-    Nominals: n:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H3:{M : tm}*
-    H4:{N : tm}*
-    H5:{V : tm}*
-    H6:{n:tm |- R n : tm}*
-    H7:{T1 : ty}*
-    H8:{a1 : eval M (abs T1 ([x]R x))}*
-    H9:{a2 : eval (R N) V}*
-    H10:{M : tm}
-    H11:{N : tm}
-    H12:{T : ty}
-    H13:{D3 : ty}
-    H14:{D4 : of M (arr D3 T)}
-    H15:{D5 : of N D3}
-    H16:{D n : of (abs T1 ([x]R x)) (arr D3 T)}
+Vars: D:(o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, T1:o, a1:o, a2:o, M:o, N:o, T
+        :o, V:o
+Nominals: n:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{V : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{T1 : ty}*
+H8:{a1 : eval M (abs T1 ([x]R x))}*
+H9:{a2 : eval (R N) V}*
+H10:{M : tm}
+H11:{N : tm}
+H12:{T : ty}
+H13:{D3 : ty}
+H14:{D4 : of M (arr D3 T)}
+H15:{D5 : of N D3}
+H16:{D n : of (abs T1 ([x]R x)) (arr D3 T)}
 
-    ==================================
-    exists D, {D : of V T}
+==================================
+exists D, {D : of V T}
 
-    Subgoal sr_eval.2 is:
-     exists D, {D : of (abs T1 ([x]R x)) T}
+Subgoal sr_eval.2 is:
+ exists D, {D : of (abs T1 ([x]R x)) T}
     </pre>
     </p>
     <p>We can now analyze the new assumption to obtain a typing judgement for <code>R</code>.
     <pre>
-    sr_eval.1>> case H16.
+sr_eval.1>> case H16.
 
-    Subgoal sr_eval.1:
+Subgoal sr_eval.1:
 
-    Vars: a3:(o) -> (o) -> (o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:
-            o, N:o, T:o, V:o
-    Nominals: n3:o, n2:o, n1:o, n:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H3:{M : tm}*
-    H4:{N : tm}*
-    H5:{V : tm}*
-    H6:{n:tm |- R n : tm}*
-    H7:{D3 : ty}*
-    H8:{a1 : eval M (abs D3 ([x]R x))}*
-    H9:{a2 : eval (R N) V}*
-    H10:{M : tm}
-    H11:{N : tm}
-    H12:{T : ty}
-    H13:{D3 : ty}
-    H14:{D4 : of M (arr D3 T)}
-    H15:{D5 : of N D3}
-    H17:{n1:tm |- R n1 : tm}
-    H18:{D3 : ty}
-    H19:{T : ty}
-    H20:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
+Vars: a3:(o) -> (o) -> (o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:
+        o, N:o, T:o, V:o
+Nominals: n3:o, n2:o, n1:o, n:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{V : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{D3 : ty}*
+H8:{a1 : eval M (abs D3 ([x]R x))}*
+H9:{a2 : eval (R N) V}*
+H10:{M : tm}
+H11:{N : tm}
+H12:{T : ty}
+H13:{D3 : ty}
+H14:{D4 : of M (arr D3 T)}
+H15:{D5 : of N D3}
+H17:{n1:tm |- R n1 : tm}
+H18:{D3 : ty}
+H19:{T : ty}
+H20:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
 
-    ==================================
-    exists D, {D : of V T}
+==================================
+exists D, {D : of V T}
 
-    Subgoal sr_eval.2 is:
-     exists D, {D : of (abs T1 ([x]R x)) T}
+Subgoal sr_eval.2 is:
+ exists D, {D : of (abs T1 ([x]R x)) T}
     </pre>
     </p>
     <p>The nominal constants in the hypothesis <code>H20</code> are placeholders, and so
@@ -274,182 +257,183 @@
        In this instance, we want to replace <code>n2</code> with <code>N</code> and
        <code>n3</code> with <code>D5</code>.
     <pre>
-    sr_eval.1>> inst H20 with n2 = N.
+sr_eval.1>> inst H20 with n2 = N.
 
-    Subgoal sr_eval.1:
+Subgoal sr_eval.1:
 
-    Vars: a3:(o) -> (o) -> (o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:
-            o, N:o, T:o, V:o
-    Nominals: n3:o, n2:o, n1:o, n:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H3:{M : tm}*
-    H4:{N : tm}*
-    H5:{V : tm}*
-    H6:{n:tm |- R n : tm}*
-    H7:{D3 : ty}*
-    H8:{a1 : eval M (abs D3 ([x]R x))}*
-    H9:{a2 : eval (R N) V}*
-    H10:{M : tm}
-    H11:{N : tm}
-    H12:{T : ty}
-    H13:{D3 : ty}
-    H14:{D4 : of M (arr D3 T)}
-    H15:{D5 : of N D3}
-    H17:{n1:tm |- R n1 : tm}
-    H18:{D3 : ty}
-    H19:{T : ty}
-    H20:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
-    H21:{n3:of N D3 |- a3 n N n3 : of (R N) T}
+Vars: a3:(o) -> (o) -> (o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:
+        o, N:o, T:o, V:o
+Nominals: n3:o, n2:o, n1:o, n:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{V : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{D3 : ty}*
+H8:{a1 : eval M (abs D3 ([x]R x))}*
+H9:{a2 : eval (R N) V}*
+H10:{M : tm}
+H11:{N : tm}
+H12:{T : ty}
+H13:{D3 : ty}
+H14:{D4 : of M (arr D3 T)}
+H15:{D5 : of N D3}
+H17:{n1:tm |- R n1 : tm}
+H18:{D3 : ty}
+H19:{T : ty}
+H20:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
+H21:{n3:of N D3 |- a3 n N n3 : of (R N) T}
 
-    ==================================
-    exists D, {D : of V T}
+==================================
+exists D, {D : of V T}
 
-    Subgoal sr_eval.2 is:
-     exists D, {D : of (abs T1 ([x]R x)) T}
+Subgoal sr_eval.2 is:
+ exists D, {D : of (abs T1 ([x]R x)) T}
+</pre>
 
-    
-    sr_eval.1>> inst H21 with n3 = D5.
+<pre>
+sr_eval.1>> inst H21 with n3 = D5.
 
-    Subgoal sr_eval.1:
+Subgoal sr_eval.1:
 
-    Vars: a3:(o) -> (o) -> (o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:
-            o, N:o, T:o, V:o
-    Nominals: n3:o, n2:o, n1:o, n:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H3:{M : tm}*
-    H4:{N : tm}*
-    H5:{V : tm}*
-    H6:{n:tm |- R n : tm}*
-    H7:{D3 : ty}*
-    H8:{a1 : eval M (abs D3 ([x]R x))}*
-    H9:{a2 : eval (R N) V}*
-    H10:{M : tm}
-    H11:{N : tm}
-    H12:{T : ty}
-    H13:{D3 : ty}
-    H14:{D4 : of M (arr D3 T)}
-    H15:{D5 : of N D3}
-    H17:{n1:tm |- R n1 : tm}
-    H18:{D3 : ty}
-    H19:{T : ty}
-    H20:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
-    H21:{n3:of N D3 |- a3 n N n3 : of (R N) T}
-    H22:{a3 n N D5 : of (R N) T}
+Vars: a3:(o) -> (o) -> (o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:
+        o, N:o, T:o, V:o
+Nominals: n3:o, n2:o, n1:o, n:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{V : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{D3 : ty}*
+H8:{a1 : eval M (abs D3 ([x]R x))}*
+H9:{a2 : eval (R N) V}*
+H10:{M : tm}
+H11:{N : tm}
+H12:{T : ty}
+H13:{D3 : ty}
+H14:{D4 : of M (arr D3 T)}
+H15:{D5 : of N D3}
+H17:{n1:tm |- R n1 : tm}
+H18:{D3 : ty}
+H19:{T : ty}
+H20:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
+H21:{n3:of N D3 |- a3 n N n3 : of (R N) T}
+H22:{a3 n N D5 : of (R N) T}
 
-    ==================================
-    exists D, {D : of V T}
+==================================
+exists D, {D : of V T}
 
-    Subgoal sr_eval.2 is:
-     exists D, {D : of (abs T1 ([x]R x)) T}
+Subgoal sr_eval.2 is:
+ exists D, {D : of (abs T1 ([x]R x)) T}
     </pre>
     </p>
     <p>
       We are now able to apply the inductive hypothesis with <code>(R N)</code> to
       obtain a typing derivation for <code>V</code>.
     <pre>
-    sr_eval.1>> apply IH to H9 H22 with E = R N, V = V, T = T, D1 = a2, D2 = a3 n N D5.
+sr_eval.1>> apply IH to H9 H22.
 
-    Subgoal sr_eval.1:
+Subgoal sr_eval.1:
 
-    Vars: a3:(o) -> (o) -> (o) -> o, D:(o) -> (o) -> (o) -> (o) -> o, D3:o, D4:o,
-            D5:o, R:(o) -> o, a1:o, a2:o, M:o, N:o, T:o, V:o
-    Nominals: n3:o, n2:o, n1:o, n:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H3:{M : tm}*
-    H4:{N : tm}*
-    H5:{V : tm}*
-    H6:{n:tm |- R n : tm}*
-    H7:{D3 : ty}*
-    H8:{a1 : eval M (abs D3 ([x]R x))}*
-    H9:{a2 : eval (R N) V}*
-    H10:{M : tm}
-    H11:{N : tm}
-    H12:{T : ty}
-    H13:{D3 : ty}
-    H14:{D4 : of M (arr D3 T)}
-    H15:{D5 : of N D3}
-    H17:{n1:tm |- R n1 : tm}
-    H18:{D3 : ty}
-    H19:{T : ty}
-    H20:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
-    H21:{n3:of N D3 |- a3 n N n3 : of (R N) T}
-    H22:{a3 n N D5 : of (R N) T}
-    H23:{D n3 n2 n1 n : of V T}
+Vars: a3:(o) -> (o) -> (o) -> o, D:(o) -> (o) -> (o) -> (o) -> o, D3:o, D4:o,
+        D5:o, R:(o) -> o, a1:o, a2:o, M:o, N:o, T:o, V:o
+Nominals: n3:o, n2:o, n1:o, n:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{V : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{D3 : ty}*
+H8:{a1 : eval M (abs D3 ([x]R x))}*
+H9:{a2 : eval (R N) V}*
+H10:{M : tm}
+H11:{N : tm}
+H12:{T : ty}
+H13:{D3 : ty}
+H14:{D4 : of M (arr D3 T)}
+H15:{D5 : of N D3}
+H17:{n1:tm |- R n1 : tm}
+H18:{D3 : ty}
+H19:{T : ty}
+H20:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
+H21:{n3:of N D3 |- a3 n N n3 : of (R N) T}
+H22:{a3 n N D5 : of (R N) T}
+H23:{D n3 n2 n1 n : of V T}
 
-    ==================================
-    exists D, {D : of V T}
+==================================
+exists D, {D : of V T}
 
-    Subgoal sr_eval.2 is:
-     exists D, {D : of (abs T1 ([x]R x)) T}
+Subgoal sr_eval.2 is:
+ exists D, {D : of (abs T1 ([x]R x)) T}
     </pre>
     </p>
     <p>We now instantiate <code>D</code> in the goal formula with the term
        <code>(D n3 n2 n1 n)</code> for which we now have an appropriate
        typing derivation in the premises.
     <pre>
-    sr_eval.1>> exists (D n3 n2 n1 n).
+sr_eval.1>> exists (D n3 n2 n1 n).
 
-    Subgoal sr_eval.1:
+Subgoal sr_eval.1:
 
-    Vars: a3:(o) -> (o) -> (o) -> o, D:(o) -> (o) -> (o) -> (o) -> o, D3:o, D4:o,
-            D5:o, R:(o) -> o, a1:o, a2:o, M:o, N:o, T:o, V:o
-    Nominals: n3:o, n2:o, n1:o, n:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H3:{M : tm}*
-    H4:{N : tm}*
-    H5:{V : tm}*
-    H6:{n:tm |- R n : tm}*
-    H7:{D3 : ty}*
-    H8:{a1 : eval M (abs D3 ([x]R x))}*
-    H9:{a2 : eval (R N) V}*
-    H10:{M : tm}
-    H11:{N : tm}
-    H12:{T : ty}
-    H13:{D3 : ty}
-    H14:{D4 : of M (arr D3 T)}
-    H15:{D5 : of N D3}
-    H17:{n1:tm |- R n1 : tm}
-    H18:{D3 : ty}
-    H19:{T : ty}
-    H20:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
-    H21:{n3:of N D3 |- a3 n N n3 : of (R N) T}
-    H22:{a3 n N D5 : of (R N) T}
-    H23:{D n3 n2 n1 n : of V T}
+Vars: a3:(o) -> (o) -> (o) -> o, D:(o) -> (o) -> (o) -> (o) -> o, D3:o, D4:o,
+        D5:o, R:(o) -> o, a1:o, a2:o, M:o, N:o, T:o, V:o
+Nominals: n3:o, n2:o, n1:o, n:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{V : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{D3 : ty}*
+H8:{a1 : eval M (abs D3 ([x]R x))}*
+H9:{a2 : eval (R N) V}*
+H10:{M : tm}
+H11:{N : tm}
+H12:{T : ty}
+H13:{D3 : ty}
+H14:{D4 : of M (arr D3 T)}
+H15:{D5 : of N D3}
+H17:{n1:tm |- R n1 : tm}
+H18:{D3 : ty}
+H19:{T : ty}
+H20:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
+H21:{n3:of N D3 |- a3 n N n3 : of (R N) T}
+H22:{a3 n N D5 : of (R N) T}
+H23:{D n3 n2 n1 n : of V T}
 
-    ==================================
-    {D n3 n2 n1 n : of V T}
+==================================
+{D n3 n2 n1 n : of V T}
 
-    Subgoal sr_eval.2 is:
-     exists D, {D : of (abs T1 ([x]R x)) T}
+Subgoal sr_eval.2 is:
+ exists D, {D : of (abs T1 ([x]R x)) T}
     </pre>
     </p>
     <p>Adelfa is now able to complete the proof by identifying the goal formula with 
        the identical assumption formula <code>H23</code>. This completes the subgoal, and
        Adelfa moves to the next subgoal.
     <pre>
-    sr_eval.1>> search.
+sr_eval.1>> search.
 
-    Subgoal sr_eval.2:
+Subgoal sr_eval.2:
 
-    Vars: T1:o, R:(o) -> o, D2:o, T:o
-    Nominals: n:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H2:{D2 : of (abs T1 ([x]R x)) T}
-    H3:{n:tm |- R n : tm}*
-    H4:{T1 : ty}*
+Vars: T1:o, R:(o) -> o, D2:o, T:o
+Nominals: n:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H2:{D2 : of (abs T1 ([x]R x)) T}
+H3:{n:tm |- R n : tm}*
+H4:{T1 : ty}*
 
-    ==================================
-    exists D, {D : of (abs T1 ([x]R x)) T}
+==================================
+exists D, {D : of (abs T1 ([x]R x)) T}
     </pre>
     </p>
     <p>This subgoal corresponds to when the term <code>E</code> is an abstraction and so
@@ -458,25 +442,25 @@
        type by the second assumption formula. An application of the <code>search</code>
        tactic will complete the proof.
     <pre>
-    sr_eval.2>> exists D2.
+sr_eval.2>> exists D2.
 
-    Subgoal sr_eval.2:
+Subgoal sr_eval.2:
 
-    Vars: T1:o, R:(o) -> o, D2:o, T:o
-    Nominals: n:o
-    IH:
-        forall E, forall V, forall T, forall D1, forall D2,
-          {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
-    H2:{D2 : of (abs T1 ([x]R x)) T}
-    H3:{n:tm |- R n : tm}*
-    H4:{T1 : ty}*
+Vars: T1:o, R:(o) -> o, D2:o, T:o
+Nominals: n:o
+IH:
+    forall E, forall V, forall T, forall D1, forall D2,
+      {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+H2:{D2 : of (abs T1 ([x]R x)) T}
+H3:{n:tm |- R n : tm}*
+H4:{T1 : ty}*
 
-    ==================================
-    {D2 : of (abs T1 ([x]R x)) T}
-
-
-    sr_eval.2>> search.
-    Proof Completed!
+==================================
+{D2 : of (abs T1 ([x]R x)) T}
+    </pre>
+    <pre>
+sr_eval.2>> search.
+Proof Completed!
     </pre>
     </p>
   </section>
