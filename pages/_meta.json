@@ -1,7 +1,15 @@
 {
-  "index": "Home",
+  "index": {
+    "title": "Home",
+    "theme": {
+      "breadcrumb": false,
+      "pagination": false
+    }
+  },
   "download": "Download",
-  "reference-guide": "Reference Guide",
+  "reference-guide": {
+    "title": "Reference Guide"
+  },
   "about": {
     "title": "About",
     "type": "page"
