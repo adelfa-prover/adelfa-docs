@@ -1,0 +1,34 @@
+import { Tabs } from 'nextra/components'
+
+# Download
+
+There are several ways to obtain Adelfa. We recommend using OPAM, the OCaml
+package manager, to install Adelfa. Alternatively, you can clone the code from
+github or download the source code directly.
+
+<Tabs items={['opam', 'git', 'source']}>
+  <Tabs.Tab>
+    The recommended way for installing Adelfa is through OPAM.
+
+    ```bash copy
+    opam install adelfa
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    The code for Adelfa is hosted on
+    [Github](https://github.com/adelfa-prover/adelfa). You can clone the
+    repository and install the code using Dune.
+
+    ```bash
+    git clone https://github.com/adelfa-prover/adelfa.git
+    cd adelfa
+    dune install
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    You may also obtain the source code by downloading [this
+    tarball](/dist/adelfa.tar).
+
+  </Tabs.Tab>
+</Tabs>
+
