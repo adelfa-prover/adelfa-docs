@@ -12,7 +12,7 @@ that used by [Twelf][twelf]. Of note are the following structures:
 | `A -> B`  | $\Pi$-type without dependencies |
 
 The names for variables and constants follow the same conventions as
-[Twelf][twelf]. Nominal constants are denoted by `n1, n2, ...`
+[Twelf](https://twelf.org/). Nominal constants are denoted by `n1, n2, ...`
 
 ## Context Expressions
 
@@ -48,7 +48,7 @@ The syntax for formulas is the following:
 To use a lemma, prove it as a theorem and then refer to it by name in another
 proof using the [`apply`][apply] tactic. For example,
 
-```
+```adelfa
 Theorem my_lemma : ...
 ...
 
@@ -69,7 +69,7 @@ used to track the size of inductive arguments rather than using explicit numeric
 values. For example, suppose we apply `induction on 1.` when trying to prove the
 following subject reduction theorem,
 
-```
+```adelfa
 ============================
 forall E V T D1 D2, {|- D1 : eval E V} -> {|- D2: of E T} ->
   exists D3, {|- D3: of V T}
@@ -77,7 +77,7 @@ forall E V T D1 D2, {|- D1 : eval E V} -> {|- D2: of E T} ->
 
 We will get the following proof state.
 
-```
+```adelfa
 IH : forall E V T D1 D2, {|- D1 : eval E V}* -> {|- D2: of E T} ->
       exists D3, {|- D3: of V T}
 ============================
@@ -94,10 +94,3 @@ by `@`. Thus, the above proof proceeds by first doing `intros.` and then case
 analysis on `{|- D1 : eval E V}@`. This will give us two subgoals, one which is
 trivial and the other which has hypotheses tagged with `*` and thus eligible for
 use with the inductive hypothesis.
-
-[twelf]: https://twelf.org
-[search-depth]: #search-num
-[set]: #set-option-value
-[inductive-restrictions]: #inductive-restrictions
-[apply]: #apply-name-to-hyp-names-with-bindings
-[pg]: https://proofgeneral.github.io/

@@ -6,7 +6,8 @@ const config: DocsThemeConfig = {
   project: {
     link: "https://github.com/cjohnson19/nextra-adelfa-docs",
   },
-  docsRepositoryBase: "https://github.com/cjohnson19/nextra-adelfa-docs",
+  docsRepositoryBase:
+    "https://github.com/cjohnson19/nextra-adelfa-docs/tree/main",
 };
 
 export default config;
