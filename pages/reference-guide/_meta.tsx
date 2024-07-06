@@ -1,4 +1,4 @@
-{
+export default {
   "syntax": {
     "title": "Syntax"
   },
