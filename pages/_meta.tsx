@@ -2,6 +2,7 @@ export default {
   index: {
     title: "Home",
     theme: {
+      typesetting: "article",
       breadcrumb: false,
       pagination: false,
     },
@@ -10,14 +11,14 @@ export default {
   "reference-guide": {
     title: "Reference Guide",
   },
+  examples: {
+    title: "Examples",
+  },
   about: {
     title: "About",
     type: "page",
   },
-  contact: {
-    title: "Contact ↗",
-    type: "page",
-    href: "https://twitter.com/shuding_",
-    newWindow: true,
-  },
+  publications: {
+    title: "Publications",
+  }
 };

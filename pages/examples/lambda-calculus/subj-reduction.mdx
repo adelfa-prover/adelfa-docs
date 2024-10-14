@@ -1,0 +1,203 @@
+import { Tabs } from 'nextra/components';
+
+# Subject Reduction for the simply typed $\lambda$-calculus
+
+Parts of this example were completed as part of Daniel Luick's honor thesis
+which can be accessed [here](https://hdl.handle.net/11299/220294).
+
+## Generalized
+
+<Tabs items={['Specification', 'Reasoning']}>
+
+<Tabs.Tab>
+```lf filename="generalized.lf"
+ty : type.
+top : ty.
+arr : {Z1:ty} {Z2:ty} ty.
+
+tm : type.
+app : {Y1:tm} {Y2:tm} tm.
+lam : {Z:ty} {Y:{x:tm}tm} tm.
+
+of : tm -> ty -> type.
+of_app : {M:tm}{N:tm}{T:ty}{U:ty}
+          {a1:of M (arr U T)} {a2:of N U} of (app M N) T.
+of_lam : {R : {x:tm} tm}{T:ty}{U:ty}
+          {a1:({x:tm}{z:of x T} of (R x) U)}
+          of (lam T ([x] R x)) (arr T U).
+
+step : tm -> tm -> type.
+step-app1 : {M1:tm} {M2:tm} {N:tm} {D : step M1 M2}
+            step (app M1 N) (app M2 N).
+step-app2 : {M:tm} {N1:tm} {N2:tm} {D : step N1 N2}
+            step (app M N1) (app M N2).
+step-beta : {T:ty} {R:{x:tm}tm} {N:tm}
+            step (app (lam T ([x] R x)) N) (R N).
+step-lam  : {T:ty} {R1:{x:tm}tm} {R2:{x:tm}tm}
+            {D : {x:tm} {d:of x T} step (R1 x) (R2 x)}
+            step (lam T ([x] R1 x)) (lam T ([x] R2 x)).
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+```adelfa filename="generalized.ath"
+Specification "generalized.lf".
+
+Schema c :=
+ {T}(x:tm,y:of x T).
+
+Theorem subject_reduction : ctx Gamma:c, forall M1 M2 T D1 D2,
+  {Gamma |- D1 : step M1 M2} => {Gamma |- D2 : of M1 T} => exists D3,
+  {Gamma |- D3 : of M2 T}.
+
+  induction on 1. intros. case H1.
+
+  % step-lam case
+  case H2.
+  apply IH to H6 H10 with (Gamma = Gamma, n1:tm, n:of n1 T1).
+  prune H11.
+  exists of_lam ([x] R2 x) T1 T2 ([x] [x1] D1 x x1).
+  search.
+
+  % step-beta case
+  case H2.
+  case H10.
+  inst H15 with n2 = N.
+  inst H16 with n3 = D5.
+  exists D6 N D5.
+  search.
+
+  % step-app2 case
+  case H2.
+  apply IH to H6 H12.
+  exists of_app M N2 T U a1 D3.
+  search.
+
+  % step-app1 case
+  case H2.
+  apply IH to H6 H11.
+  exists of_app M4 N T U D3 a2.
+  search.
+```
+</Tabs.Tab>
+
+</Tabs>
+
+## Large & Small Step
+
+<Tabs items={['Specification', 'Large Step Reasoning', 'Small Step Reasoning']}>
+
+<Tabs.Tab>
+```lf filename="reduce.lf"
+ty : type.
+arr : ty -> ty -> ty.
+
+tm : type.
+app : tm -> tm -> tm.
+lam : ty -> (tm -> tm) -> tm.
+
+of : tm -> ty -> type.
+of_app : {M:tm}{N:tm}{T:ty}{U:ty}
+          {a1:of M (arr U T)} {a2:of N U} of (app M N) T.
+of_lam : {R : {x:tm} tm}{T:ty}{U:ty}
+          {a1:({x:tm}{z:of x T} of (R x) U)}
+          of (lam T ([x] R x)) (arr T U).
+
+eq : ty -> ty -> type.
+refl : {T:ty} eq T T.
+
+% weak small step call by value reduction
+
+sscbv : tm -> tm -> type.
+sscbv_app1 : {M1:tm} {M2:tm} {N:tm} {D1 : sscbv M1 M2}
+               sscbv (app M1 N) (app M2 N).
+sscbv_app2 : {R:{x:tm}tm}{T:ty}{M1:tm}{M2:tm}{D1 : sscbv M1 M2}
+               sscbv (app (lam T ([x] R x)) M1) (app (lam T ([x] R x)) M2).
+sscbv_beta : {R1 : {x:tm} tm}{R2 : {x:tm} tm}{T1:ty}{T2:ty}
+               sscbv (app (lam T1 ([x] R1 x)) (lam T2 ([x] R2 x))) (R1 (lam T2 ([x] R2 x))).
+
+% weak large step call by name reduction
+
+lscbn : tm -> tm -> type.
+lscbn_abs  : {R:{x:tm} tm} {T:ty} lscbn (lam T ([x] R x)) (lam T ([x] R x)).
+lscbn_beta : {M:tm} {N:tm} {V:tm} {R:{x:tm}tm} {T:ty}
+             {D1 : lscbn M (lam T ([x] R x))}
+             {D2 : lscbn (R N) V}
+             lscbn (app M N) V.
+```
+
+</Tabs.Tab>
+
+<Tabs.Tab>
+```adelfa filename="large-step.ath"
+Specification "reduce.lf".
+
+Schema c :=
+ {T}(x:tm,y:of x T).
+
+% Subject reduction for weak large step call by name reduction.
+Theorem subject_reduction_lscbn : ctx Gamma:c, forall M1 M2 T D1 D2,
+  {Gamma |- D1 : of M1 T} => {D2 : lscbn M1 M2} =>
+  exists D3, {Gamma |- D3 : of M2 T}.
+
+  induction on 2. intros. case H2.
+
+  % beta reduction case.
+  case H1.
+  apply IH to H14 H8.
+  % QUESTION: prune opportunity?
+  case H16.
+  inst H20 with n2 = N.
+  inst H21 with n3 = D7.
+  apply IH to H22 H9.
+  % QUESTION: it is fine having D1 n3 n2 n1 n without those being in the context, right?
+  exists (D1 n3 n2 n1 n).
+  search.
+
+  % abs reduction case.
+  exists D1.
+  search.
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```adelfa filename="small-step.ath"
+Specification "reduce.lf".
+
+Schema c :=
+ {T}(x:tm,y:of x T).
+
+% Subject reduction for weak small step call by value reduction.
+Theorem subject_reduction_wsscbv : ctx Gamma:c, forall M1 M2 T D1 D2,
+  {Gamma |- D1 : of M1 T} => {D2 : sscbv M1 M2} =>
+  exists D3, {Gamma |- D3 : of M2 T}.
+
+  induction on 2. intros. case H2.
+
+  % beta case.
+  case H1.
+  case H11.
+  inst H16 with n3 = (lam T2 ([x] R2 x)).
+  inst H17 with n4 = D5.
+  exists D6 (lam T2 ([x] R2 x)) D5.
+  search.
+
+  % app2 case.
+  case H1.
+  apply IH to H13 H7.
+  %QUESTION: H14 has an eigenvariable without it being in the context. prune?
+  %QUESTION: Shouldn't prune work in this scenario?
+  prune H14.
+  exists of_app (lam T1 ([x] R x)) M4 T D4 D5 (D1 n).
+  assert {Gamma |- M4 : tm}. search.
+
+  % app1 case.
+  case H1.
+  apply IH to H11 H6.
+  exists of_app M4 N T U D1 a2.
+  assert {Gamma |- M4 : tm}. search.
+```
+</Tabs.Tab>
+
+</Tabs>

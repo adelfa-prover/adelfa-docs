@@ -1,15 +1,23 @@
-// import { BUNDLED_LANGUAGES } from "shiki";
-import {
-  getSingletonHighlighter,
-  bundledLanguages,
-  createHighlighter,
-} from "shiki";
+// @ts-check
+
+import { getSingletonHighlighter, bundledLanguages } from "shiki";
 import { readFileSync } from "fs";
-import { resolve } from "path";
+
+/** @type{import("shiki").ShikiTransformer} */
+const linkTransformer = {
+  name: "Linkify",
+  line: function (elem, i) {
+    this.addClassToHast(elem, "shiki-link");
+    return;
+  },
+};
 
 import nextra from "nextra";
 const adelfaGrammar = JSON.parse(
   readFileSync("./public/syntax/grammar.adelfa.json", "utf-8"),
+);
+const lfGrammar = JSON.parse(
+  readFileSync("./public/syntax/grammar.lf.json", "utf-8"),
 );
 
 const withNextra = nextra({
@@ -19,6 +27,7 @@ const withNextra = nextra({
   defaultShowCopyCode: true,
   mdxOptions: {
     rehypePrettyCodeOptions: {
+      transformers: [linkTransformer],
       getHighlighter: (options) =>
         getSingletonHighlighter({
           ...options,
@@ -29,7 +38,10 @@ const withNextra = nextra({
             {
               name: "adelfa",
               ...adelfaGrammar,
-
+            },
+            {
+              name: "lf",
+              ...lfGrammar,
             },
           ],
         }),
@@ -37,4 +49,4 @@ const withNextra = nextra({
   },
 });
 
-export default withNextra();
+export default withNextra({});

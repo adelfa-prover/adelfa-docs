@@ -1,0 +1,84 @@
+import { Tabs } from 'nextra/components';
+
+# Uniqueness of typing for the simply typed $\lambda$-calculus
+
+<Tabs items={['Specification', 'Reasoning']}>
+
+<Tabs.Tab>
+```lf filename="unique.lf"
+ty : type.
+arr : {T:ty}{U:ty}ty.
+
+tm : type.
+app : {E1:tm}{E2:tm}tm.
+abs : {T:ty}{R:{x:tm}tm}tm.
+
+of : {E:tm}{T:ty}type.
+of_app : {M1:tm}{M2:tm}{T1:ty}{T2:ty}
+          {a1:of M1 (arr T1 T2)} {a2:of M2 T1} of (app M1 M2) T2.
+of_abs : {T1:ty}{T2:ty}{R : {x:tm} tm}
+          {a1:({x:tm}{z:of x T1} of (R x) T2)}
+          of (abs T1 ([x] R x)) (arr T1 T2).
+
+eq : {T:ty}{U:ty}type.
+refl : {T:ty} eq T T.
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```adelfa filename="unique.ath"
+%Uniqueness of typing for the simply typed lambda-calculus
+
+Specification "unique.lf".
+
+Schema c :=
+ {T}(x:tm,y:of x T).
+
+%%% Strengthening properties for ty and eq.
+Theorem ty_independent : ctx G:c, forall T:o, {G |- T : ty} => {T:ty}.
+induction on 1. intros. case H1. 
+  apply IH to H2. apply IH to H3. search.
+
+Theorem eq_independent : ctx G:c, forall T1 T2 D, {G |- D : eq T1 T2} => {D : eq T1 T2}.
+intros. case H1. apply ty_independent to H2. search.
+
+
+%%% Main lemma which includes context G in the conclusion formula
+Theorem ty_unique_aux : ctx G:c, forall E T1 T2 D1 D2,
+  { G |- D1 : of E T1 } => { G |- D2 : of E T2 } =>
+  exists D3, { G |- D3 : eq T1 T2 }.
+induction on 1. intros. case H1 (keep).
+
+  %case 1: of_abs
+    case H2.
+    apply IH to H6 H10 with (G = G, n1:tm, n:of n1 T3).
+    case H11.
+    exists (refl (arr T3 T4)). search.
+
+  %case 2: of_app
+    case H2.
+    apply IH to H7 H13.
+    case H15.
+    exists (refl T2). search.
+
+  %case 3: context
+    case H2.
+    exists (refl (T2 n n1)). search.
+
+
+%%% Final result is proved by applying the strengthening result to form with a context
+Theorem ty_unique : ctx G:c, forall E T1 T2 D1 D2,
+  { G |- D1 : of E T1 } => { G |- D2 : of E T2 } =>
+  exists D3, { D3 : eq T1 T2 }.
+intros. apply ty_unique_aux to H1 H2. apply eq_independent to H3. exists D3. search.
+
+
+%%% A short proof that a self application term is untypable
+Theorem self_app_untypable :
+  forall T U P, {P : of (app (abs U ([x] (app x x))) (abs U ([x] (app x x)))) T} => false.
+intros. case H1. case H6. case H7.
+```
+
+</Tabs.Tab>
+
+</Tabs>

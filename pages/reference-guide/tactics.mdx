@@ -5,8 +5,11 @@
 Search for a derivation of the current goal using matching with assumption
 formulas and decomposing judgments into subgoals using LF derivation rules. If a
 `<NUM>` is provided, assumption judgements are decomposed `<NUM>` times. If a
-`<NUM>` is not provided, the [`search_depth`][search-depth] option is used. The
-[`search_depth`][search-depth] can be changed with the [`Set`][set] command.
+`<NUM>` is not provided, the
+[`search_depth`](/reference-guide/top-level-commands#search_depth) option is
+used. The [`search_depth`](/reference-guide/top-level-commands#search_depth) can
+be changed with the
+[`Set`](/reference-guide/top-level-commands#set-option-value) command.
 
 ## `intros.`
 
@@ -48,7 +51,7 @@ there need not be universally quantified variables or context variables. The
 `Gamma1 ... Gammaj`.
 
 
-```
+```adelfa
 apply plus-comm to H4.
 apply H2 to H5.
 ```

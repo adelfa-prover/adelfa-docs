@@ -1,11 +1,11 @@
 export default {
-  "syntax": {
-    "title": "Syntax"
+  syntax: {
+    title: "Syntax",
   },
   "top-level-commands": {
-    "title": "Top-Level Commands"
+    title: "Top-Level Commands",
   },
-  "tactics": {
-    "title": "Tactics"
-  }
-}
+  tactics: {
+    title: "Tactics",
+  },
+};
