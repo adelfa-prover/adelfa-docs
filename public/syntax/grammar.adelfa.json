@@ -17,15 +17,18 @@
       "match": "\\b(?:false|true)\\b"
     },
     {
-      "name": "variable.other.adelfa",
-      "match": "\\b(?:H[1-9]+[0-9]*|IH[0-9]*)\\b"
+      "name": "keyword.other.adelfa",
+      "match": "(?:H[1-9]+[0-9]*|IH[0-9]*)"
     },
     {
       "name": "entity.name.class.adelfa",
-      "begin": "(\\b(Theorem|Schema|apply|Subgoal)\\s+)",
-      "beginCaptures": {
+      "begin": "(\\b(Theorem|Schema|apply|Subgoal)\\s+([A-Za-z0-9_.]+))",
+      "captures": {
         "1": {
           "name": "keyword.other.adelfa"
+        },
+        "2": {
+          "name": "support.function.adelfa"
         }
       },
       "end": "?",
@@ -38,11 +41,16 @@
     },
     {
       "name": "keyword.operator.adelfa",
-      "match": ">>"
+      "match": "(?:[A-Za-z0-9_.])*\\s*>>",
+      "captures": {
+        "1": {
+          "name": "support.function.adelfa"
+        }
+      }
     },
     {
       "name": "keyword.other.adelfa",
-      "match": "\\b(Theorem|Specification|Set|Schema|Subgoal|Vars)\\b"
+      "match": "\\b(Theorem|Specification|Set|Schema|Subgoal|Vars|Nominals)\\b"
     },
     {
       "name": "support.function.adelfa",

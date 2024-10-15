@@ -8,6 +8,7 @@ export default {
     },
   },
   download: "Download",
+  walkthrough: "Walkthrough",
   "reference-guide": {
     title: "Reference Guide",
   },

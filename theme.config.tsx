@@ -13,7 +13,9 @@ const config: DocsThemeConfig = {
     const { frontMatter } = useConfig();
 
     const pageTitle = [
-      frontMatter.title && frontMatter.title !== "Adelfa" ? `${frontMatter.title} | ` : "",
+      frontMatter.title && frontMatter.title !== "Adelfa"
+        ? `${frontMatter.title} | `
+        : "",
       "Adelfa",
     ].join("");
 
@@ -28,6 +30,15 @@ const config: DocsThemeConfig = {
         <link rel="icon" href="/favicon.ico" />
       </>
     );
+  },
+  footer: {
+    content: (
+      <>
+      <small>
+        The views and opinions expressed in this page are strictly those of the page author(s). The contents of this page have not been reviewed or approved by the University of Minnesota.
+      </small>
+      </>
+    ),
   },
 };
 
