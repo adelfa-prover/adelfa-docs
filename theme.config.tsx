@@ -1,5 +1,5 @@
 import React from "react";
-import { DocsThemeConfig } from "nextra-theme-docs";
+import { DocsThemeConfig, useConfig } from "nextra-theme-docs";
 import { Logo } from "./components/logo";
 
 const config: DocsThemeConfig = {
@@ -9,11 +9,26 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase:
     "https://github.com/cjohnson19/nextra-adelfa-docs/tree/main",
-  head: (
-    <>
-      <link rel="icon" href="/favicon.ico" />
-    </>
-  ),
+  head: () => {
+    const { frontMatter } = useConfig();
+
+    const pageTitle = [
+      frontMatter.title ? `${frontMatter.title} | ` : "",
+      "Adelfa",
+    ].join("");
+
+    return (
+      <>
+        <title>{pageTitle}</title>
+        <meta property="og:title" content={pageTitle} />
+        <meta
+          property="og:description"
+          content={frontMatter.description ?? "Adelfa proof assistant"}
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </>
+    );
+  },
 };
 
 export default config;
