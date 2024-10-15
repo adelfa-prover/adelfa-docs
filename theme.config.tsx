@@ -13,7 +13,7 @@ const config: DocsThemeConfig = {
     const { frontMatter } = useConfig();
 
     const pageTitle = [
-      frontMatter.title ? `${frontMatter.title} | ` : "",
+      frontMatter.title && frontMatter.title !== "Adelfa" ? `${frontMatter.title} | ` : "",
       "Adelfa",
     ].join("");
 
