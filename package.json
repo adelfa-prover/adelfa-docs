@@ -18,6 +18,10 @@
   },
   "homepage": "https://adelfa-prover.org",
   "dependencies": {
+    "@citation-js/core": "^0.7.14",
+    "@citation-js/plugin-bibtex": "^0.7.16",
+    "@citation-js/plugin-csl": "^0.7.14",
+    "citation-js": "^0.7.16",
     "lucide-react": "^0.400.0",
     "next": "^13.0.6",
     "nextra": "^3.0.1",
