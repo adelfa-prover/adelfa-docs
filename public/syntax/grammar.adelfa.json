@@ -22,7 +22,7 @@
     },
     {
       "name": "entity.name.class.adelfa",
-      "begin": "(\\b(Theorem|Schema|apply|Subgoal)\\s+([A-Za-z0-9-_.']+))",
+      "begin": "(\\b(Theorem|Schema|apply|Subgoal)\\s+([A-Za-z0-9'-_.]+))",
       "captures": {
         "1": {
           "name": "keyword.other.adelfa"
@@ -41,7 +41,7 @@
     },
     {
       "name": "keyword.operator.adelfa",
-      "match": "(?:[A-Za-z0-9_-.'])*\\s*>>",
+      "match": "(?:[A-Za-z0-9_'-.])*\\s*>>",
       "captures": {
         "1": {
           "name": "support.function.adelfa"
