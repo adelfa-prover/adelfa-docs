@@ -1,22 +1,31 @@
-# Nextra Docs Template 
+# Adelfa Documentation
 
-This is a template for creating documentation with [Nextra](https://nextra.site).
+View the documentation at [adelfa-prover.org](https://adelfa-prover.org).
 
-[**Live Demo →**](https://nextra-docs-template.vercel.app)
+This website uses [Nextra](https://nextra.site) to generate documentation for
+the Adelfa project.
 
-[![](.github/screenshot.png)](https://nextra-docs-template.vercel.app)
+Each push to the `main` branch will trigger a deployment to the website.
 
-## Quick Start
+Many of the pages are fully static, but we generate the publications at build
+time from the [`pubs.bib`](public/pubs.bib) file.
 
-Click the button to clone this repository and deploy it on Vercel:
+## Customizations
 
-[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-docs-template&showOptionalTeamCreation=false)
+We provide two custom [Shiki](https://shiki.matsu.io/) language definitions as [TextMate
+grammars](https://macromates.com/manual/en/language_grammars).
+
+- [Adelfa](public/syntax/grammar.adelfa.json)
+- [Adelfa Signatures](public/syntax/grammar.lf.json)
+
+To use either of these, you can define the markdown code block to be the
+`adelfa` or `lf` language respectively.
 
 ## Local Development
 
-First, run `pnpm i` to install the dependencies.
+First, run `npm i` to install the dependencies.
 
-Then, run `pnpm dev` to start the development server and visit localhost:3000.
+Then, run `npm dev` to start the development server and visit localhost:3000.
 
 ## License
 
