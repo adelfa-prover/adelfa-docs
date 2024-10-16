@@ -1,0 +1,29 @@
+{
+  "scopeName": "source.lf",
+  "name": "lf",
+  "patterns": [
+    {
+      "name": "keyword.other.lf",
+      "match": "\\b(type)\\b"
+    },
+    {
+      "name": "keyword.operator.lf",
+      "match": "(:|->)"
+    },
+    {
+      "name": "comment.line.percentage.lf",
+      "begin": "\\s*%",
+      "end": "$",
+      "patterns": [
+        {
+          "name": "comment.line.percentage.lf",
+          "match": ".*"
+        }
+      ]
+    },
+    {
+      "name": "constant.other.symbol.lf",
+      "match": "[{}\\[\\]\\(\\)\\.]"
+    }
+  ]
+}

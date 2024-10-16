@@ -1,0 +1,37 @@
+---
+title: Top-Level Commands
+description: Top-level commands in Adelfa
+---
+
+# Top-level commands
+
+## `Theorem <NAME> : <FORMULA>.`
+
+Starts proof development with the given formula as the goal.
+
+## `Quit.`
+
+Exits from Adelfa.
+
+## `Specification <QUOTED FILENAME>`
+
+Reads in the specification indicated by the given filename.
+
+## `Schema <ID> := {w x ...}(y:A,z:B ...); ...`.
+
+Defines a context schema associated with `<ID>`. For example:
+
+```adelfa
+Schema c := {T:o}(x: tm, d: of x T);
+            (x:tm, t:tp, d: of x t).
+```
+
+## `Set <OPTION> <VALUE>.`
+
+Sets the value of options during proof development. It may be used at the top
+level or inside theorem construction. The options are currently:
+
+- `search_depth` <a id="search_depth"></a> The maximum number of times to
+  perform type decomposition on assumption judgements during the
+  [`search`](/reference-guide/tactics#search-num) and [`assert`](/reference-guide/tactics#assert-formula-num) tactics. By
+  default, this is set to 5.

@@ -1,0 +1,155 @@
+---
+title: Tactics
+description: Tactics for constructing proofs in Adelfa.
+---
+
+# Tactics
+
+## `search [<NUM>].`
+
+Search for a derivation of the current goal using matching with assumption
+formulas and decomposing judgments into subgoals using LF derivation rules. If a
+`<NUM>` is provided, assumption judgements are decomposed `<NUM>` times. If a
+`<NUM>` is not provided, the
+[`search_depth`](/reference-guide/top-level-commands#search_depth) option is
+used. The [`search_depth`](/reference-guide/top-level-commands#search_depth) can
+be changed with the
+[`Set`](/reference-guide/top-level-commands#set-option-value) command.
+
+## `intros.`
+
+Introduces variables and assumptions from a goal formula until it no longer has
+top-level universal quantification, context quantification, or implications.
+
+## `split.`
+
+Creates subgoals for each sub formula, `F1` and `F2` if the current goal is a
+conjunction `F1 /\ F2`.
+
+## `left.`
+
+Changes the goal to be the left side formula, `F1` if the current goal is a
+disjunction, `F1 \/ F2`.
+
+## `right.`
+
+Changes the goal to be the right side formula, `F2` if the current goal is a
+disjunction, `F1 \/ F2`.
+
+## `assert <FORMULA> [<NUM>].`
+
+Changes the proof state to one which has the given formula as a goal; once
+derivation of this goal is complete returns to the previous proof state with the
+given formula added as an assumption. Providing a `<NUM>` will decompose
+assumption judgements `<NUM>` times. If the asserted formula can be proven, it
+is added to the proof state immediately. This option defaults to
+[`search_depth`][search-depth] when not provided and may be changed with the
+[`Set`][set] command.
+
+## `apply <NAME> to <HYP NAMES> [with <BINDINGS>].`
+
+Applies a hypothesis of the form `ctx Gamma1:C1 ... Gammaj:Cj, forall X1 ... Xi,
+H1 => ... => Hk => F` to argument hypotheses which match `H1, ..., Hk`. The
+result is an instantiation of `F`. Either or both of `i` and `j` may be zero. That is,
+there need not be universally quantified variables or context variables. The
+`with` clause allows specific instantiations of any of the variables `X1 ... Xi` and
+`Gamma1 ... Gammaj`.
+
+
+```adelfa
+apply plus-comm to H4.
+apply H2 to H5.
+```
+
+## `induction on <NUM>.`
+
+Given a goal of the form `ctx Gamma1:C1 Gamma2:C2 ..., forall X Y ..., H1 => H2 => ... =>
+F` the induction tactic allows you to induct on one of `H1, H2, ...`. The
+hypothesis to be inducted on must be an atomic formula. The choice of induction
+is based on the number `<NUM>`. Applying the induction tactic results in an
+inductive hypothesis being added to the current set of hypotheses. Specifics on
+this inductive hypothesis and how it relates to the goal are given in the
+section [Inductive Restrictions][inductive-restrictions].
+
+Adelfa supports nested induction through repeated calls to the induction tactic.
+See the [Inductive Restrictions][inductive-restrictions] section for more
+details.
+
+## `exists M.`
+
+Instantiates an existential goal with the given term, if it is of the correct
+arity type.
+
+## `case <HYP NAME>[(keep)].`
+
+Performs case analysis on the given assumption formula. By default, the
+assumption is removed, use `(keep)` to retain it.
+
+## `weaken <HYP NAME> with A [<NUM>].`
+
+When the given assumption formula is of the form `{G |- M : A}`, and it can be
+verified that the LF type `A` must be well formed in the current context under
+`G`, then a new assumption is added in which the typing judgment is weakened to
+include the given type.
+
+## `strengthen <HYP NAME>.`
+
+If the given assumption formula is of the form `{G, n:A1 |- M : A2}` if `n` does
+not appear in `M` or `A2` then a new assumption is added in which the typing
+judgment is strengthened to `{G |- M : A2}`.
+
+## `ctxpermute <HYP NAME> to G.`
+
+If the given assumption is of the form `{G' |- M:A}`, and if the given context
+is a valid permutation of the context `G'` (i.e. does not violate dependencies),
+then a new assumption is added with the permuted context expression `G`.
+
+## `permute <HYP NAME> with <PERM>.`
+
+Applies a permutation of nominal constants to the argument hypothesis. `<PERM>`
+must be a complete permutation. Mappings can be unidirections `n1 -> n2, n2 ->
+n` or bidirectional `n1 <-> n2`. If the provided permutation is complete and
+limited to be within the relevant assumption's restricted set, a new assumption
+is added with the permutation applied to it.
+
+## `inst <HYP NAME> with n = M.`
+
+If the given assumption formula is of the form `{G1,n:B,G2 |- M:A}`, and the
+term `M` can be determined to be such that `{G1 |- M : B}` is valid then this tactic
+replaces the given assumption with one in which `n:B` is removed from the context
+expression and all occurrences of `n` are replaced by `M`.
+
+## `prune <HYP NAME>.`
+
+If the given assumption is of the form `{G |- X n1 ... nm : A}` for some
+eigenvariable `X` and distinct nominal constants `n1,...,nm` then this tactic
+will prune those nominal constants appearing as arguments to `X` which
+
+1. Do not already appear in `G` and
+2. Are not permitted in the instantiations for the context variable in `G`.
+
+## `undo.`
+
+Undoes the last step of reasoning.
+
+## `skip.`
+
+Skip to the next subgoal of the derivation and completes the theorem if there
+are no more goals.
+
+## `abort.`
+
+Abort the proof construction and return to top-level loop without adding formula
+to the available lemmas.
+
+## `unfold [<HYP NAME>].`
+
+If the given assumption formula is a defined predicate then it is unfolded using
+the relevant definition, using the first clause which matches. If no assumption
+formula is given, the goal formula is unfolded.
+
+## `applydfn <PROP> [to <HYP NAME>].`
+
+Applies a clause of the definition of \<PROP\> to the given assumption formula.
+The first clause which matches is the one used. If no assumption formula is
+provided the definition is applied to the goal formula.

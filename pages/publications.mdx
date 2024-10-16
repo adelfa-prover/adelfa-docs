@@ -1,0 +1,33 @@
+---
+title: Publications
+description: Publications related to Adelfa.
+---
+
+import { buildDynamicMDX } from 'nextra/remote';
+import { RemoteContent } from "nextra/components";
+import { publications } from '../util/publications';
+
+
+
+export const getStaticProps = async () => {
+  const pubs = await publications();
+  const rawMdx = `---
+title: Publications
+---
+
+Related publications to Adelfa are listed here. A BibTeX file containing these
+references can be found [here](/pubs.bib).
+
+# Publications
+
+${pubs.map(([, e]) => `- ${e}`).join('\n')}
+`;
+  const mdx = await buildDynamicMDX(rawMdx, { codeHighlight: false })
+  return {
+    props: {
+      ...mdx,
+    },
+  }
+}
+
+<RemoteContent components={{}} />

@@ -1,0 +1,101 @@
+---
+title: Syntax
+description: Syntax of the Adelfa Proof Assistant
+---
+
+# Syntax
+
+## Terms
+
+The syntax for terms Canonical LF terms and types follows a similar style to
+that used by [Twelf](https://twelf.org/). Of note are the following structures:
+
+| Syntax    | Meaning                         |
+| --------- | ------------------------------- |
+| `[x] M`   | Term abstraction                |
+| `{x:A} B` | $\Pi$-type                      |
+| `A -> B`  | $\Pi$-type without dependencies |
+
+The names for variables and constants follow the same conventions as
+[Twelf](https://twelf.org/). Nominal constants are denoted by `n1, n2, ...`
+
+## Context Expressions
+
+Context expressions $G$ are commonly expressed using the
+following syntax:
+
+| Syntax           | Meaning                |
+| ---------------- | ---------------------- |
+| \<empty string\> | Empty context          |
+| `Gamma`          | Context variable       |
+| `G, n:A`         | Explicit context entry |
+
+## Formulas
+
+The syntax for formulas is the following:
+
+| Syntax                           | Meaning                                                                                      |
+| -------------------------------- | -------------------------------------------------------------------------------------------- |
+| `forall x y z ..., F`            | $\forall x\ \forall y\ \forall z \ldots . F$ (Universal quantification)                      |
+| `exists x y z ..., F`            | $\exists x\ \exists y\ \exists z \ldots . F$ (Existential quantification)                    |
+| `ctx Gamma1:C1 Gamma2:C2 ..., F` | $\Pi \Gamma_1:\mathcal{C_1}\ \Pi \Gamma_2:\mathcal{C_2}\ \ldots. F$ (Context quantification) |
+| `F1 => F2`                       | $F_1 \supset F_2$ (Implication)                                                              |
+| `F1 /\ F2`                       | $F_1 \land F_2$ (Conjunction)                                                                |
+| `F1 \/ F2`                       | $F_1 \lor F_2$ (Disjunction)                                                                 |
+| `{ G \|- M : A }`               | Atomic formula                                                                               |
+| `pred M1 M2`                     | Defined predicate                                                                            |
+| `true`                           | $\top$ (true)                                                                                |
+| `false`                          | $\bot$ (false)                                                                               |
+
+
+## Lemmas
+
+To use a lemma, prove it as a theorem and then refer to it by name in another
+proof using the [`apply`](/reference-guide/tactics#apply-name-to-hyp-names-with-bindings) tactic. For example,
+
+```adelfa
+Theorem my_lemma : ...
+...
+
+Theorem my_theorem : ...
+...
+apply my_lemma to H3 H5.
+```
+
+## Typing
+
+Adelfa's logic is simply-typed using simple arity typing based on a single base
+type `o` and constructor `->`. All terms and formulas must be well-typed.
+
+## Inductive Restrictions
+
+Inductive restrictions are represented by `*` (smaller) and `@` (equal). They are
+used to track the size of inductive arguments rather than using explicit numeric
+values. For example, suppose we apply `induction on 1.` when trying to prove the
+following subject reduction theorem,
+
+```adelfa
+============================
+forall E V T D1 D2, {|- D1 : eval E V} -> {|- D2: of E T} ->
+  exists D3, {|- D3: of V T}
+```
+
+We will get the following proof state.
+
+```adelfa /@/ /*/
+IH : forall E V T D1 D2, {|- D1 : eval E V}* -> {|- D2: of E T} ->
+      exists D3, {|- D3: of V T}
+============================
+forall E V T D1 D2, {|- D1 : eval E V}@ -> {|- D2: of E T} ->
+  exists D3, {|- D3: of V T}
+```
+
+
+Here we have an inductive hypothesis where the inductive argument is flagged
+with `*`. This means that we can only apply that hypothesis to an argument which
+also has the `*`. Because `*` means smaller, in order to get an argument with a
+`*` we must perform case analysis on an argument that is "equal" which we denote
+by `@`. Thus, the above proof proceeds by first doing `intros.` and then case
+analysis on `{|- D1 : eval E V}@`. This will give us two subgoals, one which is
+trivial and the other which has hypotheses tagged with `*` and thus eligible for
+use with the inductive hypothesis.
