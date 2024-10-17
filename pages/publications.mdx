@@ -20,7 +20,7 @@ references can be found [here](/pubs.bib).
 
 # Publications
 
-${pubs.map(([, e]) => `- ${e}`).join('\n')}
+${pubs.map(([, e]) => e).join('\n')}
 `;
   const mdx = await buildDynamicMDX(rawMdx, { codeHighlight: false })
   return {

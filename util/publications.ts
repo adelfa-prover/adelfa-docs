@@ -4,62 +4,69 @@ const { Cite, plugins } = require("@citation-js/core");
 require("@citation-js/plugin-bibtex");
 require("@citation-js/plugin-csl");
 
-const acmTemplate = `<?xml version="1.0" encoding="utf-8"?>
+const lncsTemplate = `<?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="en-US">
   <info>
-    <title>ACM SIG Proceedings ("et al." for 3+ authors)</title>
-    <id>http://www.zotero.org/styles/acm-sig-proceedings</id>
-    <link href="http://www.zotero.org/styles/acm-sig-proceedings" rel="self"/>
-    <link href="https://www.acm.org/publications/authors/reference-formatting" rel="documentation"/>
+    <title>Springer - Lecture Notes in Computer Science</title>
+    <title-short>Springer LNCS</title-short>
+    <id>http://www.zotero.org/styles/springer-lecture-notes-in-computer-science</id>
+    <link href="http://www.zotero.org/styles/springer-lecture-notes-in-computer-science" rel="self"/>
+    <link href="http://www.springer.com/computer/lncs?SGWID=0-164-6-793341-0" rel="documentation"/>
     <author>
-      <name>Naeem Esfahani</name>
-      <email>nesfaha2@gmu.edu</email>
-      <uri>http://mason.gmu.edu/~nesfaha2/</uri>
+      <name>Ammar Memari</name>
+      <email>memari@wi-ol.de</email>
     </author>
     <contributor>
-      <name>Chris Horn</name>
-      <email>chris.horn@securedecisions.com</email>
-    </contributor>
-    <contributor>
-      <name>Patrick O'Brien</name>
+      <name>Mikko Ronkko</name>
     </contributor>
     <category citation-format="numeric"/>
-    <category field="science"/>
     <category field="engineering"/>
-    <updated>2017-07-15T11:28:14+00:00</updated>
+    <updated>2019-09-25T13:54:37+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
+  <locale xml:lang="en">
+    <terms>
+      <term name="accessed">last accessed</term>
+    </terms>
+  </locale>
   <macro name="author">
-    <choose>
-      <if type="webpage">
-        <text variable="title" suffix=":"/>
-      </if>
-      <else>
-        <names variable="author">
-          <name name-as-sort-order="all" and="text" sort-separator=", " initialize-with="." delimiter-precedes-last="never" delimiter=", "/>
-          <label form="short" prefix=" "/>
-          <substitute>
-            <names variable="editor"/>
-            <names variable="translator"/>
-          </substitute>
-        </names>
-      </else>
-    </choose>
+    <group>
+      <names variable="author">
+        <name name-as-sort-order="all" sort-separator=", " initialize-with="." delimiter=", " delimiter-precedes-last="always"/>
+        <label form="short" prefix=" " strip-periods="true"/>
+        <substitute>
+          <names variable="editor"/>
+        </substitute>
+      </names>
+    </group>
   </macro>
   <macro name="editor">
     <names variable="editor">
-      <name initialize-with="." delimiter=", " and="text"/>
-      <label form="short" prefix=", "/>
+      <name initialize-with="." delimiter=", " and="text" name-as-sort-order="all" sort-separator=", "/>
+      <label form="short" prefix=" (" suffix=")"/>
     </names>
   </macro>
-  <macro name="access">
+  <macro name="title">
     <choose>
-      <if type="article-journal" match="any">
-        <text variable="DOI" prefix=". DOI:https://doi.org/"/>
+      <if type="bill book graphic legal_case legislation motion_picture report song" match="any">
+        <text variable="title"/>
       </if>
+      <else>
+        <text variable="title"/>
+      </else>
     </choose>
   </macro>
-  <citation collapse="citation-number">
+  <macro name="publisher">
+    <text variable="publisher"/>
+    <text variable="publisher-place" prefix=", "/>
+  </macro>
+  <macro name="page">
+    <group>
+      <label variable="page" form="short" suffix=" "/>
+      <text variable="page"/>
+    </group>
+  </macro>
+  <citation et-al-min="3" et-al-use-first="1" collapse="citation-number">
     <sort>
       <key variable="citation-number"/>
     </sort>
@@ -67,119 +74,100 @@ const acmTemplate = `<?xml version="1.0" encoding="utf-8"?>
       <text variable="citation-number"/>
     </layout>
   </citation>
-  <bibliography entry-spacing="0" second-field-align="flush" et-al-min="3" et-al-use-first="1">
-    <sort>
-      <key macro="author"/>
-      <key variable="title"/>
-    </sort>
+  <bibliography entry-spacing="0" second-field-align="flush">
     <layout suffix=".">
-      <text variable="citation-number" prefix="[" suffix="]"/>
-      <text macro="author" suffix=" "/>
-      <date variable="issued" suffix=". ">
-        <date-part name="year"/>
-      </date>
+      <text variable="citation-number" suffix="."/>
+      <text macro="author" suffix=": "/>
       <choose>
-        <if type="paper-conference">
-          <group delimiter=". ">
-            <text variable="title"/>
-            <group delimiter=" ">
-              <text variable="container-title" font-style="italic"/>
-              <group delimiter=", ">
-                <group delimiter=", " prefix="(" suffix=")">
-                  <text variable="publisher-place"/>
-                  <date variable="issued">
-                    <date-part name="month" form="short" suffix=" "/>
-                    <date-part name="year"/>
-                  </date>
-                </group>
-                <text variable="page"/>
-              </group>
-            </group>
+        <if type="bill book graphic legal_case legislation motion_picture report song" match="any">
+          <group delimiter=" ">
+            <text macro="title" suffix="."/>
+            <text macro="publisher"/>
+            <date variable="issued">
+              <date-part name="year" prefix="(" suffix=")"/>
+            </date>
           </group>
         </if>
         <else-if type="article-journal">
-          <group delimiter=". ">
-            <text variable="title"/>
-            <text variable="container-title" font-style="italic"/>
-            <group delimiter=", ">
-              <text variable="volume"/>
-              <group delimiter=" ">
-                <text variable="issue"/>
-                <date variable="issued" prefix="(" suffix=")">
-                  <date-part name="month" form="short" suffix=" "/>
-                  <date-part name="year"/>
-                </date>
-              </group>
-              <text variable="page"/>
-            </group>
-          </group>
-        </else-if>
-        <else-if type="patent">
-          <group delimiter=". ">
-            <text variable="title"/>
-            <text variable="number"/>
+          <group delimiter=" ">
+            <text macro="title" suffix="."/>
+            <text variable="container-title" form="short" suffix="."/>
+            <text variable="volume" suffix=","/>
+            <text variable="page"/>
             <date variable="issued">
-              <date-part name="month" form="short" suffix=" "/>
-              <date-part name="day" suffix=", "/>
-              <date-part name="year"/>
-            </date>
-          </group>
-        </else-if>
-        <else-if type="thesis">
-          <group delimiter=". ">
-            <text variable="title" font-style="italic"/>
-            <text variable="archive_location" prefix="Doctoral Thesis #"/>
-            <text variable="publisher"/>
-          </group>
-        </else-if>
-        <else-if type="report">
-          <group delimiter=". ">
-            <text variable="title" font-style="italic"/>
-            <text variable="number" prefix="Technical Report #"/>
-            <text variable="publisher"/>
-          </group>
-        </else-if>
-        <else-if type="webpage">
-          <group delimiter=". ">
-            <text variable="URL" font-style="italic"/>
-            <date variable="accessed" prefix="Accessed: ">
-              <date-part name="year" suffix="-"/>
-              <date-part name="month" form="numeric-leading-zeros" suffix="-"/>
-              <date-part name="day" form="numeric-leading-zeros"/>
+              <date-part name="year" prefix="(" suffix=")"/>
             </date>
           </group>
         </else-if>
         <else-if type="chapter paper-conference" match="any">
-          <group delimiter=". ">
-            <text variable="title"/>
-            <text variable="container-title" font-style="italic"/>
-            <text macro="editor"/>
-            <text variable="publisher"/>
-            <text variable="page"/>
+          <group delimiter=" ">
+            <text macro="title" suffix="."/>
+            <choose>
+              <if variable="container-title">
+                <text term="in" text-case="capitalize-first" suffix=": "/>
+                <text macro="editor" suffix=" "/>
+                <group delimiter=". ">
+                  <text variable="container-title"/>
+                  <text macro="page"/>
+                  <text macro="publisher"/>
+                </group>
+              </if>
+              <else>
+                <text term="presented at" text-case="capitalize-first" suffix=" "/>
+                <text variable="event"/>
+                <text variable="event-place" prefix=", "/>
+                <date variable="issued" prefix=" ">
+                  <date-part name="month" suffix=" "/>
+                  <date-part name="day" suffix=" "/>
+                </date>
+              </else>
+            </choose>
+            <date variable="issued">
+              <date-part name="year" prefix="(" suffix=")"/>
+            </date>
           </group>
         </else-if>
-        <else-if type="bill book graphic legal_case legislation motion_picture report song" match="any">
-          <group delimiter=". ">
-            <text variable="title" font-style="italic"/>
-            <text variable="publisher"/>
+        <else-if type="webpage post-weblog post" match="any">
+          <group delimiter=", ">
+            <text macro="title"/>
+            <text variable="URL"/>
+            <group delimiter=" ">
+              <text term="accessed"/>
+              <date variable="accessed">
+                <date-part name="year"/>
+                <date-part name="month" form="numeric-leading-zeros" prefix="/"/>
+                <date-part name="day" form="numeric-leading-zeros" prefix="/"/>
+              </date>
+            </group>
+          </group>
+        </else-if>
+        <else-if type="speech">
+          <group delimiter=" ">
+            <text macro="title" suffix="."/>
+            <text variable="event" suffix="."/>
+            <text variable="event-place" prefix=", "/>
+            <date variable="issued">
+              <date-part name="year" prefix="(" suffix=")"/>
+            </date>
           </group>
         </else-if>
         <else>
-          <group delimiter=". ">
-            <text variable="title"/>
-            <text variable="container-title" font-style="italic"/>
-            <text variable="publisher"/>
+          <group delimiter=", ">
+            <text macro="title"/>
+            <text variable="URL"/>
+            <date variable="issued">
+              <date-part name="year" prefix="(" suffix=")"/>
+            </date>
           </group>
         </else>
       </choose>
-      <text macro="access"/>
+      <text variable="DOI" prefix=". https://doi.org/"/>
     </layout>
   </bibliography>
-</style>
-`;
+</style>`;
 
 let config = plugins.config.get("@csl");
-config.templates.add("acm", acmTemplate);
+config.templates.add("acm", lncsTemplate);
 
 export async function publications() {
   const entries = await readFile("public/pubs.bib", "utf8");
