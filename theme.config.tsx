@@ -24,6 +24,12 @@ const config: DocsThemeConfig = {
         <title>{pageTitle}</title>
         <meta property="og:title" content={pageTitle} />
         <meta
+          name="description"
+          content={frontMatter.description ?? "Adelfa proof assistant"}
+        />
+        <meta name="keywords" content="Adelfa, proof assistant" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta
           property="og:description"
           content={frontMatter.description ?? "Adelfa proof assistant"}
         />
