@@ -9,7 +9,15 @@ export default $config({
     };
   },
   async run() {
-    new sst.aws.Nextjs("AdelfaDocs");
+    new sst.aws.Nextjs("AdelfaDocs", {
+      domain:
+        $app.stage === "production"
+          ? {
+              name: "adelfa-prover.org",
+              redirects: ["www.adelfa-prover.org"],
+            }
+          : undefined,
+    });
   },
   console: {
     autodeploy: {
