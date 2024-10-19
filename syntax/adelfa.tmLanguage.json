@@ -21,23 +21,15 @@
       "match": "(?:H[1-9]+[0-9]*|IH[0-9]*)"
     },
     {
-      "name": "entity.name.class.adelfa",
-      "begin": "(\\b(Theorem|Schema|apply|Subgoal)\\s+([A-Za-z0-9'-_.]+))",
+      "match": "\\b(Theorem|Schema|Subgoal)\\s+([A-Za-z0-9'-_.]+)",
       "captures": {
         "1": {
           "name": "keyword.other.adelfa"
         },
         "2": {
-          "name": "support.function.adelfa"
+          "name": "variable.language.adelfa"
         }
-      },
-      "end": "?",
-      "patterns": [
-        {
-          "name": "entity.name.class.adelfa",
-          "match": "[\\w-'0-9]+"
-        }
-      ]
+      }
     },
     {
       "name": "keyword.operator.adelfa",
@@ -54,11 +46,22 @@
     },
     {
       "name": "support.function.adelfa",
-      "match": "\\b(apply|forall|exists|case|inst|induction|intros|keep|left|right|search|split|on|to|with|assert|weaken|prune|strengthen|ctxpermute|permute)\\b"
+      "match": "\\b(forall|exists|case|inst|induction|intros|keep|left|right|search|split|on|to|with|assert|weaken|prune|strengthen|ctxpermute|permute|ctx)\\b"
+    },
+    {
+      "match": "\\b(apply)\\s+([A-Za-z0-9'-_.]+)",
+      "captures": {
+        "1": {
+          "name": "support.function.adelfa"
+        },
+        "2": {
+          "name": "variable.language.adelfa"
+        }
+      }
     },
     {
       "name": "keyword.operator.adelfa",
-      "match": "(\\\\\\/|\\/\\\\|=>|,|:|=)"
+      "match": "(\\\\\\/|\\/\\\\|=>|,|:|=|\\|-)"
     },
     {
       "name": "constant.numeric.adelfa",

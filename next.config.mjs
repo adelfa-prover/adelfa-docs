@@ -5,10 +5,10 @@ import { getSingletonHighlighter, bundledLanguages } from "shiki";
 import { readFileSync } from "fs";
 
 const adelfaGrammar = JSON.parse(
-  readFileSync("./public/syntax/grammar.adelfa.json", "utf-8"),
+  readFileSync("./syntax/adelfa.tmLanguage.json", "utf-8"),
 );
 const lfGrammar = JSON.parse(
-  readFileSync("./public/syntax/grammar.lf.json", "utf-8"),
+  readFileSync("./syntax/lf.tmLanguage.json", "utf-8"),
 );
 
 const withNextra = nextra({
