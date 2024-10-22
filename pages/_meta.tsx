@@ -2,7 +2,6 @@ export default {
   index: {
     title: "Home",
     theme: {
-      typesetting: "article",
       breadcrumb: false,
       pagination: false,
     },
