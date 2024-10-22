@@ -40,4 +40,29 @@ const withNextra = nextra({
   },
 });
 
-export default withNextra({});
+export default withNextra({
+  async redirects() {
+    return [
+      {
+        source: "/adelfa.html",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/adelfa",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/index.html",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/index",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
+});
