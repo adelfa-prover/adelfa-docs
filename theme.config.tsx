@@ -7,8 +7,7 @@ const config: DocsThemeConfig = {
   project: {
     link: "https://github.com/adelfa-prover/adelfa-docs",
   },
-  docsRepositoryBase:
-    "https://github.com/adelfa-prover/adelfa-docs/tree/main",
+  docsRepositoryBase: "https://github.com/adelfa-prover/adelfa-docs/tree/main",
   head: () => {
     const { frontMatter } = useConfig();
 
@@ -40,9 +39,11 @@ const config: DocsThemeConfig = {
   footer: {
     content: (
       <>
-      <small>
-        The views and opinions expressed in this page are strictly those of the page author(s). The contents of this page have not been reviewed or approved by the University of Minnesota.
-      </small>
+        <small>
+          The views and opinions expressed in this page are strictly those of
+          the page author(s). The contents of this page have not been reviewed
+          or approved by the University of Minnesota.
+        </small>
       </>
     ),
   },
