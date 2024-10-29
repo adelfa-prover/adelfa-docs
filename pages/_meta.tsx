@@ -6,6 +6,10 @@ export default {
       pagination: false,
     },
   },
+  about: {
+    title: "About",
+    type: "page",
+  },
   download: "Download",
   walkthrough: "Walkthrough",
   "reference-guide": {
@@ -13,10 +17,6 @@ export default {
   },
   examples: {
     title: "Examples",
-  },
-  about: {
-    title: "About",
-    type: "page",
   },
   publications: {
     title: "Publications",
