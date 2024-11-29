@@ -5,7 +5,7 @@ import { Logo } from "./components/logo";
 const config: DocsThemeConfig = {
   logo: <Logo />,
   project: {
-    link: "https://github.com/adelfa-prover/adelfa-docs",
+    link: "https://github.com/adelfa-prover/adelfa",
   },
   docsRepositoryBase: "https://github.com/adelfa-prover/adelfa-docs/tree/main",
   head: () => {
