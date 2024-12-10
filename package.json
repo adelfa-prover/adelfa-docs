@@ -23,7 +23,7 @@
     "@citation-js/plugin-csl": "^0.7.14",
     "citation-js": "^0.7.16",
     "lucide-react": "^0.400.0",
-    "next": "^13.0.6",
+    "next": "^15.0.4",
     "nextra": "^3.2.5",
     "nextra-theme-docs": "^3.2.5",
     "react": "^18.2.0",
