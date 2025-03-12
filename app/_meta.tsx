@@ -20,5 +20,11 @@ export default {
   },
   publications: {
     title: "Publications",
-  }
+  },
+  "schema-subsumption": {
+    display: "hidden",
+    theme: {
+      pagination: false,
+    }
+  },
 };

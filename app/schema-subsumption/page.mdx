@@ -1,0 +1,54 @@
+---
+title: Schema Subsumption
+description: Schema Subsumption Examples
+asIndexPage: true
+---
+
+# Transporting Theorems Across Context Schemas
+
+
+Prior to reading the discussion within this page, it's necessary to have a rough
+understanding of the syntax of Adelfa and tactics of Adelfa. An explanation of
+these can be found in the [Reference Guide](/reference-guide). One may also
+search using the search bar in the top right to look up terms.
+
+We discuss a series of examples which utilize _schema subsumption_ in Adelfa, a
+capability in Adelfa which allows one to transport the validity of a formula
+$$\Pi \Gamma{:}\mathcal{C}.F$$ into one with the context variable typed by a
+different context schema. When in the scope of Adelfa, this amounts to taking a
+theorem with a context variable quantification which has been proven, such as
+one of the form:
+
+```adelfa
+Schema C := ...
+
+Theorem transport-ex : ctx G:C, ...
+```
+
+and determining when the same proof can be used to complete the same theorem
+under a different context schema:
+
+```adelfa
+Schema C' := ...
+
+Theorem transport-ex' : ctx G:C', ...
+```
+
+These examples are intended to be complementary to the paper "Transporting
+Theorems about Typeability in LF Across Schematically Defined Contexts" but aim
+to be as self-contained as possible. We suggest reading the following examples
+in the order presented below as they are intended to build on each other.
+
+
+1. [Every lambda calculus terms has a size](/schema-subsumption/size) displays a
+   straightforward use of theorem transport and discusses alternatives as well
+   as their downsides.
+2. [Size of lambda calculus terms does not decrease after
+   substitution](/schema-subsumption/subst-size) shows the use of transport in
+   a larger development order to bring out how avoiding transport causes more
+   work as one's development grows.
+3. [ORBI](/schema-subsumption/orbi) completes a standardized benchmark for
+   what is referred to as "Non-Linear Context Extensions," which schema
+   subsumption permits.
+{/* 4. [POPLmark](/) */}
+

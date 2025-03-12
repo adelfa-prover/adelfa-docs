@@ -1,5 +1,3 @@
-// @ts-check
-
 import nextra from "nextra";
 import { getSingletonHighlighter, bundledLanguages } from "shiki";
 import { readFileSync } from "fs";
@@ -11,10 +9,32 @@ const lfGrammar = JSON.parse(
   readFileSync("./syntax/lf.tmLanguage.json", "utf-8"),
 );
 
+const adelfaTransformers = {
+  preprocess(code, options) {
+    const theoremSpans = [];
+    const spans = [];
+
+    let start = 0;
+    for (let i = 0; i < code.length; i++) {
+      if (code[i] === ".") {
+        spans.push({ start, end: i });
+        start = i + 1;
+      }
+    }
+
+    this.meta.spans = spans;
+    return code;
+  },
+
+  tokens(tokens) {
+    console.log(this.meta.spans);
+
+    return tokens;
+  },
+};
+
 const withNextra = nextra({
-  theme: "nextra-theme-docs",
   latex: true,
-  themeConfig: "./theme.config.tsx",
   defaultShowCopyCode: true,
   search: true,
   mdxOptions: {

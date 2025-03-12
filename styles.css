@@ -1,0 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.nextra-search-results {
+  background-color: var(--x-color-nextra-bg) !important;
+}
