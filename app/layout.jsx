@@ -6,15 +6,22 @@ import "nextra-theme-docs/style.css";
 import { Logo } from "../components/logo";
 import "../styles.css";
 
+/**
+ * @type {import("next").Metadata}
+ */
 export const metadata = {
   // ... your metadata API
   // https://nextjs.org/docs/app/building-your-application/optimizing/metadata
   title: {
     default: "Adelfa",
-    template: "%s | Nextra",
+    template: "%s | Adelfa",
   },
+  description: "The Adelfa Proof Assistant",
+  authors: [{ name: 'Adelfa Team' }],
+  keywords: ['adelfa', 'proof assistant', 'logic', 'lf'],
   openGraph: {
     url: "https://adelfa-prover.org",
+    description: "The Adelfa Proof Assistant",
     siteName: "Adelfa",
     locale: "en_US",
     type: "website",
@@ -48,6 +55,7 @@ export default async function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <Head>
+        <meta charSet="UTF-8"/>
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"

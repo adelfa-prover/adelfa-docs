@@ -8,8 +8,10 @@ import { Link } from 'next/link';
 export async function Publications() {
   const htmlRegexp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
   const pubs = await publications();
-  const html = pubs.map(([, e]) => `<li>${e.replace(/^\d+\.\s+/,
-    '').replaceAll(htmlRegexp, (p) => '<a style="text-decoration:underline;" href="' + p + '">' + p + '</a>')}</li>`).join('');
+  const html = pubs.map(([, e]) => 
+    `<li>${e.replace(/^\d+\.\s+/,'')
+      .replaceAll(htmlRegexp, (p) => '<a style="text-decoration:underline;" href="' + p + '">' + p + '</a>')}</li>`)
+      .join('');
 
   return <ol style={{ marginTop: '12px' }} dangerouslySetInnerHTML={{ __html: html }} />;
 }

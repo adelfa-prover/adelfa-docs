@@ -212,40 +212,568 @@ still arises, but we can reprove one lemma in order to complete that case. This,
 in conjunction with independence lemmas for natural numbers, addition, and less
 than or equal to, allows us to complete the proof.
 
-<details>
-  <summary>Independence lemmas and re-proven library lemma</summary>
-  ```adelfa filename="subst-size.ath"
-  Theorem nat-independent : ctx G:c, forall N,
-    {G |- N : nat } => {N : nat}.
-  induction on 1. intros. case H1.
-  apply IH to H2. search. search.
+```adelfa filename="subst-size.ath" execute
+Theorem nat-independent : ctx G:C, forall N,
+  {G |- N : nat } => {N : nat}.
+induction on 1. intros. case H1.
+apply IH to H2. search. search.
 
-  Theorem plus-independent : ctx G:c, forall N1 N2 N3 D,
-    {G |- D : plus N1 N2 N3} => {D : plus N1 N2 N3}.
-  induction on 1. intros. case H1.
-  apply IH to H5. search. apply nat-independent to H2. search.
+Theorem plus-independent : ctx G:C, forall N1 N2 N3 D,
+  {G |- D : plus N1 N2 N3} => {D : plus N1 N2 N3}.
+induction on 1. intros. case H1.
+apply IH to H5. search. apply nat-independent to H2. search.
 
-  Theorem leq-independent : ctx G:c, forall N1 N2 D,
-    {G |- D : leq N1 N2} => {D : leq N1 N2}.
-  induction on 1. intros. case H1.
-  apply IH to H4. apply nat-independent to H2.
-  apply nat-independent to H3. search.
-  apply nat-independent to H2. search.
+Theorem leq-independent : ctx G:C, forall N1 N2 D,
+  {G |- D : leq N1 N2} => {D : leq N1 N2}.
+induction on 1. intros. case H1.
+apply IH to H4. apply nat-independent to H2.
+apply nat-independent to H3. search.
+apply nat-independent to H2. search.
 
-  % Reprove `plus-exist` but with context shape `C`
-  Theorem plus-exist-ind : ctx G:c, forall N1 N2,
-    {G |- N1: nat} => {G |- N2:nat} => exists N3 D, {G |- D: plus N1 N2 N3}.
-  induction on 1.
-  intros.
-  case H1.
-  apply IH to H3 H2.
-  exists s N3.
-  exists plus-s x N2 N3 D.
-  search.
-  exists N2.
-  exists plus-z N2. search.
-  ```
-</details>
+% Reprove `plus-exist` but with context shape `C`
+Theorem plus-exist-ind : ctx G:C, forall N1 N2,
+  {G |- N1: nat} => {G |- N2:nat} => exists N3 D, {G |- D: plus N1 N2 N3}.
+induction on 1.
+intros.
+case H1.
+apply IH to H3 H2.
+exists s N3.
+exists plus-s x N2 N3 D.
+search.
+exists N2.
+exists plus-z N2. search.
+
+%{
+
+>> Theorem nat-independent : ctx G:C, forall N,
+  {G |- N : nat } => {N : nat}.
+
+Subgoal nat-independent:
+
+
+==================================
+ctx G:C, forall N, {G |- N : nat} => {N : nat}
+
+nat-independent>> induction on 1.
+
+Subgoal nat-independent:
+
+IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
+
+==================================
+ctx G:C, forall N, {G |- N : nat}@ => {N : nat}
+
+nat-independent>> intros.
+
+Subgoal nat-independent:
+
+Vars: N:o
+Contexts: G{}:C[]
+IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
+H1:{G |- N : nat}@
+
+==================================
+{N : nat}
+
+nat-independent>> case H1.
+
+Subgoal nat-independent.1:
+
+Vars: x:o
+Contexts: G{}:C[]
+IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
+H2:{G |- x : nat}*
+
+==================================
+{s x : nat}
+
+Subgoal nat-independent.2 is:
+ {z : nat}
+
+nat-independent.1>> apply IH to H2.
+
+Subgoal nat-independent.1:
+
+Vars: x:o
+Contexts: G{}:C[]
+IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
+H2:{G |- x : nat}*
+H3:{x : nat}
+
+==================================
+{s x : nat}
+
+Subgoal nat-independent.2 is:
+ {z : nat}
+
+nat-independent.1>> search.
+
+Subgoal nat-independent.2:
+
+Contexts: G{}:C[]
+IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
+
+==================================
+{z : nat}
+
+nat-independent.2>> search.
+Proof Completed!
+
+>> Theorem plus-independent : ctx G:C, forall N1 N2 N3 D,
+  {G |- D : plus N1 N2 N3} => {D : plus N1 N2 N3}.
+
+Subgoal plus-independent:
+
+
+==================================
+ctx G:C,
+  forall N1, forall N2, forall N3, forall D,
+    {G |- D : plus N1 N2 N3} => {D : plus N1 N2 N3}
+
+plus-independent>> induction on 1.
+
+Subgoal plus-independent:
+
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall N3, forall D,
+        {G |- D : plus N1 N2 N3}* => {D : plus N1 N2 N3}
+
+==================================
+ctx G:C,
+  forall N1, forall N2, forall N3, forall D,
+    {G |- D : plus N1 N2 N3}@ => {D : plus N1 N2 N3}
+
+plus-independent>> intros.
+
+Subgoal plus-independent:
+
+Vars: D:o, N3:o, N2:o, N1:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall N3, forall D,
+        {G |- D : plus N1 N2 N3}* => {D : plus N1 N2 N3}
+H1:{G |- D : plus N1 N2 N3}@
+
+==================================
+{D : plus N1 N2 N3}
+
+plus-independent>> case H1.
+
+Subgoal plus-independent.1:
+
+Vars: D1:o, x1:o, x3:o, N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall N3, forall D,
+        {G |- D : plus N1 N2 N3}* => {D : plus N1 N2 N3}
+H2:{G |- x1 : nat}*
+H3:{G |- N2 : nat}*
+H4:{G |- x3 : nat}*
+H5:{G |- D1 : plus x1 N2 x3}*
+
+==================================
+{plus-s x1 N2 x3 D1 : plus (s x1) N2 (s x3)}
+
+Subgoal plus-independent.2 is:
+ {plus-z N3 : plus z N3 N3}
+
+plus-independent.1>> apply IH to H5.
+
+Subgoal plus-independent.1:
+
+Vars: D1:o, x1:o, x3:o, N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall N3, forall D,
+        {G |- D : plus N1 N2 N3}* => {D : plus N1 N2 N3}
+H2:{G |- x1 : nat}*
+H3:{G |- N2 : nat}*
+H4:{G |- x3 : nat}*
+H5:{G |- D1 : plus x1 N2 x3}*
+H6:{D1 : plus x1 N2 x3}
+
+==================================
+{plus-s x1 N2 x3 D1 : plus (s x1) N2 (s x3)}
+
+Subgoal plus-independent.2 is:
+ {plus-z N3 : plus z N3 N3}
+
+plus-independent.1>> search.
+
+Subgoal plus-independent.2:
+
+Vars: N3:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall N3, forall D,
+        {G |- D : plus N1 N2 N3}* => {D : plus N1 N2 N3}
+H2:{G |- N3 : nat}*
+
+==================================
+{plus-z N3 : plus z N3 N3}
+
+plus-independent.2>> apply nat-independent to H2.
+
+Subgoal plus-independent.2:
+
+Vars: N3:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall N3, forall D,
+        {G |- D : plus N1 N2 N3}* => {D : plus N1 N2 N3}
+H2:{G |- N3 : nat}*
+H3:{N3 : nat}
+
+==================================
+{plus-z N3 : plus z N3 N3}
+
+plus-independent.2>> search.
+Proof Completed!
+
+>> Theorem leq-independent : ctx G:C, forall N1 N2 D,
+  {G |- D : leq N1 N2} => {D : leq N1 N2}.
+
+Subgoal leq-independent:
+
+
+==================================
+ctx G:C,
+  forall N1, forall N2, forall D, {G |- D : leq N1 N2} => {D : leq N1 N2}
+
+leq-independent>> induction on 1.
+
+Subgoal leq-independent:
+
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall D,
+        {G |- D : leq N1 N2}* => {D : leq N1 N2}
+
+==================================
+ctx G:C,
+  forall N1, forall N2, forall D, {G |- D : leq N1 N2}@ => {D : leq N1 N2}
+
+leq-independent>> intros.
+
+Subgoal leq-independent:
+
+Vars: D:o, N2:o, N1:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall D,
+        {G |- D : leq N1 N2}* => {D : leq N1 N2}
+H1:{G |- D : leq N1 N2}@
+
+==================================
+{D : leq N1 N2}
+
+leq-independent>> case H1.
+
+Subgoal leq-independent.1:
+
+Vars: d:o, x1:o, x2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall D,
+        {G |- D : leq N1 N2}* => {D : leq N1 N2}
+H2:{G |- x1 : nat}*
+H3:{G |- x2 : nat}*
+H4:{G |- d : leq x1 x2}*
+
+==================================
+{leq-s x1 x2 d : leq (s x1) (s x2)}
+
+Subgoal leq-independent.2 is:
+ {leq-z N2 : leq z N2}
+
+leq-independent.1>> apply IH to H4.
+
+Subgoal leq-independent.1:
+
+Vars: d:o, x1:o, x2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall D,
+        {G |- D : leq N1 N2}* => {D : leq N1 N2}
+H2:{G |- x1 : nat}*
+H3:{G |- x2 : nat}*
+H4:{G |- d : leq x1 x2}*
+H5:{d : leq x1 x2}
+
+==================================
+{leq-s x1 x2 d : leq (s x1) (s x2)}
+
+Subgoal leq-independent.2 is:
+ {leq-z N2 : leq z N2}
+
+leq-independent.1>> apply nat-independent to H2.
+
+Subgoal leq-independent.1:
+
+Vars: d:o, x1:o, x2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall D,
+        {G |- D : leq N1 N2}* => {D : leq N1 N2}
+H2:{G |- x1 : nat}*
+H3:{G |- x2 : nat}*
+H4:{G |- d : leq x1 x2}*
+H5:{d : leq x1 x2}
+H6:{x1 : nat}
+
+==================================
+{leq-s x1 x2 d : leq (s x1) (s x2)}
+
+Subgoal leq-independent.2 is:
+ {leq-z N2 : leq z N2}
+
+leq-independent.1>> apply nat-independent to H3.
+
+Subgoal leq-independent.1:
+
+Vars: d:o, x1:o, x2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall D,
+        {G |- D : leq N1 N2}* => {D : leq N1 N2}
+H2:{G |- x1 : nat}*
+H3:{G |- x2 : nat}*
+H4:{G |- d : leq x1 x2}*
+H5:{d : leq x1 x2}
+H6:{x1 : nat}
+H7:{x2 : nat}
+
+==================================
+{leq-s x1 x2 d : leq (s x1) (s x2)}
+
+Subgoal leq-independent.2 is:
+ {leq-z N2 : leq z N2}
+
+leq-independent.1>> search.
+
+Subgoal leq-independent.2:
+
+Vars: N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall D,
+        {G |- D : leq N1 N2}* => {D : leq N1 N2}
+H2:{G |- N2 : nat}*
+
+==================================
+{leq-z N2 : leq z N2}
+
+leq-independent.2>> apply nat-independent to H2.
+
+Subgoal leq-independent.2:
+
+Vars: N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2, forall D,
+        {G |- D : leq N1 N2}* => {D : leq N1 N2}
+H2:{G |- N2 : nat}*
+H3:{N2 : nat}
+
+==================================
+{leq-z N2 : leq z N2}
+
+leq-independent.2>> search.
+Proof Completed!
+
+>> Theorem plus-exist-ind : ctx G:C, forall N1 N2,
+  {G |- N1: nat} => {G |- N2:nat} => exists N3 D, {G |- D: plus N1 N2 N3}.
+
+Subgoal plus-exist-ind:
+
+
+==================================
+ctx G:C,
+  forall N1, forall N2,
+    {G |- N1 : nat} =>
+        {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+
+plus-exist-ind>> induction on 1.
+
+Subgoal plus-exist-ind:
+
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+
+==================================
+ctx G:C,
+  forall N1, forall N2,
+    {G |- N1 : nat}@ =>
+        {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+
+plus-exist-ind>> intros.
+
+Subgoal plus-exist-ind:
+
+Vars: N2:o, N1:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H1:{G |- N1 : nat}@
+H2:{G |- N2 : nat}
+
+==================================
+exists N3, exists D, {G |- D : plus N1 N2 N3}
+
+plus-exist-ind>> case H1.
+
+Subgoal plus-exist-ind.1:
+
+Vars: x:o, N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+H3:{G |- x : nat}*
+
+==================================
+exists N3, exists D, {G |- D : plus (s x) N2 N3}
+
+Subgoal plus-exist-ind.2 is:
+ exists N3, exists D, {G |- D : plus z N2 N3}
+
+plus-exist-ind.1>> apply IH to H3 H2.
+
+Subgoal plus-exist-ind.1:
+
+Vars: D:o, N3:o, x:o, N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+H3:{G |- x : nat}*
+H4:{G |- D : plus x N2 N3}
+
+==================================
+exists N3, exists D, {G |- D : plus (s x) N2 N3}
+
+Subgoal plus-exist-ind.2 is:
+ exists N3, exists D, {G |- D : plus z N2 N3}
+
+plus-exist-ind.1>> exists s N3.
+
+Subgoal plus-exist-ind.1:
+
+Vars: D:o, N3:o, x:o, N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+H3:{G |- x : nat}*
+H4:{G |- D : plus x N2 N3}
+
+==================================
+exists D, {G |- D : plus (s x) N2 (s N3)}
+
+Subgoal plus-exist-ind.2 is:
+ exists N3, exists D, {G |- D : plus z N2 N3}
+
+plus-exist-ind.1>> exists plus-s x N2 N3 D.
+
+Subgoal plus-exist-ind.1:
+
+Vars: D:o, N3:o, x:o, N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+H3:{G |- x : nat}*
+H4:{G |- D : plus x N2 N3}
+
+==================================
+{G |- plus-s x N2 N3 D : plus (s x) N2 (s N3)}
+
+Subgoal plus-exist-ind.2 is:
+ exists N3, exists D, {G |- D : plus z N2 N3}
+
+plus-exist-ind.1>> search.
+
+Subgoal plus-exist-ind.2:
+
+Vars: N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+
+==================================
+exists N3, exists D, {G |- D : plus z N2 N3}
+
+plus-exist-ind.2>> exists N2.
+
+Subgoal plus-exist-ind.2:
+
+Vars: N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+
+==================================
+exists D, {G |- D : plus z N2 N2}
+
+plus-exist-ind.2>> exists plus-z N2.
+
+Subgoal plus-exist-ind.2:
+
+Vars: N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+
+==================================
+{G |- plus-z N2 : plus z N2 N2}
+
+plus-exist-ind.2>> search.
+Proof Completed!
+}%
+```
 
 
 We'll now walk through the proof, and show the general pattern one must use to
@@ -253,9 +781,7 @@ properly utilize these proofs. Starting with the application case, we follow our
 informal proof by applying the inductive hypothesis to the component terms.
 
 
-<Tabs items={['Reasoning', 'Proof State']}>
-<Tabs.Tab>
-```adelfa filename="subst-size.ath"
+```adelfa filename="subst-size.ath" execute
 Theorem size-subst : ctx G:C, forall E' E: o -> o T-size D1: o -> o -> o,
   {G |- [x][dx] D1 x dx: {x:tm}{dx: size x (s z)} size (E x) T-size} =>
   {G |- E' : tm} =>
@@ -270,10 +796,592 @@ case H1.
   apply IH to H8 H2. apply IH to H9 H2.
   case H11. prune H13. prune H14.
   case H12. prune H15. prune H16.
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```adelfa
+
+%{
+
+>> Theorem size-subst : ctx G:C, forall E' E: o -> o T-size D1: o -> o -> o,
+  {G |- [x][dx] D1 x dx: {x:tm}{dx: size x (s z)} size (E x) T-size} =>
+  {G |- E' : tm} =>
+    exists D2 Sub-size D3,
+      {G |- D2 : size (E E') Sub-size} /\
+      {D3: leq T-size Sub-size}.
+
+Subgoal size-subst:
+
+
+==================================
+ctx G:C,
+  forall E', forall E, forall T-size, forall D1,
+    {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size} =>
+        {G |- E' : tm} =>
+            exists D2, exists Sub-size, exists D3,
+              {G |- D2 : size (E E') Sub-size} /\ {D3 : leq T-size Sub-size}
+
+size-subst>> induction on 1.
+
+Subgoal size-subst:
+
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+
+==================================
+ctx G:C,
+  forall E', forall E, forall T-size, forall D1,
+    {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}@ =>
+        {G |- E' : tm} =>
+            exists D2, exists Sub-size, exists D3,
+              {G |- D2 : size (E E') Sub-size} /\ {D3 : leq T-size Sub-size}
+
+size-subst>> intros.
+
+Subgoal size-subst:
+
+Vars: D1:(o) -> (o) -> o, T-size:o, E:(o) -> o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H1:{G, n:tm, n1:size n (s z) |- D1 n n1 : size (E n) T-size}@
+H2:{G |- E' : tm}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (E E') Sub-size} /\ {D3 : leq T-size Sub-size}
+
+size-subst>> case H1.
+
+Subgoal size-subst.1:
+
+Vars: X1:(o) -> (o) -> o, X2:(o) -> (o) -> o, D2:(o) -> (o) -> o, D3:
+        (o) -> (o) -> o, D4:(o) -> (o) -> o, E1:(o) -> o, E2:(o) -> o,
+        T-size1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 n1 n : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 n1 n : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) (X1 n1 n)}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) (X2 n1 n)}*
+H10:{G, n:tm, n1:size n (s z) |- D4 n1 n : plus (X1 n1 n) (X2 n1 n) T-size1}*
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H6.
+
+Subgoal size-subst.1:
+
+Vars: X1:(o) -> (o) -> o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:
+        (o) -> (o) -> o, E1:(o) -> o, E2:(o) -> o, T-size1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 n1 n : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) (X1 n1 n)}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 n1 n : plus (X1 n1 n) X2 T-size1}*
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H5.
+
+Subgoal size-subst.1:
+
+Vars: X1:o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:(o) -> (o) -> o,
+        E1:(o) -> o, E2:(o) -> o, T-size1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 n1 n : plus X1 X2 T-size1}*
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H10.
+
+Subgoal size-subst.1:
+
+Vars: X1:o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o, E1:(o) -> o,
+        E2:(o) -> o, T-size1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> apply IH to H8 H2.
+
+Subgoal size-subst.1:
+
+Vars: D5:(o) -> (o) -> o, Sub-size:(o) -> (o) -> o, X1:o, X2:o, D2:
+        (o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o,
+        T-size1:o, D1:(o) -> (o) -> o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H11:
+    {G |- D1 n1 n : size (E1 E') (Sub-size n1 n)} /\
+        {D5 n1 n : leq X1 (Sub-size n1 n)}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> apply IH to H9 H2.
+
+Subgoal size-subst.1:
+
+Vars: D7:(o) -> (o) -> o, Sub-size1:(o) -> (o) -> o, D6:(o) -> (o) -> o, D5:
+        (o) -> (o) -> o, Sub-size:(o) -> (o) -> o, X1:o, X2:o, D2:
+        (o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o,
+        T-size1:o, D1:(o) -> (o) -> o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H11:
+    {G |- D1 n1 n : size (E1 E') (Sub-size n1 n)} /\
+        {D5 n1 n : leq X1 (Sub-size n1 n)}
+H12:
+    {G |- D6 n1 n : size (E2 E') (Sub-size1 n1 n)} /\
+        {D7 n1 n : leq X2 (Sub-size1 n1 n)}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> case H11.
+
+Subgoal size-subst.1:
+
+Vars: D7:(o) -> (o) -> o, Sub-size1:(o) -> (o) -> o, D6:(o) -> (o) -> o, D5:
+        (o) -> (o) -> o, Sub-size:(o) -> (o) -> o, X1:o, X2:o, D2:
+        (o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o,
+        T-size1:o, D1:(o) -> (o) -> o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H12:
+    {G |- D6 n1 n : size (E2 E') (Sub-size1 n1 n)} /\
+        {D7 n1 n : leq X2 (Sub-size1 n1 n)}
+H13:{G |- D1 n1 n : size (E1 E') (Sub-size n1 n)}
+H14:{D5 n1 n : leq X1 (Sub-size n1 n)}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H13.
+
+Subgoal size-subst.1:
+
+Vars: D7:(o) -> (o) -> o, Sub-size1:(o) -> (o) -> o, D6:(o) -> (o) -> o, D5:
+        (o) -> (o) -> o, Sub-size:(o) -> (o) -> o, X1:o, X2:o, D2:
+        (o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o,
+        T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H12:
+    {G |- D6 n1 n : size (E2 E') (Sub-size1 n1 n)} /\
+        {D7 n1 n : leq X2 (Sub-size1 n1 n)}
+H13:{G |- D1 : size (E1 E') (Sub-size n1 n)}
+H14:{D5 n1 n : leq X1 (Sub-size n1 n)}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H14.
+
+Subgoal size-subst.1:
+
+Vars: D7:(o) -> (o) -> o, Sub-size1:(o) -> (o) -> o, D6:(o) -> (o) -> o, D5:
+        (o) -> (o) -> o, Sub-size:(o) -> (o) -> o, X1:o, X2:o, D2:
+        (o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o,
+        T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H12:
+    {G |- D6 n1 n : size (E2 E') (Sub-size1 n1 n)} /\
+        {D7 n1 n : leq X2 (Sub-size1 n1 n)}
+H13:{G |- D1 : size (E1 E') (Sub-size n1 n)}
+H14:{D5 n1 n : leq X1 (Sub-size n1 n)}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> case H12.
+
+Subgoal size-subst.1:
+
+Vars: D7:(o) -> (o) -> o, Sub-size1:(o) -> (o) -> o, D6:(o) -> (o) -> o, D5:
+        (o) -> (o) -> o, Sub-size:(o) -> (o) -> o, X1:o, X2:o, D2:
+        (o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o,
+        T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') (Sub-size n1 n)}
+H14:{D5 n1 n : leq X1 (Sub-size n1 n)}
+H15:{G |- D6 n1 n : size (E2 E') (Sub-size1 n1 n)}
+H16:{D7 n1 n : leq X2 (Sub-size1 n1 n)}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H15.
+
 Subgoal size-subst.1:
 
 Vars: D7:(o) -> (o) -> o, Sub-size1:(o) -> (o) -> o, D6:o, D5:
@@ -309,10 +1417,78 @@ exists D2, exists Sub-size, exists D3,
   {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
       {D3 : leq (s T-size1) Sub-size}
 
-% Remainder omitted
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H16.
+
+Subgoal size-subst.1:
+
+Vars: D7:(o) -> (o) -> o, Sub-size1:(o) -> (o) -> o, D6:o, D5:
+        (o) -> (o) -> o, Sub-size:(o) -> (o) -> o, X1:o, X2:o, D2:
+        (o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o,
+        T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') (Sub-size n1 n)}
+H14:{D5 n1 n : leq X1 (Sub-size n1 n)}
+H15:{G |- D6 : size (E2 E') (Sub-size1 n1 n)}
+H16:{D7 n1 n : leq X2 (Sub-size1 n1 n)}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+}%
 ```
-</Tabs.Tab>
-</Tabs>
 
 Let us first try to get the total size of the application, to instantiate the
 `Sub-size` variable in our consequent. We will utilize our lifted version of
@@ -321,16 +1497,293 @@ some intermediate assertions to get assumption formulas for the natural
 numbers, then invoke our `plus-exist'`.
 
 
-<Tabs items={['Reasoning', 'Proof State']}>
-<Tabs.Tab>
-```adelfa filename="subst-size"
+```adelfa filename="subst-size" execute
 assert {G |- Sub-size n1 n : nat}. prune H17.
 assert {G |- Sub-size1 n1 n : nat}. prune H18.
 apply plus-exist' to H17 H18. prune H19.
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```adelfa
+
+%{
+
+size-subst.1>> assert {G |- Sub-size n1 n : nat}.
+
+Subgoal size-subst.1:
+
+Vars: D7:(o) -> (o) -> o, Sub-size1:(o) -> (o) -> o, D6:o, D5:
+        (o) -> (o) -> o, Sub-size:(o) -> (o) -> o, X1:o, X2:o, D2:
+        (o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o,
+        T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') (Sub-size n1 n)}
+H14:{D5 n1 n : leq X1 (Sub-size n1 n)}
+H15:{G |- D6 : size (E2 E') (Sub-size1 n1 n)}
+H16:{D7 n1 n : leq X2 (Sub-size1 n1 n)}
+H17:{G |- Sub-size n1 n : nat}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H17.
+
+Subgoal size-subst.1:
+
+Vars: D7:(o) -> (o) -> o, Sub-size1:(o) -> (o) -> o, D6:o, D5:
+        (o) -> (o) -> o, Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o, D3:
+        (o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':
+        o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') (Sub-size1 n1 n)}
+H16:{D7 n1 n : leq X2 (Sub-size1 n1 n)}
+H17:{G |- Sub-size : nat}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> assert {G |- Sub-size1 n1 n : nat}.
+
+Subgoal size-subst.1:
+
+Vars: D7:(o) -> (o) -> o, Sub-size1:(o) -> (o) -> o, D6:o, D5:
+        (o) -> (o) -> o, Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o, D3:
+        (o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':
+        o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') (Sub-size1 n1 n)}
+H16:{D7 n1 n : leq X2 (Sub-size1 n1 n)}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 n1 n : nat}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H18.
+
+Subgoal size-subst.1:
+
+Vars: D7:(o) -> (o) -> o, Sub-size1:o, D6:o, D5:(o) -> (o) -> o, Sub-size:o,
+        X1:o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o, E1:
+        (o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') Sub-size1}
+H16:{D7 n1 n : leq X2 Sub-size1}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 : nat}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> apply plus-exist' to H17 H18.
+
+Subgoal size-subst.1:
+
+Vars: D:(o) -> (o) -> o, N3:(o) -> (o) -> o, D7:(o) -> (o) -> o, Sub-size1:o,
+        D6:o, D5:(o) -> (o) -> o, Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o,
+        D3:(o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o,
+        E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') Sub-size1}
+H16:{D7 n1 n : leq X2 Sub-size1}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 : nat}
+H19:{G |- D n1 n : plus Sub-size Sub-size1 (N3 n1 n)}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H19.
+
 Subgoal size-subst.1:
 
 Vars: D:o, N3:(o) -> (o) -> o, D7:(o) -> (o) -> o, Sub-size1:o, D6:o, D5:
@@ -371,36 +1824,513 @@ exists D2, exists Sub-size, exists D3,
 
 Subgoal size-subst.2 is:
  exists D2, exists Sub-size, exists D3,
-   {G |- D2 : size (lam ([c47]E1 E' c47)) Sub-size} /\
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
        {D3 : leq (s T-size1) Sub-size}
 
 Subgoal size-subst.3 is:
  exists D2, exists Sub-size, exists D3,
-   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
 
 Subgoal size-subst.4 is:
  exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
    {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+}%
 ```
-</Tabs.Tab>
-</Tabs>
 
 The next step is to ensure that the substitution size is less than the term's
 size prior to substitution. This will require the monotonicity property for
 addition with respect to less than or equal to. This property being in the empty
 context will require us to apply our independence lemmas.
 
-<Tabs items={['Reasoning', 'Proof State']}>
-<Tabs.Tab>
-```adelfa filename="subst-size"
+```adelfa filename="subst-size" execute
 assert { G |- N3 n1 n : nat }. prune H20.
 assert { G |- D4 : plus X1 X2 T-size1 }*. strengthen H10. strengthen H21. search.
 apply plus-independent to H21. apply plus-independent to H19.
 apply leq-monotonic-plus to H14 H16 H22 H23.
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```adelfa
+
+%{
+
+size-subst.1>> assert { G |- N3 n1 n : nat }.
+
+Subgoal size-subst.1:
+
+Vars: D:o, N3:(o) -> (o) -> o, D7:(o) -> (o) -> o, Sub-size1:o, D6:o, D5:
+        (o) -> (o) -> o, Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o, D3:
+        (o) -> (o) -> o, D4:o, E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':
+        o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') Sub-size1}
+H16:{D7 n1 n : leq X2 Sub-size1}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 : nat}
+H19:{G |- D : plus Sub-size Sub-size1 (N3 n1 n)}
+H20:{G |- N3 n1 n : nat}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> prune H20.
+
+Subgoal size-subst.1:
+
+Vars: D:o, N3:o, D7:(o) -> (o) -> o, Sub-size1:o, D6:o, D5:(o) -> (o) -> o,
+        Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o,
+        E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') Sub-size1}
+H16:{D7 n1 n : leq X2 Sub-size1}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 : nat}
+H19:{G |- D : plus Sub-size Sub-size1 N3}
+H20:{G |- N3 : nat}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> assert { G |- D4 : plus X1 X2 T-size1 }*.
+
+Subgoal size-subst.1:
+
+Vars: D:o, N3:o, D7:(o) -> (o) -> o, Sub-size1:o, D6:o, D5:(o) -> (o) -> o,
+        Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o,
+        E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') Sub-size1}
+H16:{D7 n1 n : leq X2 Sub-size1}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 : nat}
+H19:{G |- D : plus Sub-size Sub-size1 N3}
+H20:{G |- N3 : nat}
+
+==================================
+{G |- D4 : plus X1 X2 T-size1}*
+
+Subgoal size-subst.1 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> strengthen H10.
+
+Subgoal size-subst.1:
+
+Vars: D:o, N3:o, D7:(o) -> (o) -> o, Sub-size1:o, D6:o, D5:(o) -> (o) -> o,
+        Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o,
+        E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') Sub-size1}
+H16:{D7 n1 n : leq X2 Sub-size1}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 : nat}
+H19:{G |- D : plus Sub-size Sub-size1 N3}
+H20:{G |- N3 : nat}
+H21:{G, n:tm |- D4 : plus X1 X2 T-size1}*
+
+==================================
+{G |- D4 : plus X1 X2 T-size1}*
+
+Subgoal size-subst.1 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> strengthen H21.
+
+Subgoal size-subst.1:
+
+Vars: D:o, N3:o, D7:(o) -> (o) -> o, Sub-size1:o, D6:o, D5:(o) -> (o) -> o,
+        Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o,
+        E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') Sub-size1}
+H16:{D7 n1 n : leq X2 Sub-size1}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 : nat}
+H19:{G |- D : plus Sub-size Sub-size1 N3}
+H20:{G |- N3 : nat}
+H21:{G, n:tm |- D4 : plus X1 X2 T-size1}*
+H22:{G |- D4 : plus X1 X2 T-size1}*
+
+==================================
+{G |- D4 : plus X1 X2 T-size1}*
+
+Subgoal size-subst.1 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> search.
+
+Subgoal size-subst.1:
+
+Vars: D:o, N3:o, D7:(o) -> (o) -> o, Sub-size1:o, D6:o, D5:(o) -> (o) -> o,
+        Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o,
+        E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') Sub-size1}
+H16:{D7 n1 n : leq X2 Sub-size1}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 : nat}
+H19:{G |- D : plus Sub-size Sub-size1 N3}
+H20:{G |- N3 : nat}
+H21:{G |- D4 : plus X1 X2 T-size1}*
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> apply plus-independent to H21.
+
+Subgoal size-subst.1:
+
+Vars: D:o, N3:o, D7:(o) -> (o) -> o, Sub-size1:o, D6:o, D5:(o) -> (o) -> o,
+        Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o,
+        E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') Sub-size1}
+H16:{D7 n1 n : leq X2 Sub-size1}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 : nat}
+H19:{G |- D : plus Sub-size Sub-size1 N3}
+H20:{G |- N3 : nat}
+H21:{G |- D4 : plus X1 X2 T-size1}*
+H22:{D4 : plus X1 X2 T-size1}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> apply plus-independent to H19.
+
+Subgoal size-subst.1:
+
+Vars: D:o, N3:o, D7:(o) -> (o) -> o, Sub-size1:o, D6:o, D5:(o) -> (o) -> o,
+        Sub-size:o, X1:o, X2:o, D2:(o) -> (o) -> o, D3:(o) -> (o) -> o, D4:o,
+        E1:(o) -> o, E2:(o) -> o, T-size1:o, D1:o, E':o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E', forall E, forall T-size, forall D1,
+        {G |- [x][dx]D1 x dx : {x:tm}{dx:size x (s z)}size (E x) T-size}* =>
+            {G |- E' : tm} =>
+                exists D2, exists Sub-size, exists D3,
+                  {G |- D2 : size (E E') Sub-size} /\
+                      {D3 : leq T-size Sub-size}
+H2:{G |- E' : tm}
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n:tm, n1:size n (s z) |- E2 n : tm}*
+H5:{G, n:tm, n1:size n (s z) |- X1 : nat}*
+H6:{G, n:tm, n1:size n (s z) |- X2 : nat}*
+H7:{G, n:tm, n1:size n (s z) |- T-size1 : nat}*
+H8:{G, n:tm, n1:size n (s z) |- D2 n1 n : size (E1 n) X1}*
+H9:{G, n:tm, n1:size n (s z) |- D3 n1 n : size (E2 n) X2}*
+H10:{G, n:tm, n1:size n (s z) |- D4 : plus X1 X2 T-size1}*
+H13:{G |- D1 : size (E1 E') Sub-size}
+H14:{D5 n1 n : leq X1 Sub-size}
+H15:{G |- D6 : size (E2 E') Sub-size1}
+H16:{D7 n1 n : leq X2 Sub-size1}
+H17:{G |- Sub-size : nat}
+H18:{G |- Sub-size1 : nat}
+H19:{G |- D : plus Sub-size Sub-size1 N3}
+H20:{G |- N3 : nat}
+H21:{G |- D4 : plus X1 X2 T-size1}*
+H22:{D4 : plus X1 X2 T-size1}
+H23:{D : plus Sub-size Sub-size1 N3}
+
+==================================
+exists D2, exists Sub-size, exists D3,
+  {G |- D2 : size (app (E1 E') (E2 E')) Sub-size} /\
+      {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.2 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
+       {D3 : leq (s T-size1) Sub-size}
+
+Subgoal size-subst.3 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.4 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+size-subst.1>> apply leq-monotonic-plus to H14 H16 H22 H23.
+
 Subgoal size-subst.1:
 
 Vars: D8:(o) -> (o) -> o, D:o, N3:o, D7:(o) -> (o) -> o, Sub-size1:o, D6:o,
@@ -446,27 +2376,27 @@ exists D2, exists Sub-size, exists D3,
 
 Subgoal size-subst.2 is:
  exists D2, exists Sub-size, exists D3,
-   {G |- D2 : size (lam ([c47]E1 E' c47)) Sub-size} /\
+   {G |- D2 : size (lam ([c50]E1 E' c50)) Sub-size} /\
        {D3 : leq (s T-size1) Sub-size}
 
 Subgoal size-subst.3 is:
  exists D2, exists Sub-size, exists D3,
-   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+   {G |- D2 : size empty Sub-size} /\ {D3 : leq (s z) Sub-size}
 
 Subgoal size-subst.4 is:
  exists D2, exists Sub-size, exists D3,
+   {G |- D2 : size E' Sub-size} /\ {D3 : leq (s z) Sub-size}
+
+Subgoal size-subst.5 is:
+ exists D2, exists Sub-size, exists D3,
    {G |- D2 : size n2 Sub-size} /\ {D3 : leq (s z) Sub-size}
+}%
 ```
-</Tabs.Tab>
-</Tabs>
 
 The remainder of the theorem follows a similar pattern. One will strengthen
 the necessary assumptions then invoke the relevant lemma. We include the
 proof in its entirety here:
 
-
-<details>
-  <summary>Substitution size proof without transport</summary>
 ```adelfa filename="subst-size.ath"
 Theorem size-subst : ctx G:C, forall E' E: o -> o T-size D1: o -> o -> o,
   {G |- [x][dx] D1 x dx: {x:tm}{dx: size x (s z)} size (E x) T-size} =>
@@ -509,7 +2439,6 @@ case H1.
 % var2
   exists n3. exists (s z). exists leq-s z z (leq-z z). split. search. search.
 ```
-</details>
 
 ## Proof with Transport
 

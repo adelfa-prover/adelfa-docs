@@ -60,8 +60,8 @@
       }
     },
     {
-      "name": "keyword.operator.adelfa",
-      "match": "(\\\\\\/|\\/\\\\|=>|,|:|=|\\|-)"
+      "name": "string.unquoted.adelfa",
+      "match": "(\\\\\\/|\\/\\\\|=>|,|:|=|\\|-|\\.)"
     },
     {
       "name": "constant.numeric.adelfa",
