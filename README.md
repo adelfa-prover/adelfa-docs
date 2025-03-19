@@ -16,15 +16,15 @@ build time.
 We provide two custom [Shiki](https://shiki.matsu.io/) language definitions as [TextMate
 grammars](https://macromates.com/manual/en/language_grammars).
 
-- [Adelfa](public/syntax/grammar.adelfa.json)
-- [Adelfa Signatures](public/syntax/grammar.lf.json)
+- [Adelfa](syntax/adelfa.tmLanguage.json)
+- [Adelfa Signatures](syntax/lf.tmLanguage.json)
 
 To use either of these, you can define the markdown code block to be the
 `adelfa` or `lf` language respectively.
 
 ## Local Development
 
-First, make sure [npm](npmjs.com) is installed on your local machine.
+First, make sure [npm](https://npmjs.com) is installed on your local machine.
 
 ```bash
 node -v
