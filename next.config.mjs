@@ -2,12 +2,8 @@
 // @ts-ignore
 import nextra from "nextra";
 // @ts-ignore
-import {
-  getSingletonHighlighter,
-  bundledLanguages,
-  transformerDecorations,
-} from "shiki";
-import { readFileSync, writeFileSync } from "fs";
+import { bundledLanguages, getSingletonHighlighter } from "shiki";
+import { readFileSync } from "fs";
 
 const adelfaGrammar = JSON.parse(
   readFileSync("./syntax/adelfa.tmLanguage.json", "utf-8"),
@@ -45,10 +41,9 @@ function rendererRich(options = {}) {
       properties: {},
       children: this.codeToHast(content, {
         ...this.options,
-        meta: {},
         transformers: [],
         lang: "adelfa",
-        structure: "classic",
+        structure: content.trim().includes("\n") ? "classic" : "inline",
       }).children.map((child) => ({
         ...child,
         properties: {
@@ -56,7 +51,7 @@ function rendererRich(options = {}) {
         },
       })),
     };
-    // typeCode.properties.class = "twoslash-popup-docs";
+    typeCode.properties.class = "twoslash-popup-code";
 
     popupContents.push(extend(hast?.popupTypes, typeCode));
 
@@ -118,7 +113,7 @@ const getOutputParts = (/**@type {string} */ s) => {
     if (s[i] === "\n") {
       curr += s[i];
       i++;
-      const l = s.substring(i + 1);
+      const l = s.substring(i);
       // If adelfa is looking for input, keep eating the input until we reach
       // the end of the command.
       let match = l.match(/^(.*)\s*>>/g);
@@ -161,9 +156,7 @@ function shouldshowOutputAdelfa(
 // is not sustainable. What the solution likely is, then, is to include a step
 // which groups tokens of commands into one token and then we apply the popup
 // classes to that one element.
-/** @type () => import('@shikijs/types').ShikiTransformer */
-function adelfaTransformer() {
-  const renderer = rendererRich();
+function adelfaTransformer({ renderer }) {
   return {
     name: "adelfaInputProcessor",
     preprocess(code, options) {
@@ -291,33 +284,34 @@ function adelfaTransformer() {
         throw e;
       }
     },
-    line(elem, l) {
-      // @ts-ignore
-      if (!this.meta?.adelfaNodes) return;
+    // line(elem, l) {
+    //   // @ts-ignore
+    //   if (!this.meta?.adelfaNodes) return;
 
-      return {
-        ...elem,
-        children: elem.children.map((span) => {
-          if (span.type !== "element") return span;
-          return {
-            ...span,
-            children: span.children.flatMap((textToken) => {
-              if (textToken.type !== "text") return [textToken];
-              let content = textToken.value;
-              const trailingSpace = content.match(/.*(\s+)$/);
-              if (content.includes(".") && trailingSpace) {
-                return [
-                  { type: "text", value: content.trimEnd() },
-                  { type: "text", value: trailingSpace[1] },
-                ];
-              } else {
-                return [textToken];
-              }
-            }),
-          };
-        }),
-      };
-    },
+    //   return {
+    //     ...elem,
+    //     children: elem.children.map((span) => {
+    //       if (span.type !== "element") return span;
+    //       return {
+    //         ...span,
+    //         // @ts-ignore
+    //         children: span.children.flatMap((textToken) => {
+    //           if (textToken.type !== "text") return [textToken];
+    //           let content = textToken.value;
+    //           const trailingSpace = content.match(/.*(\s+)$/);
+    //           if (content.includes(".") && trailingSpace) {
+    //             return [
+    //               { type: "text", value: content.trimEnd() },
+    //               { type: "text", value: trailingSpace[1] },
+    //             ];
+    //           } else {
+    //             return [textToken];
+    //           }
+    //         }),
+    //       };
+    //     }),
+    //   };
+    // },
     pre(pre) {
       // @ts-ignore
       if (!this.meta?.adelfaNodes) return;
@@ -388,11 +382,29 @@ function adelfaTransformer() {
 
 const withNextra = nextra({
   latex: true,
-  // defaultShowCopyCode: true,
+  defaultShowCopyCode: true,
   search: true,
   mdxOptions: {
     rehypePrettyCodeOptions: {
-      transformers: [adelfaTransformer()],
+      transformers: [
+        adelfaTransformer({
+          renderer: rendererRich({
+            hast: {
+              hoverToken: { tagName: "Popup" },
+              hoverPopup: { tagName: "PopupPanel" },
+              hoverCompose: ({ popup, token }) => [
+                popup,
+                {
+                  type: "element",
+                  tagName: "PopupButton",
+                  properties: {},
+                  children: [token],
+                },
+              ],
+            },
+          }),
+        }),
+      ],
       getHighlighter: (options) =>
         getSingletonHighlighter({
           ...options,

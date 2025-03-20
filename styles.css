@@ -5,30 +5,3 @@ html {
 .nextra-search-results {
   background-color: var(--x-color-nextra-bg) !important;
 }
-
-.foo {
-  background-color: goldenrod;
-}
-
-.twoslash {
-  overflow: visible;
-}
-
-.twoslash-popup-container {
-  --fade-out-delay: 0.25s;
-  --fade-out-duration: 0.2s;
-  visibility: hidden;
-  opacity: 0;
-  z-index: 10;
-  width: max-content;
-  transition: visibility var(--fade-out-duration) var(--fade-out-delay),
-    opacity var(--fade-out-duration) var(--fade-out-delay) ease-in;
-  border: none;
-}
-
-.twoslash-hover:hover .twoslash-popup-container,
-.twoslash-popup-container:hover {
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s, opacity 0.2s;
-}

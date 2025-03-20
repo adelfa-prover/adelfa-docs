@@ -39,11 +39,8 @@ top-level universal quantification, context quantification, or implications.
 
 ```adelfa showOutput
 Specification "tactics.lf".
-
-% Empty context schema to show it being added to the proof state.
 Schema C := ().
-
-Theorem intro-example: ctx G:C, forall N1, { N1 : nat } => { s N1 : nat}.
+Theorem intro-example: ctx G:C, forall N1, { N1 : nat } => { s N1 : nat }.
 intros.
 
 %{
@@ -51,7 +48,7 @@ intros.
 
 >> Schema C := ().
 
->> Theorem intro-example: ctx G:C, forall N1, { N1 : nat } => { s N1 : nat}.
+>> Theorem intro-example: ctx G:C, forall N1, { N1 : nat } => { s N1 : nat }.
 
 Subgoal intro-example:
 
