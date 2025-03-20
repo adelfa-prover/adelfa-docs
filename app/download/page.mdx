@@ -70,7 +70,7 @@ Copy the entirety of the `adelfa` directory into folder where Proof General was
 installed. The folder structure should now resemble:
 
 <FileTree>
-  <FileTree.Folder name="adelfa">
+  <FileTree.Folder name="adelfa" defaultOpen>
     <FileTree.File name="adelfa-syntax.el"/>
     <FileTree.File name="adelfa.el"/>
   </FileTree.Folder>
@@ -85,7 +85,7 @@ installed. The folder structure should now resemble:
 ### Setup Adelfa in Proof General
 
 In the file `PG/generic/proof-site.el`, add an entry for Adelfa in PG's
-`proof-assistant-table-default` resembling `(adelfa "Adelfa" "ath")`. The
+`proof-assistant-table-default` resembling `(adelfa "Adelfa" "ath"){:lisp}`. The
 `proof-assistant-table-default` should resemble something similar to:
 
 ```lisp

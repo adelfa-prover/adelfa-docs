@@ -96,10 +96,10 @@ Theorem foo : ...
 The documentation also supports displaying the output of commands when hovering
 over the relevant portion. This requires two changes to the code block:
 
-1. Add the attribute `execute`
+1. Add the attribute `showOutput`
 
    ````md
-   ```adelfa execute
+   ```adelfa showOutput
    Theorem foo : true.
    ```
    ````
@@ -107,7 +107,7 @@ over the relevant portion. This requires two changes to the code block:
 2. Include the output of the commands surrounded by `%{}%`.
 
    ````md
-   ```adelfa execute
+   ```adelfa showOutput
    Theorem foo : true.
    search.
 
@@ -131,8 +131,8 @@ over the relevant portion. This requires two changes to the code block:
 Math functions closely mirror LaTeX syntax, except denoting where the math
 sections occur is different.
 
-Inline math is denoted by surrounding the relevant portion with `$$`s, such as
-`$$1 + 2 = 3$$`.
+Inline math is denoted by surrounding the relevant portion with `$`s, such as
+`$1 + 2 = 3$`.
 
 Display math is rendered by placing the LaTeX in a code block with the language
 set to `math`.

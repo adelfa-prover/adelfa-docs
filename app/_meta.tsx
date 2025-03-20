@@ -18,13 +18,12 @@ export default {
   examples: {
     title: "Examples",
   },
-  publications: {
-    title: "Publications",
-  },
   "schema-subsumption": {
-    display: "hidden",
     theme: {
       pagination: false,
-    }
+    },
+  },
+  publications: {
+    title: "Publications",
   },
 };

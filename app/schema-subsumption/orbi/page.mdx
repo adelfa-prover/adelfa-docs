@@ -5,15 +5,13 @@ description: ORBI benchmark
 
 import { Tabs } from 'nextra/components';
 
-[<small>Schema Subsumption</small>](/schema-subsumption)
-
 # Equality in the Untyped Lambda Calculus
 
 This page contains a solution to a problem set out in the paper "[The Next 700
 Challenge Problems for Reasoning with Higher-Order Abstract Syntax
 Representations](https://arxiv.org/abs/1503.06095)" by Felty et al.
 
-This benchmark provides a specification for the untyped $$\lambda$$-calculus
+This benchmark provides a specification for the untyped $\lambda$-calculus
 with two forms of equality: algorithmic and declarative.
 
 
@@ -58,7 +56,7 @@ Schema daG := (x:tm, a:aeq x x, u:deq x x).
 One wishes to prove three properties about algorithmic equality in isolation:
 
 1. Reflexivity
-   ```adelfa filename="equal-untyped.ath" execute
+   ```adelfa filename="equal-untyped.ath" showOutput
    Theorem reflG: ctx G:xaG, forall T, {G |- T : tm} => exists D, {G |- D : aeq T T}.
    induction on 1. intros. case H1 (keep).
    %app
@@ -312,7 +310,7 @@ One wishes to prove three properties about algorithmic equality in isolation:
    }%
    ```
 2. Symmetry
-   ```adelfa filename="equal-untyped.ath" execute
+   ```adelfa filename="equal-untyped.ath" showOutput
    Theorem symG: ctx G:xaG, forall T1 T2 Q,
      {G |- Q : aeq T1 T2} => exists D, {G |- D : aeq T2 T1}.
    induction on 1.intros. case H1(keep).
@@ -620,7 +618,7 @@ One wishes to prove three properties about algorithmic equality in isolation:
    }%
    ```
 3. Transitivity
-   ```adelfa filename="equal-untyped.ath" execute
+   ```adelfa filename="equal-untyped.ath" showOutput
    Theorem tranG: ctx G:xaG, forall M1 M2 M3 D1 D2,
      {G |- D1: aeq M1 M2} => {G |- D2: aeq M2 M3} => exists D3, {G |- D3: aeq M1 M3}.
    induction on 1. intros.
@@ -1073,7 +1071,7 @@ Schema subsumption will allow Adelfa to realize that this extended shape's entry
 `u: deq x x` cannot impact the theorems `reflG`, `tranG`, or `symG`, and we can
 use them directly in `daG`.
 
-```adelfa filename="equal-untyped.ath" execute
+```adelfa filename="equal-untyped.ath" showOutput
 Theorem ceqG: ctx G:daG, forall M N D1,
   {G |- D1: deq M N} => exists D2, {G |- D2 : aeq M N}.
 induction on 1.

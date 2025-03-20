@@ -56,7 +56,7 @@ function rendererRich(options = {}) {
         },
       })),
     };
-    typeCode.properties.class = "";
+    // typeCode.properties.class = "twoslash-popup-docs";
 
     popupContents.push(extend(hast?.popupTypes, typeCode));
 
@@ -78,7 +78,7 @@ function rendererRich(options = {}) {
         children: themedContent,
       });
 
-      const hoverToken = extend(hast?.hoverToken, {
+      return extend(hast?.hoverToken, {
         type: "element",
         tagName: "span",
         properties: {
@@ -88,30 +88,32 @@ function rendererRich(options = {}) {
           ? hast?.hoverCompose({ popup, token: node })
           : [popup, node],
       });
-      return hoverToken;
     },
   };
 }
 
 const getOutputParts = (/**@type {string} */ s) => {
+  if (!s.startsWith("\n\n")) {
+    s = "\n\n" + s;
+  }
   const parts = [];
   let i = 0;
   let inString = false;
   let curr = "";
   while (i < s.length) {
-    if (s[i] === '"') {
-      inString = !inString;
-      curr += s[i];
-      i++;
-      continue;
-    }
+    // if (s[i] === '"') {
+    //   inString = !inString;
+    //   curr += s[i];
+    //   i++;
+    //   continue;
+    // }
     // Recognize comments and skip them.
-    if (!inString && s[i] === "%") {
-      while (s[i] !== undefined && s[i] !== "\n") {
-        i++;
-      }
-      continue;
-    }
+    // if (!inString && s[i] === "%") {
+    //   while (s[i] !== undefined && s[i] !== "\n") {
+    //     i++;
+    //   }
+    //   continue;
+    // }
     // Look for an input command, which starts on a new line.
     if (s[i] === "\n") {
       curr += s[i];
@@ -126,13 +128,14 @@ const getOutputParts = (/**@type {string} */ s) => {
         curr = "";
         let dotCount = 0;
         while (s[i] !== undefined && dotCount < m) {
-          if (s[i] === ".") {
+          if (s[i] === '"') {
+            inString = !inString;
+          }
+          if (s[i] === "." && !inString) {
             dotCount++;
           }
           i++;
         }
-        // skip newline
-        i++;
         continue;
       }
       continue;
@@ -144,10 +147,12 @@ const getOutputParts = (/**@type {string} */ s) => {
   return parts.map((p) => p.trim());
 };
 
-function shouldExecuteAdelfa(
+function shouldshowOutputAdelfa(
   /** @type {import('shiki').CodeToHastOptions<string, string>} */ options,
 ) {
-  return options.lang === "adelfa" && options.meta?.__raw?.includes("execute");
+  return (
+    options.lang === "adelfa" && options.meta?.__raw?.includes("showOutput")
+  );
 }
 
 // TODO: Shiki Twoslash wants to have the popup associated with a _single_
@@ -163,7 +168,7 @@ function adelfaTransformer() {
     name: "adelfaInputProcessor",
     preprocess(code, options) {
       try {
-        if (!shouldExecuteAdelfa(options)) return;
+        if (!shouldshowOutputAdelfa(options)) return;
         // TODO: It would be beneficial to provide some "auto evaluate" feature
         // which will _actually_ execute the code of the block.
         const output = code.match(/%{(.*)}%/s);
@@ -383,11 +388,11 @@ function adelfaTransformer() {
 
 const withNextra = nextra({
   latex: true,
-  defaultShowCopyCode: true,
+  // defaultShowCopyCode: true,
   search: true,
   mdxOptions: {
     rehypePrettyCodeOptions: {
-      transformers: [adelfaTransformer(), transformerDecorations()],
+      transformers: [adelfaTransformer()],
       getHighlighter: (options) =>
         getSingletonHighlighter({
           ...options,

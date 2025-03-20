@@ -71,7 +71,7 @@ type `o` and constructor `->`. All terms and formulas must be well-typed.
 
 Inductive restrictions are represented by `*` (smaller) and `@` (equal). They are
 used to track the size of inductive arguments rather than using explicit numeric
-values. For example, suppose we apply `induction on 1.` when trying to prove the
+values. For example, suppose we apply `induction on 1.{:adelfa}` when trying to prove the
 following subject reduction theorem,
 
 ```adelfa
@@ -95,7 +95,7 @@ Here we have an inductive hypothesis where the inductive argument is flagged
 with `*`. This means that we can only apply that hypothesis to an argument which
 also has the `*`. Because `*` means smaller, in order to get an argument with a
 `*` we must perform case analysis on an argument that is "equal" which we denote
-by `@`. Thus, the above proof proceeds by first doing `intros.` and then case
-analysis on `{|- D1 : eval E V}@`. This will give us two subgoals, one which is
+by `@`. Thus, the above proof proceeds by first doing `intros.{:adelfa}` and then case
+analysis on `{|- D1 : eval E V}@{:adelfa}`. This will give us two subgoals, one which is
 trivial and the other which has hypotheses tagged with `*` and thus eligible for
 use with the inductive hypothesis.

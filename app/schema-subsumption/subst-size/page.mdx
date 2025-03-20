@@ -3,11 +3,9 @@ title: Substitution Size
 description: Subsumption example
 ---
 
-[<small>Schema Subsumption</small>](/schema-subsumption)
-
 import { Tabs, Callout } from 'nextra/components';
 
-# Substitution Size of $$\lambda$$-calculus Terms
+# Substitution Size of $\lambda$-calculus Terms
 
 Our usage of the transport rule in [term has size](/schema-subsumption/size)
 motivated our usage of transport in a simple theorem. A solution without using
@@ -24,8 +22,8 @@ size](/schema-subsumption/size) example, reiterated here:
 Our goal is to show that the size of a lambda term does not decrease after
 substitution.
 
-> _Theorem_: For any $$\lambda$$-calculus terms $$e$$ and $$e'$$, $$|e| \leq
-> |\{e'/x\}e|$$.
+> _Theorem_: For any $\lambda$-calculus terms $e$ and $e'$, $|e| \leq
+> |\{e'/x\}e|$.
 
 To specify this statement in LF, we will extend the one specification presented
 in [term has size](/schema-subsumption/size#nat-sig) to include rules for less
@@ -144,22 +142,22 @@ search.
 Our informal theorem and proof is as follows, which implicitly utilizes several properties
 about less than or equal to.
 
-> _Proof_: By induction on the structure of $$e$$ followed by case analysis on $$e$$.
+> _Proof_: By induction on the structure of $e$ followed by case analysis on $e$.
 > 
-> - If $$e$$ is a variable $$y$$:
->   - If $$x = y$$, $$|x| = 1$$, $$|\{e'/x\}x| = |e'|$$, by a routine
+> - If $e$ is a variable $y$:
+>   - If $x = y$, $|x| = 1$, $|\{e'/x\}x| = |e'|$, by a routine
 >      lemma, the size of a term must be at least one.[^1]
->   - If $$x \ne y$$, then this follows since $$\{e'/x\}y = y$$ and $$\leq$$ is
+>   - If $x \ne y$, then this follows since $\{e'/x\}y = y$ and $\leq$ is
 >      a reflexive relation.
-> - If $$e$$ is an application, then $$|(e_1\ e_2)| = 1 + n_1 + n_2$$ by
+> - If $e$ is an application, then $|(e_1\ e_2)| = 1 + n_1 + n_2$ by
 >   definition. By application of the inductive hypothesis on the component
->   terms, there is some $$n'_1$$ and $$n'_2$$ such that $$|\{e'/x\}e_1| =
->   n'_1$$, $$|\{e'/x\}e_2| = n'_2$$, $$n_1 \leq n'_1$$ and $$n_2 \leq n'_2$$
->   hold. Addition is monotonic with respect to $$\leq$$, so $$n_1 + n_2 \leq n'_1 + n'_2$$.
->   Then $$1 + n_1 + n_2 \leq 1 + n'_1 + n'_2$$ follows.
-> - If $$e$$ is an abstraction, $$|\lambda y. e| = 1 + n$$ such that $$y$$ does
->   not occur freely within $$e$$, then this follows inductive hypothesis with
->   $$e$$.
+>   terms, there is some $n'_1$ and $n'_2$ such that $|\{e'/x\}e_1| =
+>   n'_1$, $|\{e'/x\}e_2| = n'_2$, $n_1 \leq n'_1$ and $n_2 \leq n'_2$
+>   hold. Addition is monotonic with respect to $\leq$, so $n_1 + n_2 \leq n'_1 + n'_2$.
+>   Then $1 + n_1 + n_2 \leq 1 + n'_1 + n'_2$ follows.
+> - If $e$ is an abstraction, $|\lambda y. e| = 1 + n$ such that $y$ does
+>   not occur freely within $e$, then this follows inductive hypothesis with
+>   $e$.
 > 
 > Q.E.D
 
@@ -167,7 +165,7 @@ about less than or equal to.
     occurrence of 1 directly or 1 as the component of an addition.
 
 
-Like our last theorem statement about $$\lambda$$-calculus terms have a size, we
+Like our last theorem statement about $\lambda$-calculus terms have a size, we
 will need to modify our theorem statement to be within a context. We can reuse
 the same shape for the context here:
 
@@ -212,7 +210,7 @@ still arises, but we can reprove one lemma in order to complete that case. This,
 in conjunction with independence lemmas for natural numbers, addition, and less
 than or equal to, allows us to complete the proof.
 
-```adelfa filename="subst-size.ath" execute
+```adelfa filename="subst-size.ath" showOutput
 Theorem nat-independent : ctx G:C, forall N,
   {G |- N : nat } => {N : nat}.
 induction on 1. intros. case H1.
@@ -781,7 +779,7 @@ properly utilize these proofs. Starting with the application case, we follow our
 informal proof by applying the inductive hypothesis to the component terms.
 
 
-```adelfa filename="subst-size.ath" execute
+```adelfa filename="subst-size.ath" showOutput
 Theorem size-subst : ctx G:C, forall E' E: o -> o T-size D1: o -> o -> o,
   {G |- [x][dx] D1 x dx: {x:tm}{dx: size x (s z)} size (E x) T-size} =>
   {G |- E' : tm} =>
@@ -1497,7 +1495,7 @@ some intermediate assertions to get assumption formulas for the natural
 numbers, then invoke our `plus-exist'`.
 
 
-```adelfa filename="subst-size" execute
+```adelfa filename="subst-size" showOutput
 assert {G |- Sub-size n1 n : nat}. prune H17.
 assert {G |- Sub-size1 n1 n : nat}. prune H18.
 apply plus-exist' to H17 H18. prune H19.
@@ -1846,7 +1844,7 @@ size prior to substitution. This will require the monotonicity property for
 addition with respect to less than or equal to. This property being in the empty
 context will require us to apply our independence lemmas.
 
-```adelfa filename="subst-size" execute
+```adelfa filename="subst-size" showOutput
 assert { G |- N3 n1 n : nat }. prune H20.
 assert { G |- D4 : plus X1 X2 T-size1 }*. strengthen H10. strengthen H21. search.
 apply plus-independent to H21. apply plus-independent to H19.
