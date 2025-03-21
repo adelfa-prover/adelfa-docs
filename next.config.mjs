@@ -1,7 +1,5 @@
 // @ts-check
-// @ts-ignore
 import nextra from "nextra";
-// @ts-ignore
 import { bundledLanguages, getSingletonHighlighter } from "shiki";
 import { readFileSync } from "fs";
 
@@ -96,19 +94,6 @@ const getOutputParts = (/**@type {string} */ s) => {
   let inString = false;
   let curr = "";
   while (i < s.length) {
-    // if (s[i] === '"') {
-    //   inString = !inString;
-    //   curr += s[i];
-    //   i++;
-    //   continue;
-    // }
-    // Recognize comments and skip them.
-    // if (!inString && s[i] === "%") {
-    //   while (s[i] !== undefined && s[i] !== "\n") {
-    //     i++;
-    //   }
-    //   continue;
-    // }
     // Look for an input command, which starts on a new line.
     if (s[i] === "\n") {
       curr += s[i];
@@ -116,7 +101,8 @@ const getOutputParts = (/**@type {string} */ s) => {
       const l = s.substring(i);
       // If adelfa is looking for input, keep eating the input until we reach
       // the end of the command.
-      let match = l.match(/^(.*)\s*>>/g);
+
+      let match = l.match(/^(.*)>>/);
       if (match) {
         parts.push(curr);
         const m = match[0] ? [...match[0].matchAll(/\./g)].length + 1 : 1;
@@ -173,7 +159,6 @@ function adelfaTransformer({ renderer }) {
         const outputParts = getOutputParts(output[1]);
         code = code.replace(/%{.*}%/s, "").trim();
         // options.decorations ||= [];
-        // @ts-ignore
         this.meta.adelfaNodes = [];
         let inString = false;
         let i = 0;
@@ -225,17 +210,14 @@ function adelfaTransformer({ renderer }) {
             i++;
             col++;
             const input = currentCommand.trim();
-            // @ts-ignore
             for (let node of this.meta.adelfaNodes) {
               node.input ??= input;
             }
-            // @ts-ignore
             this.meta.adelfaNodes.push({
               line,
               character: col - 1,
               length: 1,
               input,
-              // @ts-ignore
               output: outputParts[commandCount++],
             });
             // Get rid of any whitespace after command
@@ -277,7 +259,6 @@ function adelfaTransformer({ renderer }) {
           i++;
           col++;
         }
-        // @ts-ignore
         return code;
       } catch (e) {
         console.error(e);
@@ -313,14 +294,11 @@ function adelfaTransformer({ renderer }) {
     //   };
     // },
     pre(pre) {
-      // @ts-ignore
       if (!this.meta?.adelfaNodes) return;
       this.addClassToHast(pre, "twoslash lsp");
     },
     code(codeEl) {
-      // @ts-ignore
       if (!this.meta?.adelfaNodes) return;
-      // @ts-ignore
       const tokensMap = [];
       this.lines.forEach((lineEl, line) => {
         let index = 0;
@@ -359,7 +337,6 @@ function adelfaTransformer({ renderer }) {
       const tokensSkipHover = new Set();
       const actionsHovers = [];
 
-      // @ts-ignore
       for (const node of this.meta.adelfaNodes) {
         const tokens = locateTextTokens(node.line, node.character, node.length);
         actionsHovers.push(() => {
@@ -386,6 +363,7 @@ const withNextra = nextra({
   search: true,
   mdxOptions: {
     rehypePrettyCodeOptions: {
+      defaultLang: "adelfa",
       transformers: [
         adelfaTransformer({
           renderer: rendererRich({
@@ -427,6 +405,10 @@ const withNextra = nextra({
 });
 
 export default withNextra({
+  experimental: {
+    scrollRestoration: true,
+  },
+  poweredByHeader: false,
   async redirects() {
     return [
       {

@@ -809,9 +809,9 @@ reevaluate how to proceed.
 The second approach one may attempt is to reprove necessary lemmas under a
 context variable.
 
-<a id="plus-exist-ctx"></a>
+<a id="plus-exist-context"></a>
 ```adelfa filename="size.ath" showOutput
-Theorem plus-exist-ctx : ctx G:C, forall N1 N2,
+Theorem plus-exist-context : ctx G:C, forall N1 N2,
   {G |- N1: nat} => {G |- N2:nat} => exists N3 D, {G |- D: plus N1 N2 N3}.
 induction on 1.
 intros.
@@ -825,10 +825,10 @@ exists plus-z N2. search.
 
 %{
 
->> Theorem plus-exist-ctx : ctx G:C, forall N1 N2,
+>> Theorem plus-exist-context : ctx G:C, forall N1 N2,
   {G |- N1: nat} => {G |- N2:nat} => exists N3 D, {G |- D: plus N1 N2 N3}.
 
-Subgoal plus-exist-ctx:
+Subgoal plus-exist-context:
 
 
 ==================================
@@ -837,9 +837,9 @@ ctx G:C,
     {G |- N1 : nat} =>
         {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
 
-plus-exist-ctx>> induction on 1.
+plus-exist-context>> induction on 1.
 
-Subgoal plus-exist-ctx:
+Subgoal plus-exist-context:
 
 IH:
     ctx G:C,
@@ -853,9 +853,9 @@ ctx G:C,
     {G |- N1 : nat}@ =>
         {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
 
-plus-exist-ctx>> intros.
+plus-exist-context>> intros.
 
-Subgoal plus-exist-ctx:
+Subgoal plus-exist-context:
 
 Vars: N2:o, N1:o
 Contexts: G{}:C[]
@@ -870,9 +870,9 @@ H2:{G |- N2 : nat}
 ==================================
 exists N3, exists D, {G |- D : plus N1 N2 N3}
 
-plus-exist-ctx>> case H1.
+plus-exist-context>> case H1.
 
-Subgoal plus-exist-ctx.1:
+Subgoal plus-exist-context.1:
 
 Vars: x:o, N2:o
 Contexts: G{}:C[]
@@ -887,12 +887,12 @@ H3:{G |- x : nat}*
 ==================================
 exists N3, exists D, {G |- D : plus (s x) N2 N3}
 
-Subgoal plus-exist-ctx.2 is:
+Subgoal plus-exist-context.2 is:
  exists N3, exists D, {G |- D : plus z N2 N3}
 
-plus-exist-ctx.1>> apply IH to H3 H2.
+plus-exist-context.1>> apply IH to H3 H2.
 
-Subgoal plus-exist-ctx.1:
+Subgoal plus-exist-context.1:
 
 Vars: D:o, N3:o, x:o, N2:o
 Contexts: G{}:C[]
@@ -908,12 +908,12 @@ H4:{G |- D : plus x N2 N3}
 ==================================
 exists N3, exists D, {G |- D : plus (s x) N2 N3}
 
-Subgoal plus-exist-ctx.2 is:
+Subgoal plus-exist-context.2 is:
  exists N3, exists D, {G |- D : plus z N2 N3}
 
-plus-exist-ctx.1>> exists s N3.
+plus-exist-context.1>> exists s N3.
 
-Subgoal plus-exist-ctx.1:
+Subgoal plus-exist-context.1:
 
 Vars: D:o, N3:o, x:o, N2:o
 Contexts: G{}:C[]
@@ -929,12 +929,12 @@ H4:{G |- D : plus x N2 N3}
 ==================================
 exists D, {G |- D : plus (s x) N2 (s N3)}
 
-Subgoal plus-exist-ctx.2 is:
+Subgoal plus-exist-context.2 is:
  exists N3, exists D, {G |- D : plus z N2 N3}
 
-plus-exist-ctx.1>> exists plus-s x N2 N3 D.
+plus-exist-context.1>> exists plus-s x N2 N3 D.
 
-Subgoal plus-exist-ctx.1:
+Subgoal plus-exist-context.1:
 
 Vars: D:o, N3:o, x:o, N2:o
 Contexts: G{}:C[]
@@ -950,12 +950,12 @@ H4:{G |- D : plus x N2 N3}
 ==================================
 {G |- plus-s x N2 N3 D : plus (s x) N2 (s N3)}
 
-Subgoal plus-exist-ctx.2 is:
+Subgoal plus-exist-context.2 is:
  exists N3, exists D, {G |- D : plus z N2 N3}
 
-plus-exist-ctx.1>> search.
+plus-exist-context.1>> search.
 
-Subgoal plus-exist-ctx.2:
+Subgoal plus-exist-context.2:
 
 Vars: N2:o
 Contexts: G{}:C[]
@@ -969,9 +969,9 @@ H2:{G |- N2 : nat}
 ==================================
 exists N3, exists D, {G |- D : plus z N2 N3}
 
-plus-exist-ctx.2>> exists N2.
+plus-exist-context.2>> exists N2.
 
-Subgoal plus-exist-ctx.2:
+Subgoal plus-exist-context.2:
 
 Vars: N2:o
 Contexts: G{}:C[]
@@ -985,9 +985,9 @@ H2:{G |- N2 : nat}
 ==================================
 exists D, {G |- D : plus z N2 N2}
 
-plus-exist-ctx.2>> exists plus-z N2.
+plus-exist-context.2>> exists plus-z N2.
 
-Subgoal plus-exist-ctx.2:
+Subgoal plus-exist-context.2:
 
 Vars: N2:o
 Contexts: G{}:C[]
@@ -1001,7 +1001,7 @@ H2:{G |- N2 : nat}
 ==================================
 {G |- plus-z N2 : plus z N2 N2}
 
-plus-exist-ctx.2>> search.
+plus-exist-context.2>> search.
 Proof Completed!
 }%
 ```
@@ -1016,7 +1016,7 @@ time.
 ```adelfa filename="size.ath" showOutput
 assert { G |- N : nat }.
 assert { G |- N1 : nat }.
-apply plus-exist-ctx to H6 H7.
+apply plus-exist-context to H6 H7.
 
 %{
 
@@ -1065,7 +1065,7 @@ exists N, exists D, {G |- D : size (app E1 E2) N}
 Subgoal tm-has-size.3 is:
  exists N, exists D, {G |- D : size n N}
 
-tm-has-size.2>> apply plus-exist-ctx to H6 H7.
+tm-has-size.2>> apply plus-exist-context to H6 H7.
 
 Subgoal tm-has-size.2:
 
@@ -1162,7 +1162,7 @@ With schema subsumption, when Adelfa encounters a usage of the `apply` tactic
 which would fail due to a mismatch in context schemas, it will automatically try
 to transport the proof into the new context schema. In our case, transporting
 the proof of [`plus-exist`](#plus-exist) into one of
-[`plus-exist-ctx`](#plus-exist-ctx) automatically.
+[`plus-exist-context`](#plus-exist-context) automatically.
 
 The proof for `tm-has-size` then requires no extra lemmas and can directly
 utilize the library's theorem without worrying about reproving routine

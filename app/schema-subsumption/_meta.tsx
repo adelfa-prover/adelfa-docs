@@ -3,7 +3,7 @@ export default {
     title: "Size",
   },
   "subst-size": {
-    title: "Substitution size"
+    title: "Substitution Size"
   },
   "orbi": {
     title: "ORBI Benchmark"

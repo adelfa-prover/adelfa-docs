@@ -19,9 +19,7 @@ export default {
     title: "Examples",
   },
   "schema-subsumption": {
-    theme: {
-      pagination: false,
-    },
+    title: "Schema Subsumption"
   },
   publications: {
     title: "Publications",

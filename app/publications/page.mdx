@@ -5,13 +5,25 @@ title: Publications
 import { publications } from '../../util/publications';
 import { Link } from 'next/link';
 
+
 export async function Publications() {
+  const linkClass = "x:focus-visible:nextra-focus x:text-primary-600 x:underline x:hover:no-underline x:decoration-from-font x:[text-underline-position:from-font]";
   const htmlRegexp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
   const pubs = await publications();
-  const html = pubs.map(([, e]) => 
-    `<li>${e.replace(/^\d+\.\s+/,'')
-      .replaceAll(htmlRegexp, (p) => '<a style="text-decoration:underline;" href="' + p + '">' + p + '</a>')}</li>`)
-      .join('');
+  const html = pubs.map(([, e]) =>
+    `<li>${e.replace(/^\d+\.\s+/, '')
+      .replaceAll(htmlRegexp, (p) => {
+        if (p.match(/\.$/)) {
+          const r = p.replace(/\.$/, '');
+          return '<a class="' + linkClass + '" href="' + r + '">' + r +
+            '</a>' + '.'
+        } else {
+          return '<a  class="' + linkClass + '" href="' + p + '">' + p +
+            '</a>'
+        }
+      })
+    }</li>`)
+    .join('');
 
   return <ol style={{ marginTop: '12px' }} dangerouslySetInnerHTML={{ __html: html }} />;
 }

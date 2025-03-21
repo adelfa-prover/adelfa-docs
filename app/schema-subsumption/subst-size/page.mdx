@@ -243,7 +243,7 @@ exists plus-z N2. search.
 
 %{
 
->> Theorem nat-independent : ctx G:C, forall N,
+>> theorem nat-independent : ctx g:c, forall n,
   {G |- N : nat } => {N : nat}.
 
 Subgoal nat-independent:
@@ -315,6 +315,7 @@ IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
 {z : nat}
 
 nat-independent.2>> search.
+
 Proof Completed!
 
 >> Theorem plus-independent : ctx G:C, forall N1 N2 N3 D,
@@ -2474,10 +2475,25 @@ case H1 (keep).
 
 ## Summary
 
-Avoiding the transport rule is possible, and one can carefully plan out their
-proof in order to avoid reproving all lemmas within the library. Subjectively,
-the proof becomes more opaque, with repeated invocations of independence lemmas
-in every case. The proof which utilizes the transport rule strategically proves
-the version in the context, then later proving that it is independent which one
-may see as undesirable, but the proofs themselves are clear and involve no
-digressions.
+The theorem we have laid out above can be proven without utilizing the transport
+rule or reproving any library lemmas. We accomplished this by proving a series
+of independence lemmas to show that our encoding of natural numbers, addition,
+and "less than or equal to" do not depend on any entries within the context
+schema `C`. While this works, this approach results in a more complex proof
+structure. 
+ 
+When using library lemmas with this approach, the relevant assumptions must
+first be shown to be independent of the context variable via the relevant
+independence lemma. 
+ 
+For example, invoking the monotonicity property discussed earlier is
+accomplished with three uses of the `apply` tactic.
+ 
+```adelfa
+apply plus-independent to H21.
+apply plus-independent to H19.
+apply leq-monotonic-plus to H14 H16 H22 H23.
+``` 
+ 
+In contrast, the version which utilizes transport allows for the monotonicity
+property to be utilized directly, with only one use of the `apply` tactic.
