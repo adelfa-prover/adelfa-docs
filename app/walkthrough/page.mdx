@@ -5,14 +5,82 @@ description: A walkthrough of a proof development in Adelfa.
 
 # Walkthrough
 
-In this walkthrough you will learn how to state and prove theorems using Adelfa.
-You can follow along using the specification file [`stlc.lf`](/stlc.lf) and theorem
-development [`stlc.ath`](/stlc.ath).
+## Introduction
+
+Adelfa is a proof assistant that reasons about
+[LF](https://en.wikipedia.org/wiki/Logical_framework#LF) specifications. Proof
+developments are parameterized by an LF signature which often encodes the object
+system to be reasoned about. LF is a popular choice for encoding systems, as it
+can more easily represent objects with binding operations via _higher-order
+abstract syntax_.
+
+In this example, we will reason about the $\lambda$-calculus with big step (sometimes
+referred to as "call-by name") evaluation semantics. We denote this
+relation as a relation between two terms $e_1 \Downarrow e_2$. The "input" term
+is on the left of the $\Downarrow$ and the "output" term is on the right.
+
+```math
+{{}\over{}(\lambda x. e) \Downarrow (\lambda x. e)}{\mathtt{eval\textrm{-}abs}}
+\qquad\qquad
+{{
+e_1 \Downarrow (\lambda x. e') \qquad \{e_2/x\}e' \Downarrow e
+}
+\over{}{(e_1\ e_2) \Downarrow e}}{\mathtt{eval\textrm{-}app}}
+```
+
+- $$\mathtt{eval\textrm{-}abs}$$ states that an abstraction is already
+  evaluated, _i.e._, it evaluates to itself.
+- $$\mathtt{eval\textrm{-}app}$$ evaluates the first term of the application,
+  which result in an abstraction to permit the application. Then the second term
+  is substituted for the variable bound in said abstraction.
+
+In addition to an evaluation semantics, we encode typing of the lambda calculus.
+
+```math
+{
+  {\Gamma \vdash e_1 {:} (\tau \to \sigma) \qquad \Gamma \vdash e_2 {:} \tau}
+  \over
+  {\Gamma \vdash (e_1\ e_2) {:} \sigma}
+}\mathtt{of\textrm{-}app}
+\qquad\quad
+{
+  {\Gamma, x{:}\tau \vdash e{:}\sigma}
+  \over
+  {\Gamma \vdash (\lambda x. e){:}(\tau \to \sigma)}
+}{\mathtt{of\textrm{-}abs} \atop {x \not\in \Gamma}}
+\qquad\quad
+{
+  {x{:}\tau \in \Gamma}
+  \over
+  {\Gamma \vdash x {:} \tau}
+}\mathtt{of\textrm{-}var}
+```
+
+- $$\mathrm{of\textrm{-}app}$$ rule ensures that the first term is an
+  abstraction, which would permit the substitution of $e_2$ for the variable.
+- $$\mathrm{of\textrm{-}abs}$$ says that the abstraction is typed under
+  extended context with $$x{:}\tau$$ present. The additional proviso ensures
+  that $$x$$ does not already appear in $$\Gamma$$ and shadow its entry.
+- $$\mathrm{of\textrm{-}var}$$ ensures that when we encounter a variable, its
+  must have an entry in the context which assigns it that type.
+
+We now discuss showing that evaluation of terms does not change the type, called
+_subject reduction_ or type preservation. The informal proof is phrased as:
+
+> For any $$\lambda$$-calculus terms $e$ and $e'$ such that $e \Downarrow e'$
+> and $\Gamma \vdash e{:}\tau$ hold, then $\Gamma \vdash e'{:}\tau$ must hold.
+
+
+We will now work through how we can specify these rules in LF, then use Adelfa
+to reason about this specification. You can follow along using the specification
+file [`stlc.lf`](/stlc.lf) and theorem development [`stlc.ath`](/stlc.ath).
+
 
 ## Canonical LF Specification
 
-The following Canonical LF signature will encode typing and evaluation in the
-simply typed $\lambda$-calculus and form the basis for our reasoning.
+Firstly, the syntactic categories of our system are encoded as LF types.
+Formations of these syntactic categories are encoded as term constructors of the
+relevant type.
 
 ```lf filename="stlc.lf"
 ty : type.
@@ -20,45 +88,72 @@ arr : {T:ty}{U:ty} ty.
 
 tm : type.
 app : {E1:tm}{E2:tm} tm.
-abs : {T:ty}{R:{x:tm}tm} tm.
-
-of : {E:tm}{T:ty}type.
-of_app : {M:tm}{N:tm}{T:ty}{U:ty}
-           {a1:of M (arr U T)} {a2:of N U}
-           of (app M N) T.
-of_abs : {R : {x:tm} tm}{T:ty}{U:ty}
-           {a1:({x:tm}{z:of x T} of (R x) U)}
-           of (abs T ([x] R x)) (arr T U).
-
-eval : {E1:tm}{E2:tm} type.
-eval_abs : {R:{x:tm} tm}{T:ty}
-             eval (abs T ([x] R x)) (abs T ([x] R x)).
-eval_app : {M:tm}{N:tm}{V:tm}{R:{x:tm} tm}{T:ty}
-             {a1:eval M (abs T ([x] R x))}{a2:eval (R N) V}
-             eval (app M N) V.
+abs : {R:{x:tm}tm} tm.
 ```
 
-The property we are interested in for this example is that of showing subject reduction.
+Now we will encode the evaluation and typing judgements for the system. This is
+done by creating an LF type indexed by the relevant types for each judgement.
+For example, the evaluation rules relate two terms. Therefore, it we introduce a
+new type `eval` which is indexed by two `tm`s.
+
+Typing in our specification slightly differs from typing in our informal rules.
+Although this relation had to maintain an explicit context to support the
+$$\mathtt{of\textrm{-}abs}$$ and $$\mathtt{of\textrm{-}var}$$ rules, we will
+encode the typing rules using the higher-order abstract syntax approach. The
+`of_abs` rule is indexed by a judgement `{a1:({x:tm}{z:of x T}) of (R x)
+U}{:lf}`. This judgement analyzes the type of `R` when `x` is of type `T`. The
+type of `a1` is informed by the informal rule for typing.
+
+
+```lf filename="stlc.lf"
+of : {E:tm}{T:ty}type.
+of_app : {M:tm}{N:tm}{T:ty}{U:ty}
+         {a1:of M (arr U T)} {a2:of N U}
+         of (app M N) T.
+of_abs : {R : {x:tm} tm}{T:ty}{U:ty}
+         {a1:({x:tm}{z:of x T} of (R x) U)}
+         of (abs ([x] R x)) (arr T U).
+
+eval : {E1:tm}{E2:tm}type.
+eval_abs : {R: {x:tm} tm}
+           eval (abs ([x] R x)) (abs ([x] R x)).
+eval_app : {M:tm}{N:tm}{V:tm}{R:{x:tm} tm}
+           {a1:eval M (abs ([x] R x))}{a2:eval (R N) V}
+           eval (app M N) V.
+```
+
+We have finished our encoding of the object system, and can now being to reason
+about it using Adelfa. 
 
 Saving the above signature in a file `stlc.lf` we load it into Adelfa using the following command.
+
+## Reasoning
+
+We will step through the proof of subject reduction using the Adelfa CLI. You
+may choose to follow along in this way or use tools such as [Proof
+General](/download/#emacs--proof-general-support) to help maintain a proof file.
+If you choose to do the latter, you may want to copy the entire development
+[from here](#full-development) then follow along in the editor of your choice.
+
+
+We begin by loading the LF signature we defined into the proof development.
 
 ```adelfa
 >> Specification "stlc.lf".
 ```
 
-## Reasoning
-
-We state subject reduction in Adelfa by
+We can state subject reduction in Adelfa with:
 
 ```adelfa
 >> Theorem sr_eval : forall E V T D1 D2,
-                   {D1 : eval E V} => {D2 : of E T} => exists D, {D : of V T}.
+  {D1 : eval E V} => {D2 : of E T} => exists D, {D : of V T}.
 
 Subgoal sr_eval:
 
 ==================================
 forall E, forall V, forall T, forall D1, forall D2,
   {D1 : eval E V} => {D2 : of E T} => exists D, {D : of V T}
+
 ```
 
 The formula states that whenever there exist inhabitants `D1` and `D2` of types
@@ -66,7 +161,8 @@ The formula states that whenever there exist inhabitants `D1` and `D2` of types
 exhibiting that `V` is also of type `T`.
 
 
-We will prove this theorem by induction on the height of the derivation that `E` evaluates to `V`.
+We will prove this theorem by induction on the height of the derivation that `E`
+evaluates to `V`.
 
 
 ```adelfa
@@ -104,11 +200,11 @@ exists D, {D : of V T}
 ```
 
 Now we perform case analysis on `{D1 : eval E V}@` using the case tactic. This
-will split the proof into two branches based on the two possible ways in which `E`
-can evaluate to `V`. Each of the different proof branches is called a subgoal. In
-general, only the first subgoal will be displayed in full; the other subgoals
-will be shown without their hypotheses. When the first subgoal is completed, the
-prover will move to the next subgoal.
+will split the proof into two branches based on the two possible ways in which
+`E` can evaluate to `V`. Each of the different proof branches is called a
+subgoal. In general, only the first subgoal will be displayed in full; the other
+subgoals will be shown without their hypotheses. When the first subgoal is
+completed, the prover will move to the next subgoal.
 
 ```adelfa
 sr_eval >> case H1.
@@ -170,7 +266,8 @@ Subgoal sr_eval.2 is:
  exists D, {D : of (abs T1 ([x]R x)) T}
 ```
 
-We are now able to apply the inductive hypothesis with the assumptions `H8` and `H14`.
+We are now able to apply the inductive hypothesis with the assumptions `H8` and
+`H14`.
 
 ```adelfa
 sr_eval.1>> apply IH to H8 H14.
@@ -459,3 +556,663 @@ H4:{T1 : ty}*
 sr_eval.2>> search.
 Proof Completed!
 ```
+
+## Summary
+
+The full output for the proof development is included here. In these code
+blocks, tactics can be hovered over in order to see what the resulting proof
+state is.
+
+<details>
+  <summary id="full-development">Full development</summary>
+  ```adelfa filename="stlc.ath" showOutput
+  Specification "stlc.lf".
+
+  %subject reduction for stlc
+  Theorem sr_eval : forall E V T D1 D2,
+    {D1 : eval E V} => {D2 : of E T} => exists D, {D : of V T}.
+  induction on 1. intros. case H1.
+    %case 1: application; D1 = eval-app M N V R T1 a1 a2, E = app M N
+      case H2. %D2 = of_app M N T D3 D4 D5
+      apply IH to H7 H13.
+      case H15.
+      inst H19 with n2 = N. inst H20 with n3 = D5.
+      apply IH to H8 H21.
+      exists (D n3 n2 n1 n).
+      search.
+    %case 2: abstraction; D1 = eval-abs R T1, E = abs T1 ([x]R x)
+      exists D2.
+      search.
+
+  %{
+  >> Specification "stlc.lf".
+
+  >> Theorem sr_eval : forall E V T D1 D2,
+    {D1 : eval E V} => {D2 : of E T} => exists D, {D : of V T}.
+
+  Subgoal sr_eval:
+
+
+  ==================================
+  forall E, forall V, forall T, forall D1, forall D2,
+    {D1 : eval E V} => {D2 : of E T} => exists D, {D : of V T}
+
+  sr_eval>> induction on 1.
+
+  Subgoal sr_eval:
+
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+
+  ==================================
+  forall E, forall V, forall T, forall D1, forall D2,
+    {D1 : eval E V}@ => {D2 : of E T} => exists D, {D : of V T}
+
+  sr_eval>> intros.
+
+  Subgoal sr_eval:
+
+  Vars: D2:o, D1:o, T:o, V:o, E:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H1:{D1 : eval E V}@
+  H2:{D2 : of E T}
+
+  ==================================
+  exists D, {D : of V T}
+
+  sr_eval>> case H1.
+
+  Subgoal sr_eval.1:
+
+  Vars: R:(o) -> o, a1:o, a2:o, M:o, N:o, D2:o, T:o, V:o
+  Nominals: n:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H2:{D2 : of (app M N) T}
+  H3:{M : tm}*
+  H4:{N : tm}*
+  H5:{V : tm}*
+  H6:{n:tm |- R n : tm}*
+  H7:{a1 : eval M (abs ([x]R x))}*
+  H8:{a2 : eval (R N) V}*
+
+  ==================================
+  exists D, {D : of V T}
+
+  Subgoal sr_eval.2 is:
+  exists D, {D : of (abs ([c26]R c26)) T}
+
+  sr_eval.1>> case H2.
+
+  Subgoal sr_eval.1:
+
+  Vars: D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:o, N:o, T:o, V:o
+  Nominals: n:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H3:{M : tm}*
+  H4:{N : tm}*
+  H5:{V : tm}*
+  H6:{n:tm |- R n : tm}*
+  H7:{a1 : eval M (abs ([x]R x))}*
+  H8:{a2 : eval (R N) V}*
+  H9:{M : tm}
+  H10:{N : tm}
+  H11:{T : ty}
+  H12:{D3 : ty}
+  H13:{D4 : of M (arr D3 T)}
+  H14:{D5 : of N D3}
+
+  ==================================
+  exists D, {D : of V T}
+
+  Subgoal sr_eval.2 is:
+  exists D, {D : of (abs ([c26]R c26)) T}
+
+  sr_eval.1>> apply IH to H7 H13.
+
+  Subgoal sr_eval.1:
+
+  Vars: D:(o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:o, N:o, T:o, V:
+          o
+  Nominals: n:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H3:{M : tm}*
+  H4:{N : tm}*
+  H5:{V : tm}*
+  H6:{n:tm |- R n : tm}*
+  H7:{a1 : eval M (abs ([x]R x))}*
+  H8:{a2 : eval (R N) V}*
+  H9:{M : tm}
+  H10:{N : tm}
+  H11:{T : ty}
+  H12:{D3 : ty}
+  H13:{D4 : of M (arr D3 T)}
+  H14:{D5 : of N D3}
+  H15:{D n : of (abs ([x]R x)) (arr D3 T)}
+
+  ==================================
+  exists D, {D : of V T}
+
+  Subgoal sr_eval.2 is:
+  exists D, {D : of (abs ([c26]R c26)) T}
+
+  sr_eval.1>> case H15.
+
+  Subgoal sr_eval.1:
+
+  Vars: a3:(o) -> (o) -> (o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:
+          o, N:o, T:o, V:o
+  Nominals: n3:o, n2:o, n1:o, n:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H3:{M : tm}*
+  H4:{N : tm}*
+  H5:{V : tm}*
+  H6:{n:tm |- R n : tm}*
+  H7:{a1 : eval M (abs ([x]R x))}*
+  H8:{a2 : eval (R N) V}*
+  H9:{M : tm}
+  H10:{N : tm}
+  H11:{T : ty}
+  H12:{D3 : ty}
+  H13:{D4 : of M (arr D3 T)}
+  H14:{D5 : of N D3}
+  H16:{n1:tm |- R n1 : tm}
+  H17:{D3 : ty}
+  H18:{T : ty}
+  H19:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
+
+  ==================================
+  exists D, {D : of V T}
+
+  Subgoal sr_eval.2 is:
+  exists D, {D : of (abs ([c26]R c26)) T}
+
+  sr_eval.1>> inst H19 with n2 = N.
+
+  Subgoal sr_eval.1:
+
+  Vars: a3:(o) -> (o) -> (o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:
+          o, N:o, T:o, V:o
+  Nominals: n3:o, n2:o, n1:o, n:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H3:{M : tm}*
+  H4:{N : tm}*
+  H5:{V : tm}*
+  H6:{n:tm |- R n : tm}*
+  H7:{a1 : eval M (abs ([x]R x))}*
+  H8:{a2 : eval (R N) V}*
+  H9:{M : tm}
+  H10:{N : tm}
+  H11:{T : ty}
+  H12:{D3 : ty}
+  H13:{D4 : of M (arr D3 T)}
+  H14:{D5 : of N D3}
+  H16:{n1:tm |- R n1 : tm}
+  H17:{D3 : ty}
+  H18:{T : ty}
+  H19:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
+  H20:{n3:of N D3 |- a3 n N n3 : of (R N) T}
+
+  ==================================
+  exists D, {D : of V T}
+
+  Subgoal sr_eval.2 is:
+  exists D, {D : of (abs ([c26]R c26)) T}
+
+  sr_eval.1>> inst H20 with n3 = D5.
+
+  Subgoal sr_eval.1:
+
+  Vars: a3:(o) -> (o) -> (o) -> o, D3:o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:
+          o, N:o, T:o, V:o
+  Nominals: n3:o, n2:o, n1:o, n:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H3:{M : tm}*
+  H4:{N : tm}*
+  H5:{V : tm}*
+  H6:{n:tm |- R n : tm}*
+  H7:{a1 : eval M (abs ([x]R x))}*
+  H8:{a2 : eval (R N) V}*
+  H9:{M : tm}
+  H10:{N : tm}
+  H11:{T : ty}
+  H12:{D3 : ty}
+  H13:{D4 : of M (arr D3 T)}
+  H14:{D5 : of N D3}
+  H16:{n1:tm |- R n1 : tm}
+  H17:{D3 : ty}
+  H18:{T : ty}
+  H19:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
+  H20:{n3:of N D3 |- a3 n N n3 : of (R N) T}
+  H21:{a3 n N D5 : of (R N) T}
+
+  ==================================
+  exists D, {D : of V T}
+
+  Subgoal sr_eval.2 is:
+  exists D, {D : of (abs ([c26]R c26)) T}
+
+  sr_eval.1>> apply IH to H8 H21.
+
+  Subgoal sr_eval.1:
+
+  Vars: a3:(o) -> (o) -> (o) -> o, D:(o) -> (o) -> (o) -> (o) -> o, D3:o, D4:o,
+          D5:o, R:(o) -> o, a1:o, a2:o, M:o, N:o, T:o, V:o
+  Nominals: n3:o, n2:o, n1:o, n:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H3:{M : tm}*
+  H4:{N : tm}*
+  H5:{V : tm}*
+  H6:{n:tm |- R n : tm}*
+  H7:{a1 : eval M (abs ([x]R x))}*
+  H8:{a2 : eval (R N) V}*
+  H9:{M : tm}
+  H10:{N : tm}
+  H11:{T : ty}
+  H12:{D3 : ty}
+  H13:{D4 : of M (arr D3 T)}
+  H14:{D5 : of N D3}
+  H16:{n1:tm |- R n1 : tm}
+  H17:{D3 : ty}
+  H18:{T : ty}
+  H19:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
+  H20:{n3:of N D3 |- a3 n N n3 : of (R N) T}
+  H21:{a3 n N D5 : of (R N) T}
+  H22:{D n3 n2 n1 n : of V T}
+
+  ==================================
+  exists D, {D : of V T}
+
+  Subgoal sr_eval.2 is:
+  exists D, {D : of (abs ([c26]R c26)) T}
+
+  sr_eval.1>> exists (D n3 n2 n1 n).
+
+  Subgoal sr_eval.1:
+
+  Vars: a3:(o) -> (o) -> (o) -> o, D:(o) -> (o) -> (o) -> (o) -> o, D3:o, D4:o,
+          D5:o, R:(o) -> o, a1:o, a2:o, M:o, N:o, T:o, V:o
+  Nominals: n3:o, n2:o, n1:o, n:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H3:{M : tm}*
+  H4:{N : tm}*
+  H5:{V : tm}*
+  H6:{n:tm |- R n : tm}*
+  H7:{a1 : eval M (abs ([x]R x))}*
+  H8:{a2 : eval (R N) V}*
+  H9:{M : tm}
+  H10:{N : tm}
+  H11:{T : ty}
+  H12:{D3 : ty}
+  H13:{D4 : of M (arr D3 T)}
+  H14:{D5 : of N D3}
+  H16:{n1:tm |- R n1 : tm}
+  H17:{D3 : ty}
+  H18:{T : ty}
+  H19:{n2:tm, n3:of n2 D3 |- a3 n n2 n3 : of (R n2) T}
+  H20:{n3:of N D3 |- a3 n N n3 : of (R N) T}
+  H21:{a3 n N D5 : of (R N) T}
+  H22:{D n3 n2 n1 n : of V T}
+
+  ==================================
+  {D n3 n2 n1 n : of V T}
+
+  Subgoal sr_eval.2 is:
+  exists D, {D : of (abs ([c26]R c26)) T}
+
+  sr_eval.1>> search.
+
+  Subgoal sr_eval.2:
+
+  Vars: R:(o) -> o, D2:o, T:o
+  Nominals: n:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H2:{D2 : of (abs ([c14]R c14)) T}
+  H3:{n:tm |- R n : tm}*
+
+  ==================================
+  exists D, {D : of (abs ([c26]R c26)) T}
+
+  sr_eval.2>> exists D2.
+
+  Subgoal sr_eval.2:
+
+  Vars: R:(o) -> o, D2:o, T:o
+  Nominals: n:o
+  IH:
+      forall E, forall V, forall T, forall D1, forall D2,
+        {D1 : eval E V}* => {D2 : of E T} => exists D, {D : of V T}
+  H2:{D2 : of (abs ([c14]R c14)) T}
+  H3:{n:tm |- R n : tm}*
+
+  ==================================
+  {D2 : of (abs ([c26]R c26)) T}
+
+  sr_eval.2>> search.
+  Proof Completed!
+  }%
+  ```
+</details>
+
+## Exercise
+
+As an exercise, try to prove a follow up theorem that evaluation is
+deterministic. In other words, multiple evaluations of the same term always results in
+equivalent results.
+
+> For all terms $e$, $t$, and $v$, if $e \Downarrow t$ and $e \Downarrow v$ then
+> $t = v$
+
+You will have to encode the equality of terms in LF before stating the theorem
+in Adelfa.
+
+<details>
+  <summary>Hints & Solution</summary>
+
+  If you are stuck developing a specification for term equality or want to check
+  your work before moving on to the proof, we go over the encoding here.
+  <details>
+    <summary id="hint-encoding">Encoding</summary>
+    Developing a specification for equality can be done here with just reflexivity.
+
+    ```lf
+    tm_eq : tm -> tm -> type.
+    tm_eq_refl : {E: tm} tm_eq E E.
+    ```
+  </details>
+
+  <details>
+    <summary id="exercise-solution">Proof</summary>
+
+    ```adelfa showOutput
+    Theorem sr_det : forall E V T D1 D2,
+      {D1 : eval E V} => {D2 : eval E T} =>
+        exists D, {D: tm_eq V T}.
+    induction on 1. intros.
+    case H1.
+      case H2. apply IH to H7 H13. case H15.
+      apply IH to H8 H14. exists D n1 n. search.
+
+      case H2. exists tm_eq_refl (abs ([x] R x)). search.
+
+    %{
+     >> Theorem sr_det : forall E V T D1 D2,
+       {D1 : eval E V} => {D2 : eval E T} =>
+         exists D, {D: tm_eq V T}.
+
+     Subgoal sr_det:
+
+
+     ==================================
+     forall E, forall V, forall T, forall D1, forall D2,
+       {D1 : eval E V} => {D2 : eval E T} => exists D, {D : tm_eq V T}
+
+     sr_det>> induction on 1.
+
+     Subgoal sr_det:
+
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+
+     ==================================
+     forall E, forall V, forall T, forall D1, forall D2,
+       {D1 : eval E V}@ => {D2 : eval E T} => exists D, {D : tm_eq V T}
+
+     sr_det>> intros.
+
+     Subgoal sr_det:
+
+     Vars: D2:o, D1:o, T:o, V:o, E:o
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+     H1:{D1 : eval E V}@
+     H2:{D2 : eval E T}
+
+     ==================================
+     exists D, {D : tm_eq V T}
+
+     sr_det>> case H1.
+
+     Subgoal sr_det.1:
+
+     Vars: R:(o) -> o, a1:o, a2:o, M:o, N:o, D2:o, T:o, V:o
+     Nominals: n:o
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+     H2:{D2 : eval (app M N) T}
+     H3:{M : tm}*
+     H4:{N : tm}*
+     H5:{V : tm}*
+     H6:{n:tm |- R n : tm}*
+     H7:{a1 : eval M (abs ([x]R x))}*
+     H8:{a2 : eval (R N) V}*
+
+     ==================================
+     exists D, {D : tm_eq V T}
+
+     Subgoal sr_det.2 is:
+      exists D, {D : tm_eq (abs ([c26]R c26)) T}
+
+     sr_det.1>> case H2.
+
+     Subgoal sr_det.1:
+
+     Vars: D3:(o) -> o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:o, N:o, T:o, V:o
+     Nominals: n1:o, n:o
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+     H3:{M : tm}*
+     H4:{N : tm}*
+     H5:{V : tm}*
+     H6:{n:tm |- R n : tm}*
+     H7:{a1 : eval M (abs ([x]R x))}*
+     H8:{a2 : eval (R N) V}*
+     H9:{M : tm}
+     H10:{N : tm}
+     H11:{T : tm}
+     H12:{n1:tm |- D3 n1 : tm}
+     H13:{D4 : eval M (abs ([x]D3 x))}
+     H14:{D5 : eval (D3 N) T}
+
+     ==================================
+     exists D, {D : tm_eq V T}
+
+     Subgoal sr_det.2 is:
+      exists D, {D : tm_eq (abs ([c26]R c26)) T}
+
+     sr_det.1>> apply IH to H7 H13.
+
+     Subgoal sr_det.1:
+
+     Vars: D:(o) -> (o) -> o, D3:(o) -> o, D4:o, D5:o, R:(o) -> o, a1:o, a2:o, M:
+             o, N:o, T:o, V:o
+     Nominals: n1:o, n:o
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+     H3:{M : tm}*
+     H4:{N : tm}*
+     H5:{V : tm}*
+     H6:{n:tm |- R n : tm}*
+     H7:{a1 : eval M (abs ([x]R x))}*
+     H8:{a2 : eval (R N) V}*
+     H9:{M : tm}
+     H10:{N : tm}
+     H11:{T : tm}
+     H12:{n1:tm |- D3 n1 : tm}
+     H13:{D4 : eval M (abs ([x]D3 x))}
+     H14:{D5 : eval (D3 N) T}
+     H15:{D n1 n : tm_eq (abs ([x]R x)) (abs ([x]D3 x))}
+
+     ==================================
+     exists D, {D : tm_eq V T}
+
+     Subgoal sr_det.2 is:
+      exists D, {D : tm_eq (abs ([c26]R c26)) T}
+
+     sr_det.1>> case H15.
+
+     Subgoal sr_det.1:
+
+     Vars: D3:(o) -> o, D4:o, D5:o, a1:o, a2:o, M:o, N:o, T:o, V:o
+     Nominals: n1:o, n:o
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+     H3:{M : tm}*
+     H4:{N : tm}*
+     H5:{V : tm}*
+     H6:{n:tm |- D3 n : tm}*
+     H7:{a1 : eval M (abs ([x]D3 x))}*
+     H8:{a2 : eval (D3 N) V}*
+     H9:{M : tm}
+     H10:{N : tm}
+     H11:{T : tm}
+     H12:{n1:tm |- D3 n1 : tm}
+     H13:{D4 : eval M (abs ([x]D3 x))}
+     H14:{D5 : eval (D3 N) T}
+     H16:{abs ([x]D3 x) : tm}
+
+     ==================================
+     exists D, {D : tm_eq V T}
+
+     Subgoal sr_det.2 is:
+      exists D, {D : tm_eq (abs ([c26]R c26)) T}
+
+     sr_det.1>> apply IH to H8 H14.
+
+     Subgoal sr_det.1:
+
+     Vars: D:(o) -> (o) -> o, D3:(o) -> o, D4:o, D5:o, a1:o, a2:o, M:o, N:o, T:o,
+             V:o
+     Nominals: n1:o, n:o
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+     H3:{M : tm}*
+     H4:{N : tm}*
+     H5:{V : tm}*
+     H6:{n:tm |- D3 n : tm}*
+     H7:{a1 : eval M (abs ([x]D3 x))}*
+     H8:{a2 : eval (D3 N) V}*
+     H9:{M : tm}
+     H10:{N : tm}
+     H11:{T : tm}
+     H12:{n1:tm |- D3 n1 : tm}
+     H13:{D4 : eval M (abs ([x]D3 x))}
+     H14:{D5 : eval (D3 N) T}
+     H16:{abs ([x]D3 x) : tm}
+     H17:{D n1 n : tm_eq V T}
+
+     ==================================
+     exists D, {D : tm_eq V T}
+
+     Subgoal sr_det.2 is:
+      exists D, {D : tm_eq (abs ([c26]R c26)) T}
+
+     sr_det.1>> exists D n1 n.
+
+     Subgoal sr_det.1:
+
+     Vars: D:(o) -> (o) -> o, D3:(o) -> o, D4:o, D5:o, a1:o, a2:o, M:o, N:o, T:o,
+             V:o
+     Nominals: n1:o, n:o
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+     H3:{M : tm}*
+     H4:{N : tm}*
+     H5:{V : tm}*
+     H6:{n:tm |- D3 n : tm}*
+     H7:{a1 : eval M (abs ([x]D3 x))}*
+     H8:{a2 : eval (D3 N) V}*
+     H9:{M : tm}
+     H10:{N : tm}
+     H11:{T : tm}
+     H12:{n1:tm |- D3 n1 : tm}
+     H13:{D4 : eval M (abs ([x]D3 x))}
+     H14:{D5 : eval (D3 N) T}
+     H16:{abs ([x]D3 x) : tm}
+     H17:{D n1 n : tm_eq V T}
+
+     ==================================
+     {D n1 n : tm_eq V T}
+
+     Subgoal sr_det.2 is:
+      exists D, {D : tm_eq (abs ([c26]R c26)) T}
+
+     sr_det.1>> search.
+
+     Subgoal sr_det.2:
+
+     Vars: R:(o) -> o, D2:o, T:o
+     Nominals: n:o
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+     H2:{D2 : eval (abs ([c14]R c14)) T}
+     H3:{n:tm |- R n : tm}*
+
+     ==================================
+     exists D, {D : tm_eq (abs ([c26]R c26)) T}
+
+     sr_det.2>> case H2.
+
+     Subgoal sr_det.2:
+
+     Vars: R:(o) -> o
+     Nominals: n1:o, n:o
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+     H3:{n:tm |- R n : tm}*
+     H4:{n1:tm |- R n1 : tm}
+
+     ==================================
+     exists D, {D : tm_eq (abs ([c110]R c110)) (abs ([c113]R c113))}
+
+     sr_det.2>> exists tm_eq_refl (abs ([x] R x)).
+
+     Subgoal sr_det.2:
+
+     Vars: R:(o) -> o
+     Nominals: n1:o, n:o
+     IH:
+         forall E, forall V, forall T, forall D1, forall D2,
+           {D1 : eval E V}* => {D2 : eval E T} => exists D, {D : tm_eq V T}
+     H3:{n:tm |- R n : tm}*
+     H4:{n1:tm |- R n1 : tm}
+
+     ==================================
+     {tm_eq_refl (abs ([x]R x)) : tm_eq (abs ([c110]R c110)) (abs ([c113]R c113))}
+
+     sr_det.2>> search.
+     Proof Completed!
+    }%
+    ```
+  </details>
+</details>
