@@ -4,6 +4,20 @@ const { Cite, plugins } = require("@citation-js/core");
 require("@citation-js/plugin-bibtex");
 require("@citation-js/plugin-csl");
 
+export async function publications() {
+  const entries = await readFile("public/pubs.bib", "utf8");
+  const bib = new Cite(entries);
+  const bibliography = bib.format("bibliography", {
+    asEntryArray: true,
+    template: "acm",
+    lang: "en-US",
+  });
+
+  return bibliography;
+}
+
+let config = plugins.config.get("@csl");
+
 const lncsTemplate = `<?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="en-US">
   <info>
@@ -166,17 +180,4 @@ const lncsTemplate = `<?xml version="1.0" encoding="utf-8"?>
   </bibliography>
 </style>`;
 
-let config = plugins.config.get("@csl");
 config.templates.add("acm", lncsTemplate);
-
-export async function publications() {
-  const entries = await readFile("public/pubs.bib", "utf8");
-  const bib = new Cite(entries);
-  const bibliography = bib.format("bibliography", {
-    asEntryArray: true,
-    template: "acm",
-    lang: "en-US",
-  });
-
-  return bibliography;
-}
