@@ -679,34 +679,177 @@ Proof Completed!
 
 ## `induction on <NUM>.`
 
-Given a goal of the form `ctx Gamma1:C1 Gamma2:C2 ..., forall X Y ..., H1 => H2 => ... =>
-F` the induction tactic allows you to induct on one of `H1, H2, ...`. The
-hypothesis to be inducted on must be an atomic formula. The choice of induction
-is based on the number `<NUM>`. Applying the induction tactic results in an
-inductive hypothesis being added to the current set of hypotheses. Specifics on
-this inductive hypothesis and how it relates to the goal are given in the
-section [Inductive Restrictions][inductive-restrictions].
+Given a goal of the form `ctx Gamma1:C1 Gamma2:C2 ..., forall X Y ..., H1 => H2
+=> ... => F` the induction tactic allows you to induct on one of `H1, H2, ...`.
+The hypothesis to be inducted on must be an atomic formula. The choice of
+induction is based on the number `<NUM>`. Applying the induction tactic results
+in an inductive hypothesis being added to the current set of hypotheses.
+Specifics on this inductive hypothesis and how it relates to the goal are given
+in the section [Inductive
+Restrictions](/reference-guide/syntax#inductive-restrictions).
 
 Adelfa supports nested induction through repeated calls to the induction tactic.
-See the [Inductive Restrictions][inductive-restrictions] section for more
-details.
+See the [Inductive Restrictions](/reference-guide/syntax#inductive-restrictions)
+section for more details.
 
 ## `exists M.`
 
 Instantiates an existential goal with the given term, if it is of the correct
 arity type.
 
+
+```adelfa showOutput
+Specification "tactics.lf".
+
+Theorem exist-example : exists N, { N : nat }.
+exists z. search.
+
+%{
+>> Specification "tactics.lf".
+
+>> Theorem exist-example : exists N, { N : nat }.
+
+Subgoal exist-example:
+
+
+==================================
+exists N, {N : nat}
+
+exist-example>> exists z.
+
+Subgoal exist-example:
+
+
+==================================
+{z : nat}
+
+exist-example>> search.
+Proof Completed!
+}%
+```
+
 ## `case <HYP NAME>[(keep)].`
 
 Performs case analysis on the given assumption formula. By default, the
 assumption is removed, use `(keep)` to retain it.
 
+
+```adelfa showOutput
+Specification "tactics.lf".
+
+Theorem cases-example : forall N, {N : nat} => { s N : nat }.
+intros. case H1.
+% keep derivation which formed { N : nat }
+undo. case H1 (keep).
+
+
+%{
+>> Specification "tactics.lf".
+
+>> Theorem cases-example : forall N, {N : nat} => { s N : nat }.
+
+Subgoal cases-example:
+
+
+==================================
+forall N, {N : nat} => {s N : nat}
+
+cases-example>> intros.
+
+Subgoal cases-example:
+
+Vars: N:o
+H1:{N : nat}
+
+==================================
+{s N : nat}
+
+cases-example>> case H1.
+
+Subgoal cases-example.1:
+
+Vars: N1:o
+H2:{N1 : nat}
+
+==================================
+{s (s N1) : nat}
+
+Subgoal cases-example.2 is:
+ {s z : nat}
+
+cases-example.1>> undo.
+
+Subgoal cases-example:
+
+Vars: N:o
+H1:{N : nat}
+
+==================================
+{s N : nat}
+
+cases-example>> case H1 (keep).
+
+Subgoal cases-example.1:
+
+Vars: N1:o
+H1:{s N1 : nat}
+H2:{N1 : nat}
+
+==================================
+{s (s N1) : nat}
+
+Subgoal cases-example.2 is:
+ {s z : nat}
+}%
+```
+
 ## `weaken <HYP NAME> with A [<NUM>].`
 
-When the given assumption formula is of the form `{G |- M : A}{:adelfa}`, and it can be
+When the given assumption formula is of the form `{G |- M : A}`, and it can be
 verified that the LF type `A` must be well formed in the current context under
 `G`, then a new assumption is added in which the typing judgment is weakened to
 include the given type.
+
+```adelfa showOutput
+Specification "tactics.lf".
+
+Theorem wk-example : forall N, { N : nat } => false.
+intros. weaken H1 with nat.
+
+%{
+>> Specification "tactics.lf".
+
+>> Theorem wk-example : forall N, { N : nat } => false.
+
+Subgoal wk-example:
+
+
+==================================
+forall N, {N : nat} => False
+
+wk-example>> intros.
+
+Subgoal wk-example:
+
+Vars: N:o
+H1:{N : nat}
+
+==================================
+False
+
+wk-example>> weaken H1 with nat.
+
+Subgoal wk-example:
+
+Vars: N:o
+Nominals: n:o
+H1:{N : nat}
+H2:{n:nat |- N : nat}
+
+==================================
+False
+}%
+```
 
 ## `strengthen <HYP NAME>.`
 
@@ -723,7 +866,7 @@ then a new assumption is added with the permuted context expression `G`.
 ## `permute <HYP NAME> with <PERM>.`
 
 Applies a permutation of nominal constants to the argument hypothesis. `<PERM>`
-must be a complete permutation. Mappings can be unidirections `n1 -> n2, n2 ->
+must be a complete permutation. Mappings can be unidirectional `n1 -> n2, n2 ->
 n` or bidirectional `n1 <-> n2`. If the provided permutation is complete and
 limited to be within the relevant assumption's restricted set, a new assumption
 is added with the permutation applied to it.
