@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
 
-const { Cite, plugins } = require("@citation-js/core");
+import { Cite, plugins } from "@citation-js/core";
 require("@citation-js/plugin-bibtex");
 require("@citation-js/plugin-csl");
 
@@ -12,7 +12,6 @@ export async function publications() {
     template: "acm",
     lang: "en-US",
   });
-
   return bibliography;
 }
 
