@@ -41,7 +41,17 @@ Schema C := {T:o}(x: tm, d: of x T);
 Sets the value of options during proof development. It may be used at the top
 level or inside theorem construction. The options are currently:
 
-- `search_depth{:adelfa}` <a id="search_depth"></a> The maximum number of times to
+- `search_depth` <a id="search_depth"></a> The maximum number of times to
   perform type decomposition on assumption judgements during the
-  [`search{:adelfa}`](/reference-guide/tactics#search-num) and [`assert{:adelfa}`](/reference-guide/tactics#assert-formula-num) tactics. By
-  default, this is set to 5.
+  [`search{:adelfa}`](/reference-guide/tactics#search-num) and
+  [`assert{:adelfa}`](/reference-guide/tactics#assert-formula-num) tactics.
+  Accepts any number as a `<VALUE>`. By default, this is set to 5.
+- `schema_sub` <a id="schema_sub"></a> The option to enable or disable schema
+  subsumption. Accepts `true` or `false`. By default, this is set to `true`.
+
+```adelfa
+Set search_depth 5.
+Set schema_sub false.
+
+Set search_depth 5, schema_sub false.
+```

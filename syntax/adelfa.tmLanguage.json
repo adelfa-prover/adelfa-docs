@@ -46,7 +46,7 @@
     },
     {
       "name": "keyword.other.adelfa",
-      "match": "\\b(Theorem|Specification|Set|Schema|Subgoal|Vars|Nominals|Contexts|Quit|search_depth)\\b"
+      "match": "\\b(Theorem|Specification|Set|Schema|Subgoal|Vars|Nominals|Contexts|Quit|search_depth|schema_sub)\\b"
     },
     {
       "name": "support.function.adelfa",
