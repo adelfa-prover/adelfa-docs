@@ -8,9 +8,10 @@ asIndexPage: true
 
 
 Prior to reading the discussion within this page, it's necessary to have a rough
-understanding of the syntax of Adelfa and tactics of Adelfa. An explanation of
-these can be found in the [Reference Guide](/reference-guide). One may also
-search using the search bar in the top right to look up terms.
+understanding of the syntax of Adelfa and tactics of Adelfa. We recommend the
+reader explore the provided [walkthrough](/walkthrough) or have the [reference
+guide](/reference-guide) at hand. You may also search using the search bar in
+the top right to look up terms.
 
 We discuss a series of examples which utilize _schema subsumption_ in Adelfa, a
 capability in Adelfa which allows one to transport the validity of a formula
@@ -39,8 +40,13 @@ Theorems about Typeability in LF Across Schematically Defined Contexts" but aim
 to be as self-contained as possible. We suggest reading the following examples
 in the order presented below as they are intended to build on each other.
 
+Adelfa will always transport a proof if it's able to by default. If you would
+like to follow along with the examples, we recommend using [`Set schema_sub
+false.`](/reference-guide/top-level-commands#schema_sub) in sections are
+discussing how the proof would proceed without using the transport rule.
 
-1. [Every lambda calculus terms has a size](/schema-subsumption/size) displays a
+
+1. [Every lambda calculus term has a size](/schema-subsumption/size) displays a
    straightforward use of theorem transport and discusses alternatives as well
    as their downsides.
 2. [Size of lambda calculus terms does not decrease after
