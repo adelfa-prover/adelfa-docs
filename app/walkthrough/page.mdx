@@ -14,10 +14,11 @@ system to be reasoned about. LF is a popular choice for encoding systems, as it
 can more easily represent objects with binding operations via _higher-order
 abstract syntax_.
 
-In this example, we will reason about the $\lambda$-calculus with big step (sometimes
-referred to as "call-by name") evaluation semantics. We denote this
-relation as a relation between two terms $e_1 \Downarrow e_2$. The "input" term
-is on the left of the $\Downarrow$ and the "output" term is on the right.
+In this example, we will reason about the $\lambda$-calculus with big step
+(sometimes referred to as "call-by name") evaluation semantics. We denote this
+as a relation between two terms $e_1 \Downarrow e_2$. The "input" term is on the
+left of the $\Downarrow$ and the result of the evaluation is the term on the
+right.
 
 ```math
 {{}\over{}(\lambda x. e) \Downarrow (\lambda x. e)}{\mathtt{eval\textrm{-}abs}}
@@ -28,9 +29,9 @@ e_1 \Downarrow (\lambda x. e') \qquad \{e_2/x\}e' \Downarrow e
 \over{}{(e_1\ e_2) \Downarrow e}}{\mathtt{eval\textrm{-}app}}
 ```
 
-- $$\mathtt{eval\textrm{-}abs}$$ states that an abstraction is already
+- $\mathtt{eval\textrm{-}abs}$ states that an abstraction is already
   evaluated, _i.e._, it evaluates to itself.
-- $$\mathtt{eval\textrm{-}app}$$ evaluates the first term of the application,
+- $\mathtt{eval\textrm{-}app}$ evaluates the first term of the application,
   which result in an abstraction to permit the application. Then the second term
   is substituted for the variable bound in said abstraction.
 
@@ -56,18 +57,18 @@ In addition to an evaluation semantics, we encode typing of the lambda calculus.
 }\mathtt{of\textrm{-}var}
 ```
 
-- $$\mathrm{of\textrm{-}app}$$ rule ensures that the first term is an
+- $\mathrm{of\textrm{-}app}$ rule ensures that the first term is an
   abstraction, which would permit the substitution of $e_2$ for the variable.
-- $$\mathrm{of\textrm{-}abs}$$ says that the abstraction is typed under
-  extended context with $$x{:}\tau$$ present. The additional proviso ensures
-  that $$x$$ does not already appear in $$\Gamma$$ and shadow its entry.
-- $$\mathrm{of\textrm{-}var}$$ ensures that when we encounter a variable, its
+- $\mathrm{of\textrm{-}abs}$ says that the abstraction is typed under
+  extended context with $x{:}\tau$ present. The additional proviso ensures
+  that $x$ does not already appear in $\Gamma$ and shadow its entry.
+- $\mathrm{of\textrm{-}var}$ ensures that when we encounter a variable, its
   must have an entry in the context which assigns it that type.
 
 We now discuss showing that evaluation of terms does not change the type, called
 _subject reduction_ or type preservation. The informal proof is phrased as:
 
-> For any $$\lambda$$-calculus terms $e$ and $e'$ such that $e \Downarrow e'$
+> For any $\lambda$-calculus terms $e$ and $e'$ such that $e \Downarrow e'$
 > and $\Gamma \vdash e{:}\tau$ hold, then $\Gamma \vdash e'{:}\tau$ must hold.
 
 
@@ -98,7 +99,7 @@ new type `eval` which is indexed by two `tm`s.
 
 Typing in our specification slightly differs from typing in our informal rules.
 Although this relation had to maintain an explicit context to support the
-$$\mathtt{of\textrm{-}abs}$$ and $$\mathtt{of\textrm{-}var}$$ rules, we will
+$\mathtt{of\textrm{-}abs}$ and $\mathtt{of\textrm{-}var}$ rules, we will
 encode the typing rules using the higher-order abstract syntax approach. The
 `of_abs` rule is indexed by a judgement `{a1:({x:tm}{z:of x T}) of (R x)
 U}{:lf}`. This judgement analyzes the type of `R` when `x` is of type `T`. The

@@ -1,0 +1,90 @@
+Specification "size.lf".
+
+% Disable schema transport for this development
+Set schema_sub false.
+
+Theorem plus-exist : forall N1 N2,
+  {N1: nat} => {N2:nat} => exists N3 D, {D: plus N1 N2 N3}.
+induction on 1.
+intros.
+case H1.
+apply IH to H3 H2.
+exists s N3.
+exists plus-s x N2 N3 D.
+search.
+exists N2.
+exists plus-z N2. search.
+
+Schema C := (x: tm, y: size x (s z)).
+
+Theorem tm-has-size : ctx G:C, forall E,
+  {G |- E : tm} => exists N D, {G |- D: size E N}.
+  induction on 1. intros.
+  case H1 (keep).
+  % abstraction case
+  weaken H2 with size n (s z). apply IH to H3 with (G = G, n1:tm, n:size n1 (s z)).
+  assert { G, n1:tm, n:size n1 (s z) |- N n1 n : nat }. prune H5.
+  strengthen H5. strengthen H6.
+  exists (s N).
+  exists size-lam E1 N D. search.
+  % application case
+  apply IH to H2. apply IH to H3.
+  assert { G |- N : nat }.
+  assert { G |- N1 : nat }.
+  % Proof fails here, we cannot continue since there is a mismatch in contexts
+  % Note: if you are using something like proof general, you must comment out
+  % this line in order to continue.
+  % apply plus-exist to H6 H7.
+  abort.
+
+Theorem nat-ind : ctx G:C, forall N,
+  { G |- N : nat } => { N : nat }.
+induction on 1. intros.
+case H1. apply IH to H2. search. search.
+
+
+Theorem tm-has-size : ctx G:C, forall E,
+  {G |- E : tm} => exists N D, {G |- D: size E N}.
+  induction on 1. intros.
+  case H1 (keep). skip.
+  apply IH to H2. apply IH to H3.
+  assert { G |- N : nat }. apply nat-ind to H6.
+  assert { G |- N1 : nat }. apply nat-ind to H8.
+  apply plus-exist to H7 H9.
+  exists (s N3).
+  exists size-app E1 E2 N N1 N3 D D1 D2.
+  % Note: if you are using something like proof general, you must comment out
+  % this line in order to continue.
+  % search.
+  abort.
+
+Theorem plus-exist-context : ctx G:C, forall N1 N2,
+  {G |- N1: nat} => {G |- N2:nat} => exists N3 D, {G |- D: plus N1 N2 N3}.
+induction on 1.
+intros.
+case H1.
+apply IH to H3 H2.
+exists s N3.
+exists plus-s x N2 N3 D.
+search.
+exists N2.
+exists plus-z N2. search.
+
+Theorem tm-has-size : ctx G:C, forall E,
+  {G |- E : tm} => exists N D, {G |- D: size E N}.
+  induction on 1. intros.
+  case H1 (keep).
+  % abstraction case
+  weaken H2 with size n (s z). apply IH to H3 with (G = G, n1:tm, n:size n1 (s z)).
+  assert { G, n1:tm, n:size n1 (s z) |- N n1 n : nat }. prune H5.
+  strengthen H5. strengthen H6.
+  exists (s N).
+  exists size-lam E1 N D. search.
+  % application case
+  apply IH to H2. apply IH to H3.
+  assert { G |- N : nat }. assert { G |- N1 : nat }.
+  apply plus-exist-context to H6 H7.
+  exists (s N3). exists size-app E1 E2 N N1 N3 D D1 D2.
+  search.
+  % variable case
+  exists (s z). exists n1. search.

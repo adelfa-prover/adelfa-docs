@@ -9,7 +9,17 @@ import { Tabs, Callout } from 'nextra/components';
 
 In this example we will discuss _schema subsumption_, a capability in Adelfa
 which allows one to "transport" a formula with a context variable typed by one
-context schema to a different context schema. This becomes especially useful
+context schema to a different context schema.
+
+The complete developments are provided here for reference:
+
+- Signature: [`size.lf`](/size/size.lf)
+- Proof development _without_ transport:
+  [`size-no-transport.ath`](/size/size-no-transport.ath)
+- Proof development _with_ transport: [`size-transport.ath`](/size/size-transport.ath)
+
+
+This becomes especially useful
 when using lemmas.
 
 To show the usefulness of schema subsumption, we formalize a specification
@@ -1315,55 +1325,52 @@ With transport, the entire proof is:
 
 
 ```adelfa filename="size.ath" showOutput
-Theorem tm-has-size : ctx G:c, forall E,
+Theorem tm-has-size : ctx G:C, forall E,
   {G |- E : tm} => exists N D, {G |- D: size E N}.
 induction on 1. intros.
 case H1 (keep).
 weaken H2 with size n (s z).
 apply IH to H3 with (G = G, n1:tm, n:size n1 (s z)).
 assert { G, n1:tm, n:size n1 (s z) |- N n1 n : nat }.
-prune H5.
-strengthen H5. strengthen H6.
+prune H5. strengthen H5. strengthen H6.
 exists (s N). exists size-lam ([x] E1 x) N D.
 search.
-apply IH to H2.
-apply IH to H3.
-assert { G |- N : nat }.
-assert { G |- N1 : nat }.
+apply IH to H2. apply IH to H3.
+assert { G |- N : nat }. assert { G |- N1 : nat }.
 apply plus-exist to H6 H7.
 exists (s N3). exists size-app E1 E2 N N1 N3 D D1 D2. search.
 exists (s z). exists n1. search.
 
-%{
 
->> Theorem tm-has-size : ctx G:c, forall E,
+%{
+>> Theorem tm-has-size : ctx G:C, forall E,
   {G |- E : tm} => exists N D, {G |- D: size E N}.
 
 Subgoal tm-has-size:
 
 
 ==================================
-ctx G:c, forall E, {G |- E : tm} => exists N, exists D, {G |- D : size E N}
+ctx G:C, forall E, {G |- E : tm} => exists N, exists D, {G |- D : size E N}
 
 tm-has-size>> induction on 1.
 
 Subgoal tm-has-size:
 
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 
 ==================================
-ctx G:c, forall E, {G |- E : tm}@ => exists N, exists D, {G |- D : size E N}
+ctx G:C, forall E, {G |- E : tm}@ => exists N, exists D, {G |- D : size E N}
 
 tm-has-size>> intros.
 
 Subgoal tm-has-size:
 
 Vars: E:o
-Contexts: G{}:c[]
+Contexts: G{}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- E : tm}@
 
@@ -1376,9 +1383,9 @@ Subgoal tm-has-size.1:
 
 Vars: E1:(o) -> o
 Nominals: n:o
-Contexts: G{n}:c[]
+Contexts: G{n}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- lam ([c2]E1 c2) : tm}@
 H2:{G, n:tm |- E1 n : tm}*
@@ -1398,9 +1405,9 @@ Subgoal tm-has-size.1:
 
 Vars: E1:(o) -> o
 Nominals: n1:o, n:o
-Contexts: G{n, n1}:c[]
+Contexts: G{n, n1}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- lam ([c2]E1 c2) : tm}@
 H2:{G, n:tm |- E1 n : tm}*
@@ -1421,9 +1428,9 @@ Subgoal tm-has-size.1:
 
 Vars: D:(o) -> (o) -> o, N:(o) -> (o) -> o, E1:(o) -> o
 Nominals: n1:o, n:o
-Contexts: G{n, n1}:c[]
+Contexts: G{n, n1}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- lam ([c2]E1 c2) : tm}@
 H2:{G, n:tm |- E1 n : tm}*
@@ -1445,9 +1452,9 @@ Subgoal tm-has-size.1:
 
 Vars: D:(o) -> (o) -> o, N:(o) -> (o) -> o, E1:(o) -> o
 Nominals: n1:o, n:o
-Contexts: G{n, n1}:c[]
+Contexts: G{n, n1}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- lam ([c2]E1 c2) : tm}@
 H2:{G, n:tm |- E1 n : tm}*
@@ -1470,9 +1477,9 @@ Subgoal tm-has-size.1:
 
 Vars: D:(o) -> (o) -> o, N:o, E1:(o) -> o
 Nominals: n1:o, n:o
-Contexts: G{n, n1}:c[]
+Contexts: G{n, n1}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- lam ([c2]E1 c2) : tm}@
 H2:{G, n:tm |- E1 n : tm}*
@@ -1495,9 +1502,9 @@ Subgoal tm-has-size.1:
 
 Vars: D:(o) -> (o) -> o, N:o, E1:(o) -> o
 Nominals: n1:o, n:o
-Contexts: G{n, n1}:c[]
+Contexts: G{n, n1}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- lam ([c2]E1 c2) : tm}@
 H2:{G, n:tm |- E1 n : tm}*
@@ -1521,9 +1528,9 @@ Subgoal tm-has-size.1:
 
 Vars: D:(o) -> (o) -> o, N:o, E1:(o) -> o
 Nominals: n1:o, n:o
-Contexts: G{n, n1}:c[]
+Contexts: G{n, n1}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- lam ([c2]E1 c2) : tm}@
 H2:{G, n:tm |- E1 n : tm}*
@@ -1548,9 +1555,9 @@ Subgoal tm-has-size.1:
 
 Vars: D:(o) -> (o) -> o, N:o, E1:(o) -> o
 Nominals: n1:o, n:o
-Contexts: G{n, n1}:c[]
+Contexts: G{n, n1}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- lam ([c2]E1 c2) : tm}@
 H2:{G, n:tm |- E1 n : tm}*
@@ -1575,9 +1582,9 @@ Subgoal tm-has-size.1:
 
 Vars: D:(o) -> (o) -> o, N:o, E1:(o) -> o
 Nominals: n1:o, n:o
-Contexts: G{n, n1}:c[]
+Contexts: G{n, n1}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- lam ([c2]E1 c2) : tm}@
 H2:{G, n:tm |- E1 n : tm}*
@@ -1601,9 +1608,9 @@ tm-has-size.1>> search.
 Subgoal tm-has-size.2:
 
 Vars: E1:o, E2:o
-Contexts: G{}:c[]
+Contexts: G{}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- app E1 E2 : tm}@
 H2:{G |- E1 : tm}*
@@ -1620,9 +1627,9 @@ tm-has-size.2>> apply IH to H2.
 Subgoal tm-has-size.2:
 
 Vars: D:o, N:o, E1:o, E2:o
-Contexts: G{}:c[]
+Contexts: G{}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- app E1 E2 : tm}@
 H2:{G |- E1 : tm}*
@@ -1640,9 +1647,9 @@ tm-has-size.2>> apply IH to H3.
 Subgoal tm-has-size.2:
 
 Vars: D1:o, N1:o, D:o, N:o, E1:o, E2:o
-Contexts: G{}:c[]
+Contexts: G{}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- app E1 E2 : tm}@
 H2:{G |- E1 : tm}*
@@ -1661,9 +1668,9 @@ tm-has-size.2>> assert { G |- N : nat }.
 Subgoal tm-has-size.2:
 
 Vars: D1:o, N1:o, D:o, N:o, E1:o, E2:o
-Contexts: G{}:c[]
+Contexts: G{}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- app E1 E2 : tm}@
 H2:{G |- E1 : tm}*
@@ -1683,9 +1690,9 @@ tm-has-size.2>> assert { G |- N1 : nat }.
 Subgoal tm-has-size.2:
 
 Vars: D1:o, N1:o, D:o, N:o, E1:o, E2:o
-Contexts: G{}:c[]
+Contexts: G{}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- app E1 E2 : tm}@
 H2:{G |- E1 : tm}*
@@ -1706,9 +1713,9 @@ tm-has-size.2>> apply plus-exist to H6 H7.
 Subgoal tm-has-size.2:
 
 Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
-Contexts: G{}:c[]
+Contexts: G{}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- app E1 E2 : tm}@
 H2:{G |- E1 : tm}*
@@ -1730,9 +1737,9 @@ tm-has-size.2>> exists (s N3).
 Subgoal tm-has-size.2:
 
 Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
-Contexts: G{}:c[]
+Contexts: G{}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- app E1 E2 : tm}@
 H2:{G |- E1 : tm}*
@@ -1754,9 +1761,9 @@ tm-has-size.2>> exists size-app E1 E2 N N1 N3 D D1 D2.
 Subgoal tm-has-size.2:
 
 Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
-Contexts: G{}:c[]
+Contexts: G{}:C[]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- app E1 E2 : tm}@
 H2:{G |- E1 : tm}*
@@ -1778,9 +1785,9 @@ tm-has-size.2>> search.
 Subgoal tm-has-size.3:
 
 Nominals: n1:o, n:o
-Contexts: G{}:c[(n:tm, n1:size n (s z))]
+Contexts: G{}:C[(n:tm, n1:size n (s z))]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- n : tm}@
 
@@ -1792,9 +1799,9 @@ tm-has-size.3>> exists (s z).
 Subgoal tm-has-size.3:
 
 Nominals: n1:o, n:o
-Contexts: G{}:c[(n:tm, n1:size n (s z))]
+Contexts: G{}:C[(n:tm, n1:size n (s z))]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- n : tm}@
 
@@ -1806,9 +1813,9 @@ tm-has-size.3>> exists n1.
 Subgoal tm-has-size.3:
 
 Nominals: n1:o, n:o
-Contexts: G{}:c[(n:tm, n1:size n (s z))]
+Contexts: G{}:C[(n:tm, n1:size n (s z))]
 IH:
-    ctx G:c,
+    ctx G:C,
       forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
 H1:{G |- n : tm}@
 
