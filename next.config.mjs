@@ -360,7 +360,9 @@ function adelfaTransformer({ renderer }) {
 const withNextra = nextra({
   latex: true,
   defaultShowCopyCode: true,
-  search: true,
+  search: {
+    codeblocks: false,
+  },
   mdxOptions: {
     rehypePrettyCodeOptions: {
       defaultLang: "adelfa",
