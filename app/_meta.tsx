@@ -19,7 +19,8 @@ export default {
     title: "Examples",
   },
   "schema-subsumption": {
-    title: "Schema Subsumption"
+    title: "Schema Subsumption",
+    display: "hidden"
   },
   publications: {
     title: "Publications",
