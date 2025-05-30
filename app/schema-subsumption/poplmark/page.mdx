@@ -1,0 +1,586 @@
+---
+title: POPLmark Challenge 1a
+description: Solution to POPLmark 1a
+---
+
+# Transitivity and Narrowing of Subtyping
+
+The examples we have seen thus far have been relatively simple and involved
+context schemas comprised of a single block. In general, context schemas may
+have multiple blocks and schema subsumption accounts for this as well.
+
+To show a more complex example and display behavior in multiple blocks, we'll
+look at a solution to problem 1a of the [POPLmark
+Challenge](https://www.seas.upenn.edu/~plclub/poplmark/). The details of the
+formalization are not so important to schema subsumption, but the theorems
+involve multiple differing context schemas.
+
+We emulate a presentation which Michael Ashley-Rollman, Karl Crary, and Robert
+Harper at CMU utilized in [their solution to this
+problem](https://www.seas.upenn.edu/~plclub/poplmark/cmu.html), which uses
+[Twelf](https://twelf.org). This utilized a multi-block statement to initially
+prove the theorem. A "cleaner" version was then stated in a simpler context
+which utilized the initial theorem to complete it.
+
+Our development will closely mirror this, with a few small changes.
+
+The complete development is provided [as an
+example](/examples/programming-languages/poplmark) and as files here:
+
+- Signature: [`1a.lf{:plain}`](/poplmark/1a.lf)
+- Proof development: [`1a.ath{:plain}`](/poplmark/1a.ath)
+- CMU Twelf solution: [`cmu-twelf.tar.gz{:plain}`](/poplmark/cmu-twelf.tar.gz)
+
+The signature we will use is:
+
+```lf filename="1a.lf"
+ty : type.
+bound : {X:ty}{T:ty}type.
+var : {v:ty}type.
+bound_var : {X:ty}{T:ty} {D1:bound X T}{D2:var X}type.
+ 
+top : ty.
+arrow : {T1:ty}{T2: ty} ty.
+all : {T:ty}{F:{x:ty} ty} ty.
+ 
+sub : {T1:ty}{T2:ty}type.
+sa-top : {S:ty} sub S top.
+sa-refl-tvar : {U:ty}{X:ty}{v:var X}
+               {a1:bound X U}{a2:bound_var X U a1 v}
+               sub X X.
+sa-trans-tvar : {U1:ty}{U2:ty}{X:ty}{v:var X}
+                {a1:bound X U1}{a2:bound_var X U1 a1 v}
+                {D: sub U1 U2} sub X U2.
+sa-arrow : {S1:ty}{S2:ty}{T1:ty}{T2:ty}
+           {a1:sub T1 S1} {a2:sub S2 T2}
+            sub (arrow S1 S2) (arrow T1 T2).
+sa-all : {S1:ty}{S2:{x:ty}ty}{T1:ty}{T2:{x:ty}ty}
+         {a1:sub T1 S1}
+           {a2:({w:ty}{x:var w}{y:bound w T1}{z:bound_var w T1 y x} sub (S2 w) (T2 w))}
+           sub (all S1 ([x]S2 x)) (all T1 ([x]T2 x)).
+ 
+wfty : {T:ty} type.
+ 
+wfty-top : wfty top.
+wfty-arrow : {T1:ty}{T2:ty}
+              {d1:wfty T1}{d2: wfty T2} wfty (arrow T1 T2).
+wfty-all : {T1:ty}{T2:{x:ty} ty}
+            {d1: wfty T1}{d2: ({x:ty} wfty (T2 x))}
+             wfty (all T1 ([x] T2 x)).
+```
+
+
+Following this, we will have two different context schemas:
+
+```math
+\begin{align*}
+\mathcal{C}_{\mathrm{bound}} :=& \{U:o\}(w:\mathtt{ty},x:\mathtt{var}\ w, y:\mathtt{bound}\ w\ U, z:\mathtt{bound\textrm{\_}var}\ w\ U\ y\ x) \\
+\mathcal{C}_{\mathrm{all}}   :=& \{U:o\}(w:\mathtt{ty},x:\mathtt{var}\ w, y:\mathtt{bound}\ w\ U, z:\mathtt{bound\textrm{\_}var}\ w\ U\ y\ x), \\
+                               & (x:\mathtt{ty}, y:\mathtt{var}\ x), \\
+                               & \{V:o, T:o, DV:o\}(x:\mathtt{bound}\ V\ T, y:\mathtt{bound\textrm{\_}var}\ V\ T\ x\ DV)
+\end{align*}
+```
+
+Note that $\mathcal{C}_{\mathrm{bound}}$ contains a block schema which is
+precisely one within $\mathcal{C}_{\mathrm{all}}$.
+
+We will also have a context schema with just types, which allows for a more
+accurate statement of the proof for transitivity and narrowing.
+
+```math
+\begin{align*}
+\mathcal{C}_{\mathtt{tys}}    :=& (x:\mathtt{ty})
+\end{align*}
+```
+
+We prove transitivity and narrowing of subtyping in
+$\mathcal{C}_{\mathtt{ty}}$ and $\mathcal{C}_{\mathtt{all}}$, given by the
+theorem statement:
+
+```adelfa filename="1a.ath"
+Theorem trans_and_narrow :
+  forall Q, ctx G:tys, {G |- Q : ty} =>
+  % Transitivity:
+  (ctx L:c_all, forall S T D1 D2,
+  {L |- D1: sub S Q} => {L |- D2 : sub Q T} =>
+  exists D3, {L |- D3 : sub S T})
+  /\
+  % Narrowing:
+  (ctx L:c_all, forall X M N P D1 D2: o -> o -> o DV,
+  {L |- X : ty} => {L |- DV : var X} =>
+  {L |- D1 : sub P Q} =>
+  {L |- [x][y](D2 x y) : {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+  exists D4: o -> o -> o, {L |- [x][y](D4 x y) : {x:bound X P}{y:bound_var X P x DV}sub M N}).
+```
+
+This statement aims to show transitivity (the first formula within the
+conjunction) and narrowing (the second formula within the conjunction). The
+decision of entries for $\mathcal{C}_{\mathrm{all}}$ are not exactly intuitive.
+I will defer to the CMU group's discussion on this matter. Below is this
+explanation from their submission, with names to specific types / context shapes
+adapted to be relevant to Adelfa.
+
+<details>
+  <summary>
+    Discussion of context shapes in `1a.elf{:txt}` in CMU's solution.
+  </summary>
+
+
+
+    Since the cases for `bound_var{:txt}` depend on assumptions that are on only
+    in scope once we extend the context, we must put those cases into the
+    context with them.  Thus, in addition to adding `var{:txt}` assumptions, we
+    will also add `bound_var{:txt}` assumptions.  Hence, we have the following
+    block from which to build contexts:
+
+    The statement of narrowing involves one additional subtlety:
+
+    In narrow, we must identify the variable with respect to which we are
+    narrowing.  The most natural way to do so is to abstract over that variable;
+    thus taking an argument of type:
+
+    ```lf
+      {X:tp} var X -> bound X Q -> sub M N
+    ```
+
+    Unfortunately, we run afoul of a complication.  Obviously, the LF context
+    may contain dependencies only on other things in the LF context.  If we
+    abstract over the variable of interest, that variable is not in the context,
+    and therefore nothing in the context may depend on it.  As a result, we
+    effectively can narrow only with respect to the last variable.  However,
+    this is not strong enough for the proof to go through, since we must descend
+    inside forall types.
+    
+    Thus, when we are narrowing with respect to a variable $x$, we must find a
+    way to move assumptions that depend on $x$ to the left of it without
+    violating scoping constraints.  If we maintain the context in its usual
+    form:
+
+    ```math
+    \begin{array}{lllll}
+      &t_1:\mathtt{tp}, &dv_1:\mathtt{var}\ t_1, &d_1:\mathtt{bound}\ t_1\ T_1, &db_1:\mathtt{bound\textrm{\_}var}\ t_1\ T_1\ d_1\ dv_1,\\
+      &\ldots\\
+      &t_n:\mathtt{tp}, &dv_n:\mathtt{var}\ t_n, &d_n:\mathtt{bound}\ t_n\ T_n, &db_n:\mathtt{bound\textrm{\_}var}\ t_n\ T_n\ d_n\ dv_n
+    \end{array}
+    ```
+
+    then this is impossible.  However, we may weaken our context assumption to
+    allow variables to appear apart from their typing assumptions.  To adhere to
+    scoping constraints, we must keep dependencies to the right of the variables
+    they depend on, but we need not keep them to the right of those variables
+    typing assumptions.
+    
+    For example, suppose we encounter:
+
+    ```math
+    \begin{array}{lllll}
+      &\ldots,\\
+      &t_i:\mathtt{tp}, &dv_i:\mathtt{var}\ t_i, &d_i:\mathtt{bound}\ t_i\ T_i, &db_i:\mathtt{bound\textrm{\_}var}\ t_i\ T_i\ d_i\ dv_i,\\
+      &t_j:\mathtt{tp}, &dv_j:\mathtt{var}\ t_j, &d_j:\mathtt{bound}\ t_j\ T_j, &db_j:\mathtt{bound\textrm{\_}var}\ t_j\ T_j\ d_j\ dv_j
+    \end{array}
+    ```
+    and we wish to move $t_j$ out of the way.  Then we produce:
+
+    ```math
+    \begin{array}{llllll}
+      &\ldots,\\
+      &t_i:\mathtt{tp}, &dv_i:\mathtt{var}\ t_i, &\\
+      &t_j:\mathtt{tp}, &dv_j:\mathtt{var}\ t_j, &d_j:\mathtt{bound}\ t_j\ T_j, &db_j:\mathtt{bound\textrm{\_}var}\ t_j\ T_j\ d_j\ dv_j, \\
+      &&&d_i:\mathtt{bound}\ t_i\ T_i, &db_i:\mathtt{bound\textrm{\_}var}\ t_i\ T_i\ d_i\ dv_i
+    \end{array}
+    ```
+
+    This keeps the subtyping assumption $d_i$ last, and violates no scoping
+    constraints.  Thus, we identify the variable for narrowing not by
+    abstracting over the entire variable, but only over its subtyping
+    assumption.
+    
+    As a consequence of this, we must now deal with variables bereft of their
+    subtyping assumptions, and with disembodied subtyping assumptions.  Note
+    that disembodied subtyping assumptions are substantially at odds with our
+    usual experience, and we must reconsider whether the proof works at all in
+    their presence.
+    
+    Fortunately, with some minor modifications, the proof still works.  The only
+    issue that arises is that it now appears as though the refl and trans might
+    apply to non-variable types, since those types might now have subtyping
+    assumptions.  However, the `bound_var{:txt}` assumption applies, and states
+    that subtyping assumptions are available only for variables, so a
+    contradiction arises in each case where we suppose a subtyping assumption
+    for a non-variable.
+</details>
+
+We can then remove these blocks which were used in the original proof to "clean
+up" the statement, _i.e._, move the statements for transitivity and narrowing
+from $\mathcal{C}_{\mathrm{all}}$ to $\mathcal{C}_{bound}$.
+
+```adelfa filename="1a.ath" showOutput
+Theorem trans :
+  forall Q, ctx G:tys, {G |- Q : ty} =>
+  (ctx L:c_bound, forall S T D1 D2,
+  {L |- D1: sub S Q} => {L |- D2 : sub Q T} =>
+  exists D3, {L |- D3 : sub S T}).
+intros. apply trans_and_narrow' to H1. case H4.
+apply H5 to H2 H3. exists D3. search.
+
+Theorem narrow :
+  forall Q, ctx G:tys, {G |- Q : ty} =>
+  (ctx L:c_bound, forall X M N P D1 D2: o -> o -> o DV,
+  {L |- X : ty} => {L |- DV : var X} =>
+  {L |- D1 : sub P Q} =>
+  {L |- [x][y](D2 x y) : {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+  exists D4: o -> o -> o, {L |- [x][y](D4 x y) : {x:bound X P}{y:bound_var X P x DV}sub M N}).
+intros. apply trans_and_narrow' to H1. case H6.
+apply H8 to H2 H3 H4 H5. exists D4 n1 n. search.
+
+%{
+>> Theorem trans :
+  forall Q, ctx G:tys, {G |- Q : ty} =>
+  (ctx L:c_bound, forall S T D1 D2,
+  {L |- D1: sub S Q} => {L |- D2 : sub Q T} =>
+  exists D3, {L |- D3 : sub S T}).
+
+Subgoal trans:
+
+
+==================================
+forall Q,
+  ctx G:tys,
+    {G |- Q : ty} =>
+        ctx L:c_bound,
+          forall S, forall T, forall D1, forall D2,
+            {L |- D1 : sub S Q} =>
+                {L |- D2 : sub Q T} => exists D3, {L |- D3 : sub S T}
+
+trans>> intros.
+
+Subgoal trans:
+
+Vars: D2:o, D1:o, T:o, S:o, Q:o
+Contexts: G{}:tys[], L{}:c_bound[]
+H1:{G |- Q : ty}
+H2:{L |- D1 : sub S Q}
+H3:{L |- D2 : sub Q T}
+
+==================================
+exists D3, {L |- D3 : sub S T}
+
+trans>> apply trans_and_narrow' to H1.
+
+Subgoal trans:
+
+Vars: D2:o, D1:o, T:o, S:o, Q:o
+Contexts: G{}:tys[], L{}:c_bound[]
+H1:{G |- Q : ty}
+H2:{L |- D1 : sub S Q}
+H3:{L |- D2 : sub Q T}
+H4:
+    ctx L:c_all,
+      forall S, forall T, forall D1, forall D2,
+        {L |- D1 : sub S Q} =>
+            {L |- D2 : sub Q T} => exists D3, {L |- D3 : sub S T}
+        /\
+        ctx L:c_all,
+          forall X, forall M, forall N, forall P, forall D1, forall D2,
+            forall DV,
+            {L |- X : ty} =>
+                {L |- DV : var X} =>
+                    {L |- D1 : sub P Q} =>
+                        {L |- [x][y]D2 x y :
+                          {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+                            exists D4,
+                              {L |- [x][y]D4 x y :
+                                {x:bound X P}{y:bound_var X P x DV}sub M N}
+
+==================================
+exists D3, {L |- D3 : sub S T}
+
+trans>> case H4.
+
+Subgoal trans:
+
+Vars: D2:o, D1:o, T:o, S:o, Q:o
+Contexts: G{}:tys[], L{}:c_bound[]
+H1:{G |- Q : ty}
+H2:{L |- D1 : sub S Q}
+H3:{L |- D2 : sub Q T}
+H5:
+    ctx L:c_all,
+      forall S, forall T, forall D1, forall D2,
+        {L |- D1 : sub S Q} =>
+            {L |- D2 : sub Q T} => exists D3, {L |- D3 : sub S T}
+H6:
+    ctx L:c_all,
+      forall X, forall M, forall N, forall P, forall D1, forall D2,
+        forall DV,
+        {L |- X : ty} =>
+            {L |- DV : var X} =>
+                {L |- D1 : sub P Q} =>
+                    {L |- [x][y]D2 x y :
+                      {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+                        exists D4,
+                          {L |- [x][y]D4 x y :
+                            {x:bound X P}{y:bound_var X P x DV}sub M N}
+
+==================================
+exists D3, {L |- D3 : sub S T}
+
+trans>> apply H5 to H2 H3.
+
+Subgoal trans:
+
+Vars: D3:o, D2:o, D1:o, T:o, S:o, Q:o
+Contexts: G{}:tys[], L{}:c_bound[]
+H1:{G |- Q : ty}
+H2:{L |- D1 : sub S Q}
+H3:{L |- D2 : sub Q T}
+H5:
+    ctx L:c_all,
+      forall S, forall T, forall D1, forall D2,
+        {L |- D1 : sub S Q} =>
+            {L |- D2 : sub Q T} => exists D3, {L |- D3 : sub S T}
+H6:
+    ctx L:c_all,
+      forall X, forall M, forall N, forall P, forall D1, forall D2,
+        forall DV,
+        {L |- X : ty} =>
+            {L |- DV : var X} =>
+                {L |- D1 : sub P Q} =>
+                    {L |- [x][y]D2 x y :
+                      {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+                        exists D4,
+                          {L |- [x][y]D4 x y :
+                            {x:bound X P}{y:bound_var X P x DV}sub M N}
+H7:{L |- D3 : sub S T}
+
+==================================
+exists D3, {L |- D3 : sub S T}
+
+trans>> exists D3.
+
+Subgoal trans:
+
+Vars: D3:o, D2:o, D1:o, T:o, S:o, Q:o
+Contexts: G{}:tys[], L{}:c_bound[]
+H1:{G |- Q : ty}
+H2:{L |- D1 : sub S Q}
+H3:{L |- D2 : sub Q T}
+H5:
+    ctx L:c_all,
+      forall S, forall T, forall D1, forall D2,
+        {L |- D1 : sub S Q} =>
+            {L |- D2 : sub Q T} => exists D3, {L |- D3 : sub S T}
+H6:
+    ctx L:c_all,
+      forall X, forall M, forall N, forall P, forall D1, forall D2,
+        forall DV,
+        {L |- X : ty} =>
+            {L |- DV : var X} =>
+                {L |- D1 : sub P Q} =>
+                    {L |- [x][y]D2 x y :
+                      {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+                        exists D4,
+                          {L |- [x][y]D4 x y :
+                            {x:bound X P}{y:bound_var X P x DV}sub M N}
+H7:{L |- D3 : sub S T}
+
+==================================
+{L |- D3 : sub S T}
+
+trans>> search.
+Proof Completed!
+
+>> Theorem narrow :
+  forall Q, ctx G:tys, {G |- Q : ty} =>
+  (ctx L:c_bound, forall X M N P D1 D2: o -> o -> o DV,
+  {L |- X : ty} => {L |- DV : var X} =>
+  {L |- D1 : sub P Q} =>
+  {L |- [x][y](D2 x y) : {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+  exists D4: o -> o -> o, {L |- [x][y](D4 x y) : {x:bound X P}{y:bound_var X P x DV}sub M N}).
+
+Subgoal narrow:
+
+
+==================================
+forall Q,
+  ctx G:tys,
+    {G |- Q : ty} =>
+        ctx L:c_bound,
+          forall X, forall M, forall N, forall P, forall D1, forall D2,
+            forall DV,
+            {L |- X : ty} =>
+                {L |- DV : var X} =>
+                    {L |- D1 : sub P Q} =>
+                        {L |- [x][y]D2 x y :
+                          {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+                            exists D4,
+                              {L |- [x][y]D4 x y :
+                                {x:bound X P}{y:bound_var X P x DV}sub M N}
+
+narrow>> intros.
+
+Subgoal narrow:
+
+Vars: DV:o, D2:(o) -> (o) -> o, D1:o, P:o, N:o, M:o, X:o, Q:o
+Nominals: n1:o, n:o
+Contexts: G{}:tys[], L{n, n1}:c_bound[]
+H1:{G |- Q : ty}
+H2:{L |- X : ty}
+H3:{L |- DV : var X}
+H4:{L |- D1 : sub P Q}
+H5:{L, n:bound X Q, n1:bound_var X Q n DV |- D2 n n1 : sub M N}
+
+==================================
+exists D4, {L |- [x][y]D4 x y : {x:bound X P}{y:bound_var X P x DV}sub M N}
+
+narrow>> apply trans_and_narrow' to H1.
+
+Subgoal narrow:
+
+Vars: DV:o, D2:(o) -> (o) -> o, D1:o, P:o, N:o, M:o, X:o, Q:o
+Nominals: n1:o, n:o
+Contexts: G{}:tys[], L{n, n1}:c_bound[]
+H1:{G |- Q : ty}
+H2:{L |- X : ty}
+H3:{L |- DV : var X}
+H4:{L |- D1 : sub P Q}
+H5:{L, n:bound X Q, n1:bound_var X Q n DV |- D2 n n1 : sub M N}
+H6:
+    ctx L:c_all,
+      forall S, forall T, forall D1, forall D2,
+        {L |- D1 : sub S Q} =>
+            {L |- D2 : sub Q T} => exists D3, {L |- D3 : sub S T}
+        /\
+        ctx L:c_all,
+          forall X, forall M, forall N, forall P, forall D1, forall D2,
+            forall DV,
+            {L |- X : ty} =>
+                {L |- DV : var X} =>
+                    {L |- D1 : sub P Q} =>
+                        {L |- [x][y]D2 x y :
+                          {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+                            exists D4,
+                              {L |- [x][y]D4 x y :
+                                {x:bound X P}{y:bound_var X P x DV}sub M N}
+
+==================================
+exists D4, {L |- [x][y]D4 x y : {x:bound X P}{y:bound_var X P x DV}sub M N}
+
+narrow>> case H6.
+
+Subgoal narrow:
+
+Vars: DV:o, D2:(o) -> (o) -> o, D1:o, P:o, N:o, M:o, X:o, Q:o
+Nominals: n1:o, n:o
+Contexts: G{}:tys[], L{n, n1}:c_bound[]
+H1:{G |- Q : ty}
+H2:{L |- X : ty}
+H3:{L |- DV : var X}
+H4:{L |- D1 : sub P Q}
+H5:{L, n:bound X Q, n1:bound_var X Q n DV |- D2 n n1 : sub M N}
+H7:
+    ctx L:c_all,
+      forall S, forall T, forall D1, forall D2,
+        {L |- D1 : sub S Q} =>
+            {L |- D2 : sub Q T} => exists D3, {L |- D3 : sub S T}
+H8:
+    ctx L:c_all,
+      forall X, forall M, forall N, forall P, forall D1, forall D2,
+        forall DV,
+        {L |- X : ty} =>
+            {L |- DV : var X} =>
+                {L |- D1 : sub P Q} =>
+                    {L |- [x][y]D2 x y :
+                      {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+                        exists D4,
+                          {L |- [x][y]D4 x y :
+                            {x:bound X P}{y:bound_var X P x DV}sub M N}
+
+==================================
+exists D4, {L |- [x][y]D4 x y : {x:bound X P}{y:bound_var X P x DV}sub M N}
+
+narrow>> apply H8 to H2 H3 H4 H5.
+
+Subgoal narrow:
+
+Vars: D4:(o) -> (o) -> (o) -> (o) -> o, DV:o, D2:(o) -> (o) -> o, D1:o, P:o,
+        N:o, M:o, X:o, Q:o
+Nominals: n3:o, n2:o, n1:o, n:o
+Contexts: G{}:tys[], L{n, n1, n2, n3}:c_bound[]
+H1:{G |- Q : ty}
+H2:{L |- X : ty}
+H3:{L |- DV : var X}
+H4:{L |- D1 : sub P Q}
+H5:{L, n:bound X Q, n1:bound_var X Q n DV |- D2 n n1 : sub M N}
+H7:
+    ctx L:c_all,
+      forall S, forall T, forall D1, forall D2,
+        {L |- D1 : sub S Q} =>
+            {L |- D2 : sub Q T} => exists D3, {L |- D3 : sub S T}
+H8:
+    ctx L:c_all,
+      forall X, forall M, forall N, forall P, forall D1, forall D2,
+        forall DV,
+        {L |- X : ty} =>
+            {L |- DV : var X} =>
+                {L |- D1 : sub P Q} =>
+                    {L |- [x][y]D2 x y :
+                      {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+                        exists D4,
+                          {L |- [x][y]D4 x y :
+                            {x:bound X P}{y:bound_var X P x DV}sub M N}
+H9:{L, n2:bound X P, n3:bound_var X P n2 DV |- D4 n1 n n2 n3 : sub M N}
+
+==================================
+exists D4, {L |- [x][y]D4 x y : {x:bound X P}{y:bound_var X P x DV}sub M N}
+
+narrow>> exists D4 n1 n.
+
+Subgoal narrow:
+
+Vars: D4:(o) -> (o) -> (o) -> (o) -> o, DV:o, D2:(o) -> (o) -> o, D1:o, P:o,
+        N:o, M:o, X:o, Q:o
+Nominals: n3:o, n2:o, n1:o, n:o
+Contexts: G{}:tys[], L{n, n1, n2, n3}:c_bound[]
+H1:{G |- Q : ty}
+H2:{L |- X : ty}
+H3:{L |- DV : var X}
+H4:{L |- D1 : sub P Q}
+H5:{L, n:bound X Q, n1:bound_var X Q n DV |- D2 n n1 : sub M N}
+H7:
+    ctx L:c_all,
+      forall S, forall T, forall D1, forall D2,
+        {L |- D1 : sub S Q} =>
+            {L |- D2 : sub Q T} => exists D3, {L |- D3 : sub S T}
+H8:
+    ctx L:c_all,
+      forall X, forall M, forall N, forall P, forall D1, forall D2,
+        forall DV,
+        {L |- X : ty} =>
+            {L |- DV : var X} =>
+                {L |- D1 : sub P Q} =>
+                    {L |- [x][y]D2 x y :
+                      {x:bound X Q}{y:bound_var X Q x DV}sub M N} =>
+                        exists D4,
+                          {L |- [x][y]D4 x y :
+                            {x:bound X P}{y:bound_var X P x DV}sub M N}
+H9:{L, n2:bound X P, n3:bound_var X P n2 DV |- D4 n1 n n2 n3 : sub M N}
+
+==================================
+{L |- [x][y]D4 n1 n x y : {x:bound X P}{y:bound_var X P x DV}sub M N}
+
+narrow>> search.
+Proof Completed!
+}%
+```
+
+This is justified by the fact that the original statement, `Theorem
+trans_and_narrow` universally quantified over instances of the context variable
+typed by schema $\mathcal{C}_{\mathrm{all}}$. Therefore, it must have considered
+every case in which $\mathcal{C}_{\mathrm{all}}$ was a series of repetition of
+the block $\{U:o\}(w:\mathtt{ty},x:\mathtt{var}\ w, y:\mathtt{bound}\ w\ U,
+z:\mathtt{bound\textrm{\_}var}\ w\ U\ y\ x)$ alone. Since this is precisely the
+block which comprises $\mathcal{C}_{\mathrm{bound}}$, then we know the proof
+holds for every instance of $\mathcal{C}_{\mathrm{bound}}$. We also see a
+"nested" schema subsumption usage here. The schema we are analyzing is not
+quantified at the outermost level.
