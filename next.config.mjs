@@ -85,6 +85,30 @@ function rendererRich(options = {}) {
   };
 }
 
+const removeExtraSubgoals = (/**@type {string} */ s) => {
+  const output = [];
+  let subgoalCount = 0;
+
+  for (const line of s.split("\n")) {
+    if (/^Subgoal/.test(line.trim())) {
+      subgoalCount++;
+    }
+    if (subgoalCount <= 1) {
+      output.push(line);
+    }
+  }
+
+  const outputString = output.join("\n").trim();
+
+  if (subgoalCount > 1) {
+    return `${outputString}\n\n% ${subgoalCount - 1} remaining subgoal${
+      subgoalCount - 1 > 1 ? "s" : ""
+    }`;
+  }
+
+  return outputString;
+};
+
 const getOutputParts = (/**@type {string} */ s) => {
   if (!s.startsWith("\n\n")) {
     s = "\n\n" + s;
@@ -125,7 +149,7 @@ const getOutputParts = (/**@type {string} */ s) => {
     i++;
   }
   parts.push(curr);
-  return parts.map((p) => p.trim());
+  return parts.map((p) => removeExtraSubgoals(p.trim()));
 };
 
 function shouldshowOutputAdelfa(
