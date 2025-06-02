@@ -6,16 +6,20 @@ asIndexPage: true
 
 # Transporting Theorems Across Context Schemas
 
-
 Prior to reading the discussion within this page, it's necessary to have a rough
-understanding of the syntax of Adelfa and tactics of Adelfa. We recommend the
+understanding of the syntax and tactics of Adelfa. We recommend the
 reader explore the provided [walkthrough](/walkthrough) or have the [reference
 guide](/reference-guide) at hand. You may also search using the search bar in
 the top right to look up terms.
 
+If you'd like to install Adelfa and try things out for yourself, you must
+install this [pre-release version](/adelfa-transport.tar) which implements
+the transport rule.
+
 Some code blocks in the examples show the proof state after each command if the
 terminating symbol (`.`) is hovered over or clicked. The latter method allows
-easier scrolling in larger outputs. For example
+easier scrolling in larger outputs. Try hovering over the following commands to
+see the output:
 
 ```adelfa showOutput
 Theorem hover-example : false => true.
@@ -87,4 +91,5 @@ transport rule.
 3. [ORBI](/schema-subsumption/orbi) completes a standardized benchmark for
    what is referred to as "Non-Linear Context Extensions," which schema
    subsumption permits.
-
+4. [POPLmark](/schema-subsumption/poplmark) utilizes schema subsumption across
+   schemas with multiple blocks.

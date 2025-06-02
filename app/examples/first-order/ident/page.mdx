@@ -5,34 +5,12 @@ import { Tabs } from 'nextra/components';
 <Tabs items={['Specification', 'Reasoning']}>
 
 <Tabs.Tab>
-```lf filename="ident.lf"
-nat : type.
-z : nat.
-s : {x:nat} nat.
-
-plus : {N1:nat}{N2:nat}{N3:nat} type.
-plus_z : {N:nat} plus z N N.
-plus_s : {N1:nat}{N2:nat}{N3:nat}
-  {P:plus N1 N2 N3} plus (s N1) N2 (s N3).
+```lf filename="ident.lf" readFile
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
-```adelfa filename="ident.ath"
-Specification "ident.lf".
-
-Theorem identity : exists I, ((forall X, {X:nat} => exists D, {D:plus I X X}) /\
-                              (forall X, {X:nat} => exists D, {D:plus X I X})).
-exists z. split.
-  %left identity
-    intros. exists (plus_z X). search.
-  %right identity
-    induction on 1. intros. case H1.
-      %N=(s x)
-        apply IH to H2. exists (plus_s x z x D). search.
-      %N=z
-        exists (plus_z z). search.
-
+```adelfa filename="ident.ath" showOutput outputFile="ident.lst" readFile
 ```
 </Tabs.Tab>
 

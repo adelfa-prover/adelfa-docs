@@ -1,0 +1,74 @@
+>> Theorem tm-has-size : ctx G:C, forall E,
+  {G |- E : tm} => exists N D, {G |- D: size E N}.
+
+Subgoal tm-has-size:
+
+
+==================================
+ctx G:C, forall E, {G |- E : tm} => exists N, exists D, {G |- D : size E N}
+
+tm-has-size>> induction on 1.
+
+Subgoal tm-has-size:
+
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+
+==================================
+ctx G:C, forall E, {G |- E : tm}@ => exists N, exists D, {G |- D : size E N}
+
+tm-has-size>> intros.
+
+Subgoal tm-has-size:
+
+Vars: E:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- E : tm}@
+
+==================================
+exists N, exists D, {G |- D : size E N}
+
+tm-has-size>> case H1 (keep).
+
+Subgoal tm-has-size.1:
+
+Vars: E1:(o) -> o
+Nominals: n:o
+Contexts: G{n}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- lam ([c2]E1 c2) : tm}@
+H2:{G, n:tm |- E1 n : tm}*
+
+==================================
+exists N, exists D, {G |- D : size (lam ([c7]E1 c7)) N}
+
+Subgoal tm-has-size.2 is:
+ exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.1>> skip.
+
+Subgoal tm-has-size.2:
+
+Vars: E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}

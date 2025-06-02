@@ -1,0 +1,563 @@
+---
+title: Lambda calculus terms have a size
+description: Lambda calculus example
+---
+
+import { Tabs, Callout } from 'nextra/components';
+
+# Every $\lambda$-calculus Term Has a Size
+
+In this example we will discuss _schema subsumption_, a capability in Adelfa
+which allows one to "transport" a formula with a context variable typed by one
+context schema to a different context schema.
+
+The complete developments are provided here for reference:
+
+- Signature: [`size.lf{:plain}`](/size/size.lf)
+- Proof development _without_ transport:
+  [`size-no-transport.ath{:plain}`](/size/size-no-transport.ath)
+- Proof development _with_ transport: [`size-transport.ath{:plain}`](/size/size-transport.ath)
+
+
+This becomes especially useful
+when using lemmas.
+
+To show the usefulness of schema subsumption, we formalize a specification
+for the size of lambda calculus terms and prove that every term has a size. The
+informal rules for the size of terms is:
+
+```math
+|x| = 1 \qquad |\lambda x. e| = 1 + |e| \qquad |e_1\ e_2| = 1 + |e_1| + |e_2|
+```
+
+Where $e$ ranges over terms and $x$ denotes a variable.
+
+Before we can specify the size judgements in LF, we have to specify natural
+numbers and addition. We have seen these specified in [first order
+examples](/examples/first-order/ident) so will limit the discussion here to a
+presentation of the specification.
+
+<a id="nat-sig"></a>
+```lf filename="nat.lf"
+nat : type.
+z : nat.
+s : {x:nat} nat.
+
+plus : {x1:nat}{x2:nat}{x3:nat} type.
+plus-z : {x: nat} plus z x x.
+plus-s : {x1:nat}{x2:nat}{x3:nat}
+         {D: plus x1 x2 x3} plus (s x1) x2 (s x3).
+```
+
+Natural numbers and addition are common enough relations that we would want to
+have a standard library[^1] which defines them along with its properties. Foreseeing
+our eventual proof, we introduce a single theorem which states "for any two
+natural numbers, there exists a natural number which is their sum."
+
+[^1]: Adelfa does not currently have the ability to compose specifications or
+theorem developments which would permit libraries, so we inline these portions
+in lieu of this feature.
+
+<a id="plus-exist"></a>
+```adelfa filename="size.ath" showOutput outputFile="plus-exist.lst"
+Theorem plus-exist : forall N1 N2,
+  {N1: nat} => {N2:nat} => exists N3 D, {D: plus N1 N2 N3}.
+induction on 1.
+intros.
+case H1.
+apply IH to H3 H2.
+exists s N3.
+exists plus-s x N2 N3 D.
+search.
+exists N2.
+exists plus-z N2. search.
+```
+
+With this standard library now in place, we can specify our $\lambda$-calculus
+terms and their size. Their specification is a straightforward translation from
+our informal rules.
+
+<a id="size-sig"></a>
+```lf filename="size.lf"
+tm : type.
+
+app : {E1:tm}{E2:tm} tm.
+lam : {E: {x:tm} tm} tm.
+
+size : {E:tm}{x:nat} type.
+size-lam : {E: {y:tm} tm}{X:nat}
+           {D:{x:tm} {dx: size x (s z)} size (E x) X}
+           size (lam ([x] E x)) (s X).
+size-app : {E1:tm}{E2:tm}{X1:nat}{X2:nat}{X3:nat}
+           {D1: size E1 X1}
+           {D2: size E2 X2}
+           {D3: plus X1 X2 X3}
+           size (app E1 E2) (s X3).
+```
+
+Before we walk through our goal of showing every term has a size in Adelfa,
+let's walk through the informal proof.
+
+> _Theorem_: Every $\lambda$-calculus term $e$ has a size $n$.
+>
+> _Proof_: By induction on the size of terms. Case analysis on $e$:
+> - If $e$ is a variable, $|x| = 1$ by definition
+> - If $e$ is $|\lambda x. e'|$, by inductive hypothesis, there is some $n'$ such
+>   that $n' = |e'|$. By definition, $|\lambda x. e'| = 1 + n'$
+> - If $e$ is $|e_1\ e_2|$, then by inductive hypothesis on the component terms,
+>   there is some $n_1$ and $n_2$ such that $|e_1| = n_1$ and $|e_2| = n_2$. By
+>   definition, $|e_1\ e_2| = 1 + n_1 + n_2$
+>
+> Q.E.D.
+
+When proving this in Adelfa, we must be more precise about our statement. We
+permit open terms in our informal proof and categorize all variables as having a
+size of $1$. This doesn't suffice in a formal setting, so we limit ourselves
+to closed terms and prove our statement for terms under a context which forces
+the size of terms to be assessed under a context with variables of size 1. This is
+encoded within the `size-lam` term constructor. Reasoning inductively over
+derivations of `size` then results in a regular shape for contexts:
+
+```math
+(x_1: \mathtt{tm}, y_1: \mathtt{size}\ x_1\ (\mathtt{s}\ \mathtt{z}), \ldots, x_n: \mathtt{tm}, y_n: \mathtt{size}\ x_n\ (\mathtt{s}\ \mathtt{z}))
+```
+
+We specify such a shape in adelfa by defining a context schema `C`, with which we
+we lay out the entries of a single repetition.
+
+```adelfa filename="size.ath"
+Schema C := (x: tm, y: size x (s z)).
+```
+
+
+Our proof in Adelfa aligns closely with our informal proof. We begin by
+performing induction on the derivation of the of `E`, introducing the
+eigenvariables, context variable, and implication as hypotheses, then performing
+case analysis on the derivation of `E`. Our first proof obligation is that of an
+abstraction. To keep this example concise, we will skip the proof of the
+abstraction and move into the more interesting case of an application.
+
+
+```adelfa filename="size.ath" showOutput outputFile="tm-size-ex-1.lst"
+Theorem tm-has-size : ctx G:C, forall E,
+  {G |- E : tm} => exists N D, {G |- D: size E N}.
+  induction on 1. intros.
+  case H1 (keep). skip.
+```
+
+To complete the application case, we apply the  inductive hypothesis to the
+assumptions `{G |- E1 : tm}` and `{G |- E2 : tm}`.
+
+```adelfa filename="size.ath" showOutput outputFile="tm-size-ex-2.lst"
+apply IH to H2. apply IH to H3.
+```
+
+We want to instantiate the existentially quantified `N` with the successor of
+the sum for `N` and `N1`, but we are missing a derivation for the sum. In our
+library, we have a proof of this `plus-exist`. Let's get derivations for these
+natural numbers and attempt to utilize this lemma.
+
+
+```adelfa filename="size.ath" showOutput outputFile="tm-size-ex-3.lst"
+assert { G |- N : nat }.
+assert { G |- N1 : nat }.
+apply plus-exist to H6 H7.
+```
+
+The resulting error "Error: could not match context variables" arises because
+`plus-exist` was proven for LF derivations without any context variable. As
+such, Adelfa cannot verify the proof still holds in the presence of this context
+variable. In the next section we'll walk through, step by step, how one may
+attempt to fix this situation and discuss them.
+
+## Proof Without Transport
+
+In this section, we will discuss two ways to continue this proof without
+utilizing the transport rule and see where approaches differ and where they fall
+short.
+
+### Removing context dependencies
+
+The first solution one may try is to prove that the natural numbers do not rely
+on entries in the schema `C` to use this lemma. Such a proof is fairly routine
+by induction and case analysis on the derivation for natural numbers.
+
+```adelfa filename="size.ath" showOutput outputFile="nat-ind.lst"
+Theorem nat-ind : ctx G:C, forall N,
+  { G |- N : nat } => { N : nat }.
+induction on 1. intros.
+case H1. apply IH to H2. search. search.
+```
+
+Let's back up to when we tried to use `plus-exist` and try to complete the proof
+after removing the context variables. This time, the application of `plus-exist`
+is allowed, and now have an assumption for `{D2 : plus N N1 N3}`.
+
+```adelfa filename="size.ath" showOutput outputFile="tm-size-ex-4.lst"
+assert { G |- N : nat }. apply nat-ind to H6.
+assert { G |- N1 : nat }. apply nat-ind to H8.
+apply plus-exist to H7 H9.
+```
+
+Given `N3` is the sum of the sizes for `E1` and `E2`, the goal's existentially
+quantified variables can now be instantiated with `N` as `(s N3)` and `D` as a
+term constructor for `size-app`. This time, we cannot complete the case since
+adelfa cannot find a derivation for:
+
+```math
+\mathtt{G} \vdash_{\Sigma} \mathtt{N3} \Leftarrow \mathtt{nat}
+```
+
+```adelfa filename="size.ath" showOutput
+exists (s N3).
+exists size-app E1 E2 N N1 N3 D D1 D2.
+search.
+
+%{
+
+tm-has-size.2>> exists (s N3).
+
+Subgoal tm-has-size.2:
+
+Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{N : nat}
+H8:{G |- N1 : nat}
+H9:{N1 : nat}
+H10:{D2 : plus N N1 N3}
+
+==================================
+exists D, {G |- D : size (app E1 E2) (s N3)}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> exists size-app E1 E2 N N1 N3 D D1 D2.
+
+Subgoal tm-has-size.2:
+
+Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{N : nat}
+H8:{G |- N1 : nat}
+H9:{N1 : nat}
+H10:{D2 : plus N N1 N3}
+
+==================================
+{G |- size-app E1 E2 N N1 N3 D D1 D2 : size (app E1 E2) (s N3)}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> search.
+
+Error: Search failed. Unable to determine validity of: G |- N3 : nat
+}%
+```
+
+In order to utilize `size-app` we must have `N3` under the same context variable
+as the other terms. Yet, our only occurrence of `N3` in our assumption set is
+within the formula `{D2 : plus N N1 N3}`. The best Adelfa can deduce is
+therefore `{N3 : nat}`. One may try to prove a lemma of the sort:
+
+```adelfa
+Theorem nat-wk : ctx G:C, forall N, { N : nat } => { G |- N : nat}.
+```
+
+But this will not work. The instantiations for `G` are not limited to
+well-formed ones, and therefore this statement is false. Therefore, the state we
+are in within our proof of `tm-has-size` has reached a dead end, and we must
+reevaluate how to proceed.
+
+
+### Reproving lemmas
+
+The second approach one may attempt is to reprove necessary lemmas under a
+context variable.
+
+<a id="plus-exist-context"></a>
+```adelfa filename="size.ath" showOutput outputFile="plus-exist-ctx.lst"
+Theorem plus-exist-context : ctx G:C, forall N1 N2,
+  {G |- N1: nat} => {G |- N2:nat} => exists N3 D, {G |- D: plus N1 N2 N3}.
+induction on 1.
+intros.
+case H1.
+apply IH to H3 H2.
+exists s N3.
+exists plus-s x N2 N3 D.
+search.
+exists N2.
+exists plus-z N2. search.
+```
+
+Notice that there is _no difference_ in the proof compared to the [one without
+the context variable](#plus-exist). This makes sense, because `nat`
+and `plus` do not depend on anything within `G`.
+
+Using this reproved lemma within our proof of `tm-has-size` will succeed this
+time.
+
+```adelfa filename="size.ath" showOutput outputFile="tm-size-ex-5.lst"
+assert { G |- N : nat }.
+assert { G |- N1 : nat }.
+apply plus-exist-context to H6 H7.
+```
+
+Having an assumption formula `{G |- D2 : plus N N1 N3}` allows us to properly
+instantiate the existentially quantified variables with `N` as `s N3` and `D` as
+the term constructor `size-app`. This case can then be completed and we can move
+on to the next proof obligation. Our previous issue where we could not show that
+`N3` is a wellformed term of type `nat` in the contxt `G`. This is no longer an
+issue now that we have the assumption `{G |- D2 : plus N N1 N3}`, which implies
+`{G |- N3 : nat}`.
+
+
+```adelfa filename="size.ath" showOutput
+exists (s N3).
+exists size-app E1 E2 N N1 N3 D D1 D2.
+
+%{
+
+tm-has-size.2>> exists (s N3).
+
+Subgoal tm-has-size.2:
+
+Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+H8:{G |- D2 : plus N N1 N3}
+
+==================================
+exists D, {G |- D : size (app E1 E2) (s N3)}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> exists size-app E1 E2 N N1 N3 D D1 D2.
+
+Subgoal tm-has-size.2:
+
+Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+H8:{G |- D2 : plus N N1 N3}
+
+==================================
+{G |- size-app E1 E2 N N1 N3 D D1 D2 : size (app E1 E2) (s N3)}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+}%
+```
+
+## Proof With Transport
+
+With schema subsumption, when Adelfa encounters a usage of the `apply` tactic
+which would fail due to a mismatch in context schemas, it will automatically try
+to transport the proof into the new context schema. In our case, transporting
+the proof of [`plus-exist`](#plus-exist) into one of
+[`plus-exist-context`](#plus-exist-context) automatically.
+
+The proof for `tm-has-size` then requires no extra lemmas and can directly
+utilize the library's theorem without worrying about reproving routine
+properties under a new context schema.
+
+```adelfa filename="size.ath" showOutput
+assert { G |- N : nat }.
+assert { G |- N1 : nat }.
+apply plus-exist to H6 H7.
+exists (s N3).
+exists size-app E1 E2 N N1 N3 D D1 D2.
+search.
+
+%{
+
+tm-has-size.2>> assert { G |- N : nat }.
+
+Subgoal tm-has-size.2:
+
+Vars: D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:c[]
+IH:
+    ctx G:c,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> assert { G |- N1 : nat }.
+
+Subgoal tm-has-size.2:
+
+Vars: D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:c[]
+IH:
+    ctx G:c,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> apply plus-exist to H6 H7.
+
+Subgoal tm-has-size.2:
+
+Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:c[]
+IH:
+    ctx G:c,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+H8:{G |- D2 : plus N N1 N3}
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> exists (s N3).
+
+Subgoal tm-has-size.2:
+
+Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:c[]
+IH:
+    ctx G:c,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+H8:{G |- D2 : plus N N1 N3}
+
+==================================
+exists D, {G |- D : size (app E1 E2) (s N3)}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> exists size-app E1 E2 N N1 N3 D D1 D2.
+
+Subgoal tm-has-size.2:
+
+Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:c[]
+IH:
+    ctx G:c,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+H8:{G |- D2 : plus N N1 N3}
+
+==================================
+{G |- size-app E1 E2 N N1 N3 D D1 D2 : size (app E1 E2) (s N3)}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> search.
+
+Subgoal tm-has-size.3:
+
+Nominals: n1:o, n:o
+Contexts: G{}:c[(n:tm, n1:size n (s z))]
+IH:
+    ctx G:c,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- n : tm}@
+
+==================================
+exists N, exists D, {G |- D : size n N}
+}%
+```
+
+With transport, the entire proof is:
+
+
+```adelfa filename="size.ath" showOutput outputFile="tm-size-full.lst"
+Theorem tm-has-size : ctx G:C, forall E,
+  {G |- E : tm} => exists N D, {G |- D: size E N}.
+induction on 1. intros.
+case H1 (keep).
+weaken H2 with size n (s z).
+apply IH to H3 with (G = G, n1:tm, n:size n1 (s z)).
+assert { G, n1:tm, n:size n1 (s z) |- N n1 n : nat }.
+prune H5. strengthen H5. strengthen H6.
+exists (s N). exists size-lam ([x] E1 x) N D.
+search.
+apply IH to H2. apply IH to H3.
+assert { G |- N : nat }. assert { G |- N1 : nat }.
+apply plus-exist to H6 H7.
+exists (s N3). exists size-app E1 E2 N N1 N3 D D1 D2. search.
+exists (s z). exists n1. search.
+```

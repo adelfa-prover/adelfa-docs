@@ -1,0 +1,48 @@
+tm-has-size.2>> assert { G |- N : nat }.
+
+Subgoal tm-has-size.2:
+
+Vars: D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> assert { G |- N1 : nat }.
+
+Subgoal tm-has-size.2:
+
+Vars: D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> apply plus-exist to H6 H7.
+
+Error: could not match context variables

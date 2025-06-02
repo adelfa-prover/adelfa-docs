@@ -1,0 +1,178 @@
+>> Theorem plus-exist-context : ctx G:C, forall N1 N2,
+  {G |- N1: nat} => {G |- N2:nat} => exists N3 D, {G |- D: plus N1 N2 N3}.
+
+Subgoal plus-exist-context:
+
+
+==================================
+ctx G:C,
+  forall N1, forall N2,
+    {G |- N1 : nat} =>
+        {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+
+plus-exist-context>> induction on 1.
+
+Subgoal plus-exist-context:
+
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+
+==================================
+ctx G:C,
+  forall N1, forall N2,
+    {G |- N1 : nat}@ =>
+        {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+
+plus-exist-context>> intros.
+
+Subgoal plus-exist-context:
+
+Vars: N2:o, N1:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H1:{G |- N1 : nat}@
+H2:{G |- N2 : nat}
+
+==================================
+exists N3, exists D, {G |- D : plus N1 N2 N3}
+
+plus-exist-context>> case H1.
+
+Subgoal plus-exist-context.1:
+
+Vars: x:o, N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+H3:{G |- x : nat}*
+
+==================================
+exists N3, exists D, {G |- D : plus (s x) N2 N3}
+
+Subgoal plus-exist-context.2 is:
+ exists N3, exists D, {G |- D : plus z N2 N3}
+
+plus-exist-context.1>> apply IH to H3 H2.
+
+Subgoal plus-exist-context.1:
+
+Vars: D:o, N3:o, x:o, N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+H3:{G |- x : nat}*
+H4:{G |- D : plus x N2 N3}
+
+==================================
+exists N3, exists D, {G |- D : plus (s x) N2 N3}
+
+Subgoal plus-exist-context.2 is:
+ exists N3, exists D, {G |- D : plus z N2 N3}
+
+plus-exist-context.1>> exists s N3.
+
+Subgoal plus-exist-context.1:
+
+Vars: D:o, N3:o, x:o, N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+H3:{G |- x : nat}*
+H4:{G |- D : plus x N2 N3}
+
+==================================
+exists D, {G |- D : plus (s x) N2 (s N3)}
+
+Subgoal plus-exist-context.2 is:
+ exists N3, exists D, {G |- D : plus z N2 N3}
+
+plus-exist-context.1>> exists plus-s x N2 N3 D.
+
+Subgoal plus-exist-context.1:
+
+Vars: D:o, N3:o, x:o, N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+H3:{G |- x : nat}*
+H4:{G |- D : plus x N2 N3}
+
+==================================
+{G |- plus-s x N2 N3 D : plus (s x) N2 (s N3)}
+
+Subgoal plus-exist-context.2 is:
+ exists N3, exists D, {G |- D : plus z N2 N3}
+
+plus-exist-context.1>> search.
+
+Subgoal plus-exist-context.2:
+
+Vars: N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+
+==================================
+exists N3, exists D, {G |- D : plus z N2 N3}
+
+plus-exist-context.2>> exists N2.
+
+Subgoal plus-exist-context.2:
+
+Vars: N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+
+==================================
+exists D, {G |- D : plus z N2 N2}
+
+plus-exist-context.2>> exists plus-z N2.
+
+Subgoal plus-exist-context.2:
+
+Vars: N2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall N1, forall N2,
+        {G |- N1 : nat}* =>
+            {G |- N2 : nat} => exists N3, exists D, {G |- D : plus N1 N2 N3}
+H2:{G |- N2 : nat}
+
+==================================
+{G |- plus-z N2 : plus z N2 N2}
+
+plus-exist-context.2>> search.
+Proof Completed!

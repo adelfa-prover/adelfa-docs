@@ -1,0 +1,413 @@
+>> Theorem tranG: ctx G:xaG, forall M1 M2 M3 D1 D2,
+  {G |- D1: aeq M1 M2} => {G |- D2: aeq M2 M3} => exists D3, {G |- D3: aeq M1 M3}.
+
+Subgoal tranG:
+
+
+==================================
+ctx G:xaG,
+  forall M1, forall M2, forall M3, forall D1, forall D2,
+    {G |- D1 : aeq M1 M2} =>
+        {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+
+tranG>> induction on 1.
+
+Subgoal tranG:
+
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+
+==================================
+ctx G:xaG,
+  forall M1, forall M2, forall M3, forall D1, forall D2,
+    {G |- D1 : aeq M1 M2}@ =>
+        {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+
+tranG>> intros.
+
+Subgoal tranG:
+
+Vars: D2:o, D1:o, M3:o, M2:o, M1:o
+Contexts: G{}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:{G |- D1 : aeq M1 M2}@
+H2:{G |- D2 : aeq M2 M3}
+
+==================================
+exists D3, {G |- D3 : aeq M1 M3}
+
+tranG>> case H1 (keep).
+
+Subgoal tranG.1:
+
+Vars: D:(o) -> (o) -> o, M:(o) -> o, N:(o) -> o, D2:o, M3:o
+Nominals: n3:o, n2:o, n1:o, n:o
+Contexts: G{n, n1, n2, n3}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:
+    {G |- ae_l ([c12]M c12) ([c13]N c13) ([c14][c15]D c14 c15) :
+      aeq (lam ([c3]M c3)) (lam ([c6]N c6))}@
+H2:{G |- D2 : aeq (lam ([c6]N c6)) M3}
+H3:{G, n:tm |- M n : tm}*
+H4:{G, n1:tm |- N n1 : tm}*
+H5:{G, n2:tm, n3:aeq n2 n2 |- D n2 n3 : aeq (M n2) (N n2)}*
+
+==================================
+exists D3, {G |- D3 : aeq (lam ([c32]M c32)) M3}
+
+Subgoal tranG.2 is:
+exists D3, {G |- D3 : aeq (app M4 M5) M3}
+
+Subgoal tranG.3 is:
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.1>> case H2.
+
+Subgoal tranG.1:
+
+Vars: D3:(o) -> (o) -> o, M4:(o) -> o, D:(o) -> (o) -> o, M:(o) -> o, N:
+        (o) -> o
+Nominals: n7:o, n6:o, n5:o, n4:o, n3:o, n2:o, n1:o, n:o
+Contexts: G{n, n1, n2, n3, n4, n5, n6, n7}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:
+    {G |- ae_l ([c12]M c12) ([c13]N c13) ([c14][c15]D c14 c15) :
+      aeq (lam ([c3]M c3)) (lam ([c6]N c6))}@
+H3:{G, n:tm |- M n : tm}*
+H4:{G, n1:tm |- N n1 : tm}*
+H5:{G, n2:tm, n3:aeq n2 n2 |- D n2 n3 : aeq (M n2) (N n2)}*
+H6:{G, n4:tm |- N n4 : tm}
+H7:{G, n5:tm |- M4 n5 : tm}
+H8:{G, n6:tm, n7:aeq n6 n6 |- D3 n6 n7 : aeq (N n6) (M4 n6)}
+
+==================================
+exists D3, {G |- D3 : aeq (lam ([c74]M c74)) (lam ([c77]M4 c77))}
+
+Subgoal tranG.2 is:
+exists D3, {G |- D3 : aeq (app M4 M5) M3}
+
+Subgoal tranG.3 is:
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.1>> apply IH to H5 H8 with (G = G, n1:tm, n: aeq n1 n1).
+
+Subgoal tranG.1:
+
+Vars: D3:(o) -> (o) -> o, M4:(o) -> o, D:(o) -> (o) -> o, M:(o) -> o, N:
+        (o) -> o, D1:
+        (o) -> (o) -> (o) -> (o) -> (o) -> (o) -> (o) -> (o) -> o
+Nominals: n7:o, n6:o, n5:o, n4:o, n3:o, n2:o, n1:o, n:o
+Contexts: G{n, n1, n2, n3, n4, n5, n6, n7}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:
+    {G |- ae_l ([c12]M c12) ([c13]N c13) ([c14][c15]D c14 c15) :
+      aeq (lam ([c3]M c3)) (lam ([c6]N c6))}@
+H3:{G, n:tm |- M n : tm}*
+H4:{G, n1:tm |- N n1 : tm}*
+H5:{G, n2:tm, n3:aeq n2 n2 |- D n2 n3 : aeq (M n2) (N n2)}*
+H6:{G, n4:tm |- N n4 : tm}
+H7:{G, n5:tm |- M4 n5 : tm}
+H8:{G, n6:tm, n7:aeq n6 n6 |- D3 n6 n7 : aeq (N n6) (M4 n6)}
+H9:{G, n1:tm, n:aeq n1 n1 |- D1 n7 n6 n5 n4 n3 n2 n1 n : aeq (M n1) (M4 n1)}
+
+==================================
+exists D3, {G |- D3 : aeq (lam ([c74]M c74)) (lam ([c77]M4 c77))}
+
+Subgoal tranG.2 is:
+exists D3, {G |- D3 : aeq (app M4 M5) M3}
+
+Subgoal tranG.3 is:
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.1>> prune H9.
+
+Subgoal tranG.1:
+
+Vars: D3:(o) -> (o) -> o, M4:(o) -> o, D:(o) -> (o) -> o, M:(o) -> o, N:
+        (o) -> o, D1:(o) -> (o) -> o
+Nominals: n7:o, n6:o, n5:o, n4:o, n3:o, n2:o, n1:o, n:o
+Contexts: G{n, n1, n2, n3, n4, n5, n6, n7}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:
+    {G |- ae_l ([c12]M c12) ([c13]N c13) ([c14][c15]D c14 c15) :
+      aeq (lam ([c3]M c3)) (lam ([c6]N c6))}@
+H3:{G, n:tm |- M n : tm}*
+H4:{G, n1:tm |- N n1 : tm}*
+H5:{G, n2:tm, n3:aeq n2 n2 |- D n2 n3 : aeq (M n2) (N n2)}*
+H6:{G, n4:tm |- N n4 : tm}
+H7:{G, n5:tm |- M4 n5 : tm}
+H8:{G, n6:tm, n7:aeq n6 n6 |- D3 n6 n7 : aeq (N n6) (M4 n6)}
+H9:{G, n1:tm, n:aeq n1 n1 |- D1 n1 n : aeq (M n1) (M4 n1)}
+
+==================================
+exists D3, {G |- D3 : aeq (lam ([c74]M c74)) (lam ([c77]M4 c77))}
+
+Subgoal tranG.2 is:
+exists D3, {G |- D3 : aeq (app M4 M5) M3}
+
+Subgoal tranG.3 is:
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.1>> exists ae_l M M4 D1.
+
+Subgoal tranG.1:
+
+Vars: D3:(o) -> (o) -> o, M4:(o) -> o, D:(o) -> (o) -> o, M:(o) -> o, N:
+        (o) -> o, D1:(o) -> (o) -> o
+Nominals: n7:o, n6:o, n5:o, n4:o, n3:o, n2:o, n1:o, n:o
+Contexts: G{n, n1, n2, n3, n4, n5, n6, n7}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:
+    {G |- ae_l ([c12]M c12) ([c13]N c13) ([c14][c15]D c14 c15) :
+      aeq (lam ([c3]M c3)) (lam ([c6]N c6))}@
+H3:{G, n:tm |- M n : tm}*
+H4:{G, n1:tm |- N n1 : tm}*
+H5:{G, n2:tm, n3:aeq n2 n2 |- D n2 n3 : aeq (M n2) (N n2)}*
+H6:{G, n4:tm |- N n4 : tm}
+H7:{G, n5:tm |- M4 n5 : tm}
+H8:{G, n6:tm, n7:aeq n6 n6 |- D3 n6 n7 : aeq (N n6) (M4 n6)}
+H9:{G, n1:tm, n:aeq n1 n1 |- D1 n1 n : aeq (M n1) (M4 n1)}
+
+==================================
+{G |- ae_l M M4 D1 : aeq (lam ([c74]M c74)) (lam ([c77]M4 c77))}
+
+Subgoal tranG.2 is:
+exists D3, {G |- D3 : aeq (app M4 M5) M3}
+
+Subgoal tranG.3 is:
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.1>> search.
+
+Subgoal tranG.2:
+
+Vars: D3:o, D4:o, M4:o, M5:o, N1:o, N2:o, D2:o, M3:o
+Contexts: G{}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:{G |- ae_a M4 M5 N1 N2 D3 D4 : aeq (app M4 M5) (app N1 N2)}@
+H2:{G |- D2 : aeq (app N1 N2) M3}
+H3:{G |- M4 : tm}*
+H4:{G |- M5 : tm}*
+H5:{G |- N1 : tm}*
+H6:{G |- N2 : tm}*
+H7:{G |- D3 : aeq M4 N1}*
+H8:{G |- D4 : aeq M5 N2}*
+
+==================================
+exists D3, {G |- D3 : aeq (app M4 M5) M3}
+
+Subgoal tranG.3 is:
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.2>> case H2.
+
+Subgoal tranG.2:
+
+Vars: D5:o, D6:o, N3:o, N4:o, D3:o, D4:o, M4:o, M5:o, N1:o, N2:o
+Contexts: G{}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:{G |- ae_a M4 M5 N1 N2 D3 D4 : aeq (app M4 M5) (app N1 N2)}@
+H3:{G |- M4 : tm}*
+H4:{G |- M5 : tm}*
+H5:{G |- N1 : tm}*
+H6:{G |- N2 : tm}*
+H7:{G |- D3 : aeq M4 N1}*
+H8:{G |- D4 : aeq M5 N2}*
+H9:{G |- N1 : tm}
+H10:{G |- N2 : tm}
+H11:{G |- N3 : tm}
+H12:{G |- N4 : tm}
+H13:{G |- D5 : aeq N1 N3}
+H14:{G |- D6 : aeq N2 N4}
+
+==================================
+exists D3, {G |- D3 : aeq (app M4 M5) (app N3 N4)}
+
+Subgoal tranG.3 is:
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.2>> apply IH to H7 H13.
+
+Subgoal tranG.2:
+
+Vars: D5:o, D6:o, N3:o, N4:o, D3:o, D4:o, M4:o, M5:o, N1:o, N2:o, D1:o
+Contexts: G{}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:{G |- ae_a M4 M5 N1 N2 D3 D4 : aeq (app M4 M5) (app N1 N2)}@
+H3:{G |- M4 : tm}*
+H4:{G |- M5 : tm}*
+H5:{G |- N1 : tm}*
+H6:{G |- N2 : tm}*
+H7:{G |- D3 : aeq M4 N1}*
+H8:{G |- D4 : aeq M5 N2}*
+H9:{G |- N1 : tm}
+H10:{G |- N2 : tm}
+H11:{G |- N3 : tm}
+H12:{G |- N4 : tm}
+H13:{G |- D5 : aeq N1 N3}
+H14:{G |- D6 : aeq N2 N4}
+H15:{G |- D1 : aeq M4 N3}
+
+==================================
+exists D3, {G |- D3 : aeq (app M4 M5) (app N3 N4)}
+
+Subgoal tranG.3 is:
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.2>> apply IH to H8 H14.
+
+Subgoal tranG.2:
+
+Vars: D5:o, D6:o, N3:o, N4:o, D3:o, D4:o, M4:o, M5:o, N1:o, N2:o, D2:o, D1:o
+Contexts: G{}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:{G |- ae_a M4 M5 N1 N2 D3 D4 : aeq (app M4 M5) (app N1 N2)}@
+H3:{G |- M4 : tm}*
+H4:{G |- M5 : tm}*
+H5:{G |- N1 : tm}*
+H6:{G |- N2 : tm}*
+H7:{G |- D3 : aeq M4 N1}*
+H8:{G |- D4 : aeq M5 N2}*
+H9:{G |- N1 : tm}
+H10:{G |- N2 : tm}
+H11:{G |- N3 : tm}
+H12:{G |- N4 : tm}
+H13:{G |- D5 : aeq N1 N3}
+H14:{G |- D6 : aeq N2 N4}
+H15:{G |- D1 : aeq M4 N3}
+H16:{G |- D2 : aeq M5 N4}
+
+==================================
+exists D3, {G |- D3 : aeq (app M4 M5) (app N3 N4)}
+
+Subgoal tranG.3 is:
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.2>> exists ae_a M4 M5 N3 N4 D1 D2.
+
+Subgoal tranG.2:
+
+Vars: D5:o, D6:o, N3:o, N4:o, D3:o, D4:o, M4:o, M5:o, N1:o, N2:o, D2:o, D1:o
+Contexts: G{}:xaG[]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:{G |- ae_a M4 M5 N1 N2 D3 D4 : aeq (app M4 M5) (app N1 N2)}@
+H3:{G |- M4 : tm}*
+H4:{G |- M5 : tm}*
+H5:{G |- N1 : tm}*
+H6:{G |- N2 : tm}*
+H7:{G |- D3 : aeq M4 N1}*
+H8:{G |- D4 : aeq M5 N2}*
+H9:{G |- N1 : tm}
+H10:{G |- N2 : tm}
+H11:{G |- N3 : tm}
+H12:{G |- N4 : tm}
+H13:{G |- D5 : aeq N1 N3}
+H14:{G |- D6 : aeq N2 N4}
+H15:{G |- D1 : aeq M4 N3}
+H16:{G |- D2 : aeq M5 N4}
+
+==================================
+{G |- ae_a M4 M5 N3 N4 D1 D2 : aeq (app M4 M5) (app N3 N4)}
+
+Subgoal tranG.3 is:
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.2>> search.
+
+Subgoal tranG.3:
+
+Vars: D2:(o) -> (o) -> o, M3:(o) -> (o) -> o
+Nominals: n1:o, n:o
+Contexts: G{}:xaG[(n:tm, n1:aeq n n)]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:{G |- n1 : aeq n n}@
+H2:{G |- D2 n n1 : aeq n (M3 n n1)}
+
+==================================
+exists D3, {G |- D3 : aeq n (M3 n n1)}
+
+tranG.3>> case H2.
+
+Subgoal tranG.3:
+
+Nominals: n1:o, n:o
+Contexts: G{}:xaG[(n:tm, n1:aeq n n)]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:{G |- n1 : aeq n n}@
+
+==================================
+exists D3, {G |- D3 : aeq n n}
+
+tranG.3>> exists n1.
+
+Subgoal tranG.3:
+
+Nominals: n1:o, n:o
+Contexts: G{}:xaG[(n:tm, n1:aeq n n)]
+IH:
+    ctx G:xaG,
+      forall M1, forall M2, forall M3, forall D1, forall D2,
+        {G |- D1 : aeq M1 M2}* =>
+            {G |- D2 : aeq M2 M3} => exists D3, {G |- D3 : aeq M1 M3}
+H1:{G |- n1 : aeq n n}@
+
+==================================
+{G |- n1 : aeq n n}
+
+tranG.3>> search.
+Proof Completed!

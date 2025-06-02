@@ -1,0 +1,73 @@
+>> Theorem nat-ind : ctx G:C, forall N,
+  { G |- N : nat } => { N : nat }.
+
+Subgoal nat-ind:
+
+
+==================================
+ctx G:C, forall N, {G |- N : nat} => {N : nat}
+
+nat-ind>> induction on 1.
+
+Subgoal nat-ind:
+
+IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
+
+==================================
+ctx G:C, forall N, {G |- N : nat}@ => {N : nat}
+
+nat-ind>> intros.
+
+Subgoal nat-ind:
+
+Vars: N:o
+Contexts: G{}:C[]
+IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
+H1:{G |- N : nat}@
+
+==================================
+{N : nat}
+
+nat-ind>> case H1.
+
+Subgoal nat-ind.1:
+
+Vars: x:o
+Contexts: G{}:C[]
+IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
+H2:{G |- x : nat}*
+
+==================================
+{s x : nat}
+
+Subgoal nat-ind.2 is:
+ {z : nat}
+
+nat-ind.1>> apply IH to H2.
+
+Subgoal nat-ind.1:
+
+Vars: x:o
+Contexts: G{}:C[]
+IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
+H2:{G |- x : nat}*
+H3:{x : nat}
+
+==================================
+{s x : nat}
+
+Subgoal nat-ind.2 is:
+ {z : nat}
+
+nat-ind.1>> search.
+
+Subgoal nat-ind.2:
+
+Contexts: G{}:C[]
+IH:ctx G:C, forall N, {G |- N : nat}* => {N : nat}
+
+==================================
+{z : nat}
+
+nat-ind.2>> search.
+Proof Completed!

@@ -1,0 +1,232 @@
+>> Theorem reflG: ctx G:xaG, forall T, {G |- T : tm} => exists D, {G |- D : aeq T T}.
+
+Subgoal reflG:
+
+
+==================================
+ctx G:xaG, forall T, {G |- T : tm} => exists D, {G |- D : aeq T T}
+
+reflG>> induction on 1.
+
+Subgoal reflG:
+
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+
+==================================
+ctx G:xaG, forall T, {G |- T : tm}@ => exists D, {G |- D : aeq T T}
+
+reflG>> intros.
+
+Subgoal reflG:
+
+Vars: T:o
+Contexts: G{}:xaG[]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- T : tm}@
+
+==================================
+exists D, {G |- D : aeq T T}
+
+reflG>> case H1 (keep).
+
+Subgoal reflG.1:
+
+Vars: M1:o, M2:o
+Contexts: G{}:xaG[]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- app M1 M2 : tm}@
+H2:{G |- M1 : tm}*
+H3:{G |- M2 : tm}*
+
+==================================
+exists D, {G |- D : aeq (app M1 M2) (app M1 M2)}
+
+Subgoal reflG.2 is:
+exists D, {G |- D : aeq (lam ([c13]M c13)) (lam ([c16]M c16))}
+
+Subgoal reflG.3 is:
+exists D, {G |- D : aeq n n}
+
+reflG.1>> apply IH to H2.
+
+Subgoal reflG.1:
+
+Vars: D:o, M1:o, M2:o
+Contexts: G{}:xaG[]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- app M1 M2 : tm}@
+H2:{G |- M1 : tm}*
+H3:{G |- M2 : tm}*
+H4:{G |- D : aeq M1 M1}
+
+==================================
+exists D, {G |- D : aeq (app M1 M2) (app M1 M2)}
+
+Subgoal reflG.2 is:
+exists D, {G |- D : aeq (lam ([c13]M c13)) (lam ([c16]M c16))}
+
+Subgoal reflG.3 is:
+exists D, {G |- D : aeq n n}
+
+reflG.1>> apply IH to H3.
+
+Subgoal reflG.1:
+
+Vars: D1:o, D:o, M1:o, M2:o
+Contexts: G{}:xaG[]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- app M1 M2 : tm}@
+H2:{G |- M1 : tm}*
+H3:{G |- M2 : tm}*
+H4:{G |- D : aeq M1 M1}
+H5:{G |- D1 : aeq M2 M2}
+
+==================================
+exists D, {G |- D : aeq (app M1 M2) (app M1 M2)}
+
+Subgoal reflG.2 is:
+exists D, {G |- D : aeq (lam ([c13]M c13)) (lam ([c16]M c16))}
+
+Subgoal reflG.3 is:
+exists D, {G |- D : aeq n n}
+
+reflG.1>> exists ae_a M1 M2 M1 M2 D D1.
+
+Subgoal reflG.1:
+
+Vars: D1:o, D:o, M1:o, M2:o
+Contexts: G{}:xaG[]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- app M1 M2 : tm}@
+H2:{G |- M1 : tm}*
+H3:{G |- M2 : tm}*
+H4:{G |- D : aeq M1 M1}
+H5:{G |- D1 : aeq M2 M2}
+
+==================================
+{G |- ae_a M1 M2 M1 M2 D D1 : aeq (app M1 M2) (app M1 M2)}
+
+Subgoal reflG.2 is:
+exists D, {G |- D : aeq (lam ([c13]M c13)) (lam ([c16]M c16))}
+
+Subgoal reflG.3 is:
+exists D, {G |- D : aeq n n}
+
+reflG.1>> search.
+
+Subgoal reflG.2:
+
+Vars: M:(o) -> o
+Nominals: n:o
+Contexts: G{n}:xaG[]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- lam ([c4]M c4) : tm}@
+H2:{G, n:tm |- M n : tm}*
+
+==================================
+exists D, {G |- D : aeq (lam ([c13]M c13)) (lam ([c16]M c16))}
+
+Subgoal reflG.3 is:
+exists D, {G |- D : aeq n n}
+
+reflG.2>> weaken H2 with aeq n n.
+
+Subgoal reflG.2:
+
+Vars: M:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:xaG[]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- lam ([c4]M c4) : tm}@
+H2:{G, n:tm |- M n : tm}*
+H3:{G, n:tm, n1:aeq n n |- M n : tm}*
+
+==================================
+exists D, {G |- D : aeq (lam ([c13]M c13)) (lam ([c16]M c16))}
+
+Subgoal reflG.3 is:
+exists D, {G |- D : aeq n n}
+
+reflG.2>> apply IH to H3 with (G = G, n1: tm, n:aeq n1 n1).
+
+Subgoal reflG.2:
+
+Vars: D:(o) -> (o) -> o, M:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:xaG[]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- lam ([c4]M c4) : tm}@
+H2:{G, n:tm |- M n : tm}*
+H3:{G, n:tm, n1:aeq n n |- M n : tm}*
+H4:{G, n1:tm, n:aeq n1 n1 |- D n1 n : aeq (M n1) (M n1)}
+
+==================================
+exists D, {G |- D : aeq (lam ([c13]M c13)) (lam ([c16]M c16))}
+
+Subgoal reflG.3 is:
+exists D, {G |- D : aeq n n}
+
+reflG.2>> prune H2.
+
+Subgoal reflG.2:
+
+Vars: D:(o) -> (o) -> o, M:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:xaG[]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- lam ([c4]M c4) : tm}@
+H2:{G, n:tm |- M n : tm}*
+H3:{G, n:tm, n1:aeq n n |- M n : tm}*
+H4:{G, n1:tm, n:aeq n1 n1 |- D n1 n : aeq (M n1) (M n1)}
+
+==================================
+exists D, {G |- D : aeq (lam ([c13]M c13)) (lam ([c16]M c16))}
+
+Subgoal reflG.3 is:
+exists D, {G |- D : aeq n n}
+
+reflG.2>> exists ae_l M M D.
+
+Subgoal reflG.2:
+
+Vars: D:(o) -> (o) -> o, M:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:xaG[]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- lam ([c4]M c4) : tm}@
+H2:{G, n:tm |- M n : tm}*
+H3:{G, n:tm, n1:aeq n n |- M n : tm}*
+H4:{G, n1:tm, n:aeq n1 n1 |- D n1 n : aeq (M n1) (M n1)}
+
+==================================
+{G |- ae_l M M D : aeq (lam ([c13]M c13)) (lam ([c16]M c16))}
+
+Subgoal reflG.3 is:
+exists D, {G |- D : aeq n n}
+
+reflG.2>> search.
+
+Subgoal reflG.3:
+
+Nominals: n1:o, n:o
+Contexts: G{}:xaG[(n:tm, n1:aeq n n)]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- n : tm}@
+
+==================================
+exists D, {G |- D : aeq n n}
+
+reflG.3>> exists n1.
+
+Subgoal reflG.3:
+
+Nominals: n1:o, n:o
+Contexts: G{}:xaG[(n:tm, n1:aeq n n)]
+IH:ctx G:xaG, forall T, {G |- T : tm}* => exists D, {G |- D : aeq T T}
+H1:{G |- n : tm}@
+
+==================================
+{G |- n1 : aeq n n}
+
+reflG.3>> search.
+Proof Completed!
