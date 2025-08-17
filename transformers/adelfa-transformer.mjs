@@ -15,7 +15,6 @@ export function adelfaTransformer({ renderer }) {
         // TODO: It would be beneficial to provide some "auto evaluate" feature
         // which will _actually_ execute the code of the block.
         const { code, outputParts } = outputListing(c, options);
-        // options.decorations ||= [];
         this.meta.adelfaNodes = [];
         let inString = false;
         let i = 0;
@@ -42,15 +41,6 @@ export function adelfaTransformer({ renderer }) {
               col++;
             }
             if (code[i] === "\n") {
-              // @ts-ignore
-              // this.meta.adelfaNodes.push({
-              //   line: commandStartLine,
-              //   character: commandStartColumn,
-              //   length: startOfCommentPos - commandStart,
-              //   input: undefined /* code.substring(commandStart, i + 1),*/,
-              //   // @ts-ignore
-              //   output: outputParts[commandCount],
-              // });
               i++;
               line++;
               col = 0;
@@ -95,15 +85,6 @@ export function adelfaTransformer({ renderer }) {
             continue;
           }
           if (code[i] === "\n") {
-            // @ts-ignore
-            // this.meta.adelfaNodes.push({
-            //   line: commandStartLine,
-            //   character: commandStartColumn,
-            //   length: i - commandStart,
-            //   input: undefined /* code.substring(commandStart, i + 1),*/,
-            //   // @ts-ignore
-            //   output: outputParts[commandCount],
-            // });
             currentCommand += code[i];
             i++;
             line++;
@@ -122,34 +103,6 @@ export function adelfaTransformer({ renderer }) {
         throw e;
       }
     },
-    // line(elem, l) {
-    //   // @ts-ignore
-    //   if (!this.meta?.adelfaNodes) return;
-
-    //   return {
-    //     ...elem,
-    //     children: elem.children.map((span) => {
-    //       if (span.type !== "element") return span;
-    //       return {
-    //         ...span,
-    //         // @ts-ignore
-    //         children: span.children.flatMap((textToken) => {
-    //           if (textToken.type !== "text") return [textToken];
-    //           let content = textToken.value;
-    //           const trailingSpace = content.match(/.*(\s+)$/);
-    //           if (content.includes(".") && trailingSpace) {
-    //             return [
-    //               { type: "text", value: content.trimEnd() },
-    //               { type: "text", value: trailingSpace[1] },
-    //             ];
-    //           } else {
-    //             return [textToken];
-    //           }
-    //         }),
-    //       };
-    //     }),
-    //   };
-    // },
     pre(pre) {
       if (!this.meta?.adelfaNodes) return;
       this.addClassToHast(pre, "twoslash lsp");

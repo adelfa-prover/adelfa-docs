@@ -1,5 +1,5 @@
 Welcome!
->> Specification equal-untyped.lf.
+>> Specification "equal-untyped.lf"
 
 >> Schema xG := {}(x:tm).
 
@@ -2157,7 +2157,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2194,7 +2194,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2234,7 +2234,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2275,7 +2275,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2318,7 +2318,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2363,7 +2363,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2406,7 +2406,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2450,7 +2450,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2495,7 +2495,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2540,7 +2540,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2585,7 +2585,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2630,7 +2630,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2676,7 +2676,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2725,7 +2725,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2775,7 +2775,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2826,7 +2826,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2873,7 +2873,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2923,7 +2923,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -2974,7 +2974,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -3026,7 +3026,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_l ([c12]M3 n c12) ([c13]M4 n c13) ([c14][c15]D n1 n c14 c15) :
       aeq (lam ([c3]M3 n c3)) (lam ([c6]M4 n c6))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -3074,7 +3074,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_a (M3 n) (M4 n) (M5 n) (M6 n) (D3 n1 n) (D4 n1 n) :
       aeq (app (M3 n) (M4 n)) (app (M5 n) (M6 n))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -3109,7 +3109,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_a (M3 n) (M4 n) (M5 n) (M6 n) (D3 n1 n) (D4 n1 n) :
       aeq (app (M3 n) (M4 n)) (app (M5 n) (M6 n))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -3146,7 +3146,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_a (M3 n) (M4 n) (M5 n) (M6 n) (D3 n1 n) (D4 n1 n) :
       aeq (app (M3 n) (M4 n)) (app (M5 n) (M6 n))}@
 H2:{G |- D2 : aeq N1 N2}
@@ -3184,7 +3184,7 @@ IH:
             {G |- D2 : aeq N1 N2} =>
                 exists D3, {G |- D3 : aeq (M1 N1) (M2 N2)}
 H1:
-    {G, n:tm, n1:aeq n n |- 
+    {G, n:tm, n1:aeq n n |-
       ae_a (M3 n) (M4 n) (M5 n) (M6 n) (D3 n1 n) (D4 n1 n) :
       aeq (app (M3 n) (M4 n)) (app (M5 n) (M6 n))}@
 H2:{G |- D2 : aeq N1 N2}

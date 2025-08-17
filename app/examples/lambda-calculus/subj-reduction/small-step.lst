@@ -1,5 +1,5 @@
 Welcome!
->> Specification reduce.lf.
+>> Specification "reduce.lf"
 
 >> Schema c := {T}(x:tm,y:of x T).
 

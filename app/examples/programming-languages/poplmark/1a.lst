@@ -1,5 +1,5 @@
 Welcome!
->> Specification 1a.lf.
+>> Specification "1a.lf"
 
 >> Schema c := {U}(w:ty,x:var w,y:bound w U,z:bound_var w U y x);
     {}(x:ty,y:var x); {V T DV}(x:bound V T,y:bound_var V T x DV).
@@ -887,7 +887,7 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
@@ -898,7 +898,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 
 ==================================
@@ -973,12 +973,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -988,7 +988,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -996,7 +996,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 
 ==================================
@@ -1080,12 +1080,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -1095,7 +1095,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -1103,7 +1103,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -1189,12 +1189,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -1204,7 +1204,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -1212,7 +1212,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -1315,12 +1315,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -1330,7 +1330,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -1338,7 +1338,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -1441,12 +1441,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -1456,7 +1456,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -1464,7 +1464,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -1585,12 +1585,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -1600,7 +1600,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -1608,7 +1608,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -1736,12 +1736,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -1751,7 +1751,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -1759,7 +1759,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -1882,12 +1882,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -1897,7 +1897,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -1905,7 +1905,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -2028,12 +2028,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -2043,7 +2043,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -2051,7 +2051,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -2178,12 +2178,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -2193,7 +2193,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -2201,7 +2201,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -2329,12 +2329,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -2344,7 +2344,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -2352,7 +2352,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -2480,12 +2480,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -2495,7 +2495,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -2503,7 +2503,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -2627,12 +2627,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -2642,7 +2642,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -2650,7 +2650,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -2775,12 +2775,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -2790,7 +2790,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -2798,7 +2798,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -2935,12 +2935,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -2950,7 +2950,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -2958,7 +2958,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -3002,7 +3002,7 @@ H25:{L, n:ty, n1:var n |- D3 : sub T3 T1}
 H26:{L, n:ty, n1:var n |- n : ty}
 H27:{L, n:ty, n1:var n |- n1 : var n}
 H28:
-    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |- 
+    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |-
       D2 n12 n11 n10 n9 n8 n7 n6 n5 n4 n3 n2 n1 n n13 n14 :
       sub (S2 n1) (T2 n1)}
 
@@ -3089,12 +3089,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -3104,7 +3104,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -3112,7 +3112,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -3156,7 +3156,7 @@ H25:{L, n:ty, n1:var n |- D3 : sub T3 T1}
 H26:{L, n:ty, n1:var n |- n : ty}
 H27:{L, n:ty, n1:var n |- n1 : var n}
 H28:
-    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |- 
+    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |-
       D2 n12 n1 n n13 n14 : sub (S2 n1) (T2 n1)}
 
 ==================================
@@ -3242,12 +3242,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -3257,7 +3257,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -3265,7 +3265,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -3309,7 +3309,7 @@ H25:{L, n:ty, n1:var n |- D3 : sub T3 T1}
 H26:{L, n:ty, n1:var n |- n : ty}
 H27:{L, n:ty, n1:var n |- n1 : var n}
 H28:
-    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |- 
+    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |-
       D2 n12 n1 n n13 n14 : sub (S2 n1) (T2 n1)}
 H29:
     ctx L:c,
@@ -3411,12 +3411,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -3426,7 +3426,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -3434,7 +3434,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -3478,7 +3478,7 @@ H25:{L, n:ty, n1:var n |- D3 : sub T3 T1}
 H26:{L, n:ty, n1:var n |- n : ty}
 H27:{L, n:ty, n1:var n |- n1 : var n}
 H28:
-    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |- 
+    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |-
       D2 n12 n1 n n13 n14 : sub (S2 n1) (T2 n1)}
 H29:
     ctx L:c,
@@ -3486,7 +3486,7 @@ H29:
         {L |- D1 : sub S (T2 n2)} =>
             {L |- D2 : sub (T2 n2) T} => exists D3, {L |- D3 : sub S T}
 H30:
-    {L, n2:ty, n1:var n2, n3:bound n2 T3, n:bound_var n2 T3 n3 n1 |- 
+    {L, n2:ty, n1:var n2, n3:bound n2 T3, n:bound_var n2 T3 n3 n1 |-
       D5 n14 n13 n12 n11 n10 n9 n8 n7 n6 n5 n4 n3 n2 n1 n :
       sub (S2 n2) (T4 n2)}
 
@@ -3574,12 +3574,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -3589,7 +3589,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -3597,7 +3597,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -3641,7 +3641,7 @@ H25:{L, n:ty, n1:var n |- D3 : sub T3 T1}
 H26:{L, n:ty, n1:var n |- n : ty}
 H27:{L, n:ty, n1:var n |- n1 : var n}
 H28:
-    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |- 
+    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |-
       D2 n12 n1 n n13 n14 : sub (S2 n1) (T2 n1)}
 H29:
     ctx L:c,
@@ -3649,7 +3649,7 @@ H29:
         {L |- D1 : sub S (T2 n2)} =>
             {L |- D2 : sub (T2 n2) T} => exists D3, {L |- D3 : sub S T}
 H30:
-    {L, n2:ty, n1:var n2, n3:bound n2 T3, n:bound_var n2 T3 n3 n1 |- 
+    {L, n2:ty, n1:var n2, n3:bound n2 T3, n:bound_var n2 T3 n3 n1 |-
       D5 n12 n3 n2 n1 n : sub (S2 n2) (T4 n2)}
 
 ==================================
@@ -3736,12 +3736,12 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
 H3:
-    {L |- 
+    {L |-
       sa-all T1 ([c86]T2 c86) T3 ([c87]T4 c87) D3
         ([c88][c89][c90][c91]D4 c88 c89 c90 c91)
       : sub (all T1 ([c8]T2 c8)) (all T3 ([c77]T4 c77))}
@@ -3751,7 +3751,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- T1 : ty}
 H11:{L, n6:ty |- T2 n6 : ty}
@@ -3759,7 +3759,7 @@ H12:{L |- T3 : ty}
 H13:{L, n7:ty |- T4 n7 : ty}
 H14:{L |- D3 : sub T3 T1}
 H15:
-    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |- 
+    {L, n8:ty, n9:var n8, n10:bound n8 T3, n11:bound_var n8 T3 n10 n9 |-
       D4 n8 n9 n10 n11 : sub (T2 n8) (T4 n8)}
 H16:{G |- T1 : ty}*
 H17:{G, n12:ty |- T2 n12 : ty}*
@@ -3803,7 +3803,7 @@ H25:{L, n:ty, n1:var n |- D3 : sub T3 T1}
 H26:{L, n:ty, n1:var n |- n : ty}
 H27:{L, n:ty, n1:var n |- n1 : var n}
 H28:
-    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |- 
+    {L, n1:ty, n:var n1, n13:bound n1 T3, n14:bound_var n1 T3 n13 n |-
       D2 n12 n1 n n13 n14 : sub (S2 n1) (T2 n1)}
 H29:
     ctx L:c,
@@ -3811,7 +3811,7 @@ H29:
         {L |- D1 : sub S (T2 n2)} =>
             {L |- D2 : sub (T2 n2) T} => exists D3, {L |- D3 : sub S T}
 H30:
-    {L, n2:ty, n1:var n2, n3:bound n2 T3, n:bound_var n2 T3 n3 n1 |- 
+    {L, n2:ty, n1:var n2, n3:bound n2 T3, n:bound_var n2 T3 n3 n1 |-
       D5 n12 n3 n2 n1 n : sub (S2 n2) (T4 n2)}
 
 ==================================
@@ -3895,7 +3895,7 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
@@ -3908,7 +3908,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- D3 : ty}
 H11:{L |- T : ty}
@@ -3995,7 +3995,7 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
@@ -4008,7 +4008,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- D3 : ty}
 H11:{L |- all T1 ([c8]T2 c8) : ty}
@@ -4090,7 +4090,7 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
@@ -4101,7 +4101,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- all T1 ([c8]T2 c8) : ty}
 
@@ -4176,7 +4176,7 @@ IH1:
             {L |- D2 : sub (all T1 ([c8]T2 c8)) T} =>
                 exists D3, {L |- D3 : sub S T}
 H2:
-    {L |- 
+    {L |-
       sa-all S1 ([c17]S2 c17) T1 ([c18]T2 c18) a1
         ([c19][c20][c21][c22]a2 c19 c20 c21 c22)
       : sub (all S1 ([c4]S2 c4)) (all T1 ([c8]T2 c8))}@@
@@ -4187,7 +4187,7 @@ H6:{L |- T1 : ty}**
 H7:{L, n1:ty |- T2 n1 : ty}**
 H8:{L |- a1 : sub T1 S1}**
 H9:
-    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |- 
+    {L, n2:ty, n3:var n2, n4:bound n2 T1, n5:bound_var n2 T1 n4 n3 |-
       a2 n2 n3 n4 n5 : sub (S2 n2) (T2 n2)}**
 H10:{L |- all T1 ([c8]T2 c8) : ty}
 
@@ -6895,7 +6895,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -6987,7 +6987,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -7001,7 +7001,7 @@ H12:
       n7:bound_var n4 N1 n6 n5 |- a2 n1 n n4 n5 n6 n7 :
       sub (M2 n4) (N2 n4)}***
 H13:
-    {L, n8:bound X P, n9:bound_var X P n8 DV |- 
+    {L, n8:bound X P, n9:bound_var X P n8 DV |-
       D4 n7 n6 n5 n4 n3 n2 n1 n n8 n9 : sub N1 M1}
 
 ==================================
@@ -7079,7 +7079,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -7170,7 +7170,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -7265,7 +7265,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -7363,7 +7363,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -7457,7 +7457,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -7553,7 +7553,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -7651,7 +7651,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -7750,7 +7750,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -7850,7 +7850,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -7952,7 +7952,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -8055,7 +8055,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -8159,7 +8159,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -8264,7 +8264,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -8370,7 +8370,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -8477,7 +8477,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -8573,7 +8573,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -8672,7 +8672,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -8773,7 +8773,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -8875,7 +8875,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -8978,7 +8978,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -9083,7 +9083,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -9189,7 +9189,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -9296,7 +9296,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -9404,7 +9404,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -9513,7 +9513,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -9623,7 +9623,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -9720,7 +9720,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -9820,7 +9820,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -9922,7 +9922,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -10025,7 +10025,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -10129,7 +10129,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -10235,7 +10235,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -10342,7 +10342,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -10450,7 +10450,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -10559,7 +10559,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -10669,7 +10669,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -10780,7 +10780,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -10887,7 +10887,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -10911,7 +10911,7 @@ H16:{L, n:ty, n2:var n, n1:bound n N1, n3:bound_var n N1 n1 n2 |- X : ty}
 H17:{L, n:ty, n2:var n, n1:bound n N1, n3:bound_var n N1 n1 n2 |- DV : var X}
 H18:
     {L, n:ty, n2:var n, n1:bound n N1, n3:bound_var n N1 n1 n2, n10:
-      bound X P, n11:bound_var X P n10 DV |- 
+      bound X P, n11:bound_var X P n10 DV |-
       D2 n9 n8 n7 n6 n5 n4 n3 n2 n1 n n10 n11 : sub (M2 n) (N2 n)}
 
 ==================================
@@ -10991,7 +10991,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -11096,7 +11096,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -11204,7 +11204,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -11315,7 +11315,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -11426,7 +11426,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -11541,7 +11541,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -11657,7 +11657,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -11776,7 +11776,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -11896,7 +11896,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -12017,7 +12017,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -12141,7 +12141,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -12266,7 +12266,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -12395,7 +12395,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-all M1 ([c555]M2 c555) N1 ([c556]N2 c556) (a1 n1 n)
         ([c557][c558][c559][c560]a2 n1 n c557 c558 c559 c560)
       : sub (all M1 ([c542]M2 c542)) (all N1 ([c546]N2 c546))}@@@
@@ -12445,7 +12445,7 @@ H30:{L, n10:bound X P, n11:bound_var X P n10 DV, n:ty, n2:var n |- N2 n : ty}
 H31:{L, n10:bound X P, n11:bound_var X P n10 DV, n:ty |- N2 n : ty}
 
 ==================================
-{L |- 
+{L |-
   [x
     ][y
        ]sa-all M1 ([z]M2 z) N1 ([z]N2 z) (D4 x y)
@@ -12522,7 +12522,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-arrow M1 M2 N1 N2 (a1 n1 n) (a2 n1 n) :
       sub (arrow M1 M2) (arrow N1 N2)}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- M1 : ty}***
@@ -12600,7 +12600,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-arrow M1 M2 N1 N2 (a1 n1 n) (a2 n1 n) :
       sub (arrow M1 M2) (arrow N1 N2)}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- M1 : ty}***
@@ -12678,7 +12678,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-arrow M1 M2 N1 N2 (a1 n1 n) (a2 n1 n) :
       sub (arrow M1 M2) (arrow N1 N2)}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- M1 : ty}***
@@ -12758,7 +12758,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-arrow M1 M2 N1 N2 (a1 n1 n) (a2 n1 n) :
       sub (arrow M1 M2) (arrow N1 N2)}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- M1 : ty}***
@@ -12839,7 +12839,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-arrow M1 M2 N1 N2 (a1 n1 n) (a2 n1 n) :
       sub (arrow M1 M2) (arrow N1 N2)}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- M1 : ty}***
@@ -12918,7 +12918,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-arrow M1 M2 N1 N2 (a1 n1 n) (a2 n1 n) :
       sub (arrow M1 M2) (arrow N1 N2)}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- M1 : ty}***
@@ -13000,7 +13000,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-arrow M1 M2 N1 N2 (a1 n1 n) (a2 n1 n) :
       sub (arrow M1 M2) (arrow N1 N2)}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- M1 : ty}***
@@ -13081,7 +13081,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-arrow M1 M2 N1 N2 (a1 n1 n) (a2 n1 n) :
       sub (arrow M1 M2) (arrow N1 N2)}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- M1 : ty}***
@@ -13165,7 +13165,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-arrow M1 M2 N1 N2 (a1 n1 n) (a2 n1 n) :
       sub (arrow M1 M2) (arrow N1 N2)}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- M1 : ty}***
@@ -13248,7 +13248,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-arrow M1 M2 N1 N2 (a1 n1 n) (a2 n1 n) :
       sub (arrow M1 M2) (arrow N1 N2)}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- M1 : ty}***
@@ -13331,7 +13331,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-trans-tvar (U1 n1 n) N M (v n1 n) (a1 n1 n) (a2 n1 n) (D n1 n) :
       sub M N}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- U1 n1 n : ty}***
@@ -13406,7 +13406,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M (v n1 n) n (a2 n1 n) (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -13491,7 +13491,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -13574,7 +13574,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -13657,7 +13657,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -13740,7 +13740,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -13826,7 +13826,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -13913,7 +13913,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14001,7 +14001,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14092,7 +14092,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14182,7 +14182,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14273,7 +14273,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14365,7 +14365,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14458,7 +14458,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14552,7 +14552,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14647,7 +14647,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14743,7 +14743,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14840,7 +14840,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -14938,7 +14938,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15037,7 +15037,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15123,7 +15123,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15209,7 +15209,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15295,7 +15295,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15384,7 +15384,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15472,7 +15472,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15563,7 +15563,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15655,7 +15655,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15748,7 +15748,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15842,7 +15842,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -15937,7 +15937,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16033,7 +16033,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16130,7 +16130,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16219,7 +16219,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16311,7 +16311,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16404,7 +16404,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16498,7 +16498,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16593,7 +16593,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16689,7 +16689,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16786,7 +16786,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16884,7 +16884,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -16974,7 +16974,7 @@ H3:{L |- M : ty}
 H4:{L |- DV : var M}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound M Q, n1:bound_var M Q n DV |- 
+    {L, n:bound M Q, n1:bound_var M Q n DV |-
       sa-trans-tvar Q N M DV n n1 (D n1 n) : sub M N}@@@
 H7:{L, n:bound M Q, n1:bound_var M Q n DV |- Q : ty}***
 H8:{L, n:bound M Q, n1:bound_var M Q n DV |- N : ty}***
@@ -17075,17 +17075,17 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-trans-tvar (U2 n2 n3 n4 n5) (N n2 n3 n4 n5) n2 (v n2 n3 n4 n5 n1 n)
         n4 (a2 n2 n3 n4 n5 n1 n) (D n2 n3 n4 n5 n1 n)
       : sub n2 (N n2 n3 n4 n5)}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       N n2 n3 n4 n5 : ty}***
 H9:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -17093,16 +17093,16 @@ H9:
       ty}***
 H10:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       v n2 n3 n4 n5 n1 n : var n2}***
 H12:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       a2 n2 n3 n4 n5 n1 n :
       bound_var n2 (U2 n2 n3 n4 n5) n4 (v n2 n3 n4 n5 n1 n)}***
 H13:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       D n2 n3 n4 n5 n1 n : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}***
 
 ==================================
@@ -17190,17 +17190,17 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-trans-tvar (U2 n2 n3 n4 n5) (N n2 n3 n4 n5) n2 (v n2 n3 n4 n5 n1 n)
         n4 (a2 n2 n3 n4 n5 n1 n) (D n2 n3 n4 n5 n1 n)
       : sub n2 (N n2 n3 n4 n5)}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       N n2 n3 n4 n5 : ty}***
 H9:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -17208,20 +17208,20 @@ H9:
       ty}***
 H10:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       v n2 n3 n4 n5 n1 n : var n2}***
 H12:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       a2 n2 n3 n4 n5 n1 n :
       bound_var n2 (U2 n2 n3 n4 n5) n4 (v n2 n3 n4 n5 n1 n)}***
 H13:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       D n2 n3 n4 n5 n1 n : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}***
 H14:
     {L, n6:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n7:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n6 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n6 (DV n2 n3 n4 n5) |-
       D4 n5 n4 n3 n2 n1 n n6 n7 : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}
 
 ==================================
@@ -17307,17 +17307,17 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-trans-tvar (U2 n2 n3 n4 n5) (N n2 n3 n4 n5) n2 (v n2 n3 n4 n5 n1 n)
         n4 (a2 n2 n3 n4 n5 n1 n) (D n2 n3 n4 n5 n1 n)
       : sub n2 (N n2 n3 n4 n5)}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       N n2 n3 n4 n5 : ty}***
 H9:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -17325,20 +17325,20 @@ H9:
       ty}***
 H10:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       v n2 n3 n4 n5 n1 n : var n2}***
 H12:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       a2 n2 n3 n4 n5 n1 n :
       bound_var n2 (U2 n2 n3 n4 n5) n4 (v n2 n3 n4 n5 n1 n)}***
 H13:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       D n2 n3 n4 n5 n1 n : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}***
 H14:
     {L, n6:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n7:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n6 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n6 (DV n2 n3 n4 n5) |-
       D4 n5 n4 n3 n2 n6 n7 : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}
 
 ==================================
@@ -17425,17 +17425,17 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-trans-tvar (U2 n2 n3 n4 n5) (N n2 n3 n4 n5) n2 (v n2 n3 n4 n5 n1 n)
         n4 (a2 n2 n3 n4 n5 n1 n) (D n2 n3 n4 n5 n1 n)
       : sub n2 (N n2 n3 n4 n5)}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       N n2 n3 n4 n5 : ty}***
 H9:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -17443,27 +17443,27 @@ H9:
       ty}***
 H10:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       v n2 n3 n4 n5 n1 n : var n2}***
 H12:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       a2 n2 n3 n4 n5 n1 n :
       bound_var n2 (U2 n2 n3 n4 n5) n4 (v n2 n3 n4 n5 n1 n)}***
 H13:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       D n2 n3 n4 n5 n1 n : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}***
 H14:
     {L, n6:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n7:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n6 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n6 (DV n2 n3 n4 n5) |-
       D4 n5 n4 n3 n2 n6 n7 : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}
 H15:
     {L, n1:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty} /\
         {L, n1:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n:
-          bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |- 
+          bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |-
           N n2 n3 n4 n5 : ty}
 
 ==================================
@@ -17549,17 +17549,17 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-trans-tvar (U2 n2 n3 n4 n5) (N n2 n3 n4 n5) n2 (v n2 n3 n4 n5 n1 n)
         n4 (a2 n2 n3 n4 n5 n1 n) (D n2 n3 n4 n5 n1 n)
       : sub n2 (N n2 n3 n4 n5)}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       N n2 n3 n4 n5 : ty}***
 H9:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -17567,28 +17567,28 @@ H9:
       ty}***
 H10:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       v n2 n3 n4 n5 n1 n : var n2}***
 H12:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       a2 n2 n3 n4 n5 n1 n :
       bound_var n2 (U2 n2 n3 n4 n5) n4 (v n2 n3 n4 n5 n1 n)}***
 H13:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       D n2 n3 n4 n5 n1 n : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}***
 H14:
     {L, n6:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n7:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n6 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n6 (DV n2 n3 n4 n5) |-
       D4 n5 n4 n3 n2 n6 n7 : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}
 H16:
     {L, n1:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty}
 H17:
     {L, n1:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |-
       N n2 n3 n4 n5 : ty}
 
 ==================================
@@ -17677,17 +17677,17 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-trans-tvar (U2 n2 n3 n4 n5) (N n2 n3 n4 n5) n2 (v n2 n3 n4 n5 n1 n)
         n4 (a2 n2 n3 n4 n5 n1 n) (D n2 n3 n4 n5 n1 n)
       : sub n2 (N n2 n3 n4 n5)}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       N n2 n3 n4 n5 : ty}***
 H9:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -17695,32 +17695,32 @@ H9:
       ty}***
 H10:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       v n2 n3 n4 n5 n1 n : var n2}***
 H12:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       a2 n2 n3 n4 n5 n1 n :
       bound_var n2 (U2 n2 n3 n4 n5) n4 (v n2 n3 n4 n5 n1 n)}***
 H13:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       D n2 n3 n4 n5 n1 n : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}***
 H14:
     {L, n6:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n7:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n6 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n6 (DV n2 n3 n4 n5) |-
       D4 n5 n4 n3 n2 n6 n7 : sub (U2 n2 n3 n4 n5) (N n2 n3 n4 n5)}
 H16:
     {L, n1:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty}
 H17:
     {L, n1:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n1 (DV n2 n3 n4 n5) |-
       N n2 n3 n4 n5 : ty}
 
 ==================================
-{L |- 
+{L |-
   [x
     ][y
        ]sa-trans-tvar (U2 n2 n3 n4 n5) (N n2 n3 n4 n5) n2 n3 n4 n5
@@ -17801,7 +17801,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-trans-tvar (T1 n2 n3) (N n2 n3) (M n2 n3) (v n2 n3 n1 n) n2
         (a2 n2 n3 n1 n) (D n2 n3 n1 n)
       : sub (M n2 n3) (N n2 n3)}@@@
@@ -17897,7 +17897,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-trans-tvar (T2 n2 n3) (N n2 n3) (M1 n2 n3) (DV2 n2 n3) n2 n3
         (D n2 n3 n1 n)
       : sub (M1 n2 n3) (N n2 n3)}@@@
@@ -17991,7 +17991,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-trans-tvar (T2 n2 n3) (N n2 n3) (M1 n2 n3) (DV2 n2 n3) n2 n3
         (D n2 n3 n1 n)
       : sub (M1 n2 n3) (N n2 n3)}@@@
@@ -18088,7 +18088,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-trans-tvar (T2 n2 n3) (N n2 n3) (M1 n2 n3) (DV2 n2 n3) n2 n3
         (D n2 n3 n1 n)
       : sub (M1 n2 n3) (N n2 n3)}@@@
@@ -18186,7 +18186,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-trans-tvar (T2 n2 n3) (N n2 n3) (M1 n2 n3) (DV2 n2 n3) n2 n3
         (D n2 n3 n1 n)
       : sub (M1 n2 n3) (N n2 n3)}@@@
@@ -18288,7 +18288,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-trans-tvar (T2 n2 n3) (N n2 n3) (M1 n2 n3) (DV2 n2 n3) n2 n3
         (D n2 n3 n1 n)
       : sub (M1 n2 n3) (N n2 n3)}@@@
@@ -18392,7 +18392,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-trans-tvar (T2 n2 n3) (N n2 n3) (M1 n2 n3) (DV2 n2 n3) n2 n3
         (D n2 n3 n1 n)
       : sub (M1 n2 n3) (N n2 n3)}@@@
@@ -18499,7 +18499,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-trans-tvar (T2 n2 n3) (N n2 n3) (M1 n2 n3) (DV2 n2 n3) n2 n3
         (D n2 n3 n1 n)
       : sub (M1 n2 n3) (N n2 n3)}@@@
@@ -18613,7 +18613,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-trans-tvar (T2 n2 n3) (N n2 n3) (M1 n2 n3) (DV2 n2 n3) n2 n3
         (D n2 n3 n1 n)
       : sub (M1 n2 n3) (N n2 n3)}@@@
@@ -18653,7 +18653,7 @@ H19:
       var (M1 n2 n3)}
 
 ==================================
-{L |- 
+{L |-
   [x
     ][y
        ]sa-trans-tvar (T2 n2 n3) (N n2 n3) (M1 n2 n3) (DV2 n2 n3) n2 n3
@@ -18721,7 +18721,7 @@ H3:{L |- X : ty}
 H4:{L |- DV : var X}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound X Q, n1:bound_var X Q n DV |- 
+    {L, n:bound X Q, n1:bound_var X Q n DV |-
       sa-refl-tvar (U n1 n) N (v n1 n) (a1 n1 n) (a2 n1 n) : sub N N}@@@
 H7:{L, n:bound X Q, n1:bound_var X Q n DV |- U n1 n : ty}***
 H8:{L, n:bound X Q, n1:bound_var X Q n DV |- N : ty}***
@@ -18789,7 +18789,7 @@ H3:{L |- N : ty}
 H4:{L |- DV : var N}
 H5:{L |- D1 : sub P Q}
 H6:
-    {L, n:bound N Q, n1:bound_var N Q n DV |- 
+    {L, n:bound N Q, n1:bound_var N Q n DV |-
       sa-refl-tvar Q N (v n1 n) n (a2 n1 n) : sub N N}@@@
 H7:{L, n:bound N Q, n1:bound_var N Q n DV |- Q : ty}***
 H8:{L, n:bound N Q, n1:bound_var N Q n DV |- N : ty}***
@@ -19869,13 +19869,13 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-refl-tvar (U2 n2 n3 n4 n5) n2 (v n2 n3 n4 n5 n1 n) n4
         (a2 n2 n3 n4 n5 n1 n)
       : sub n2 n2}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -19883,11 +19883,11 @@ H8:
       ty}***
 H9:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       v n2 n3 n4 n5 n1 n : var n2}***
 H11:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       a2 n2 n3 n4 n5 n1 n :
       bound_var n2 (U2 n2 n3 n4 n5) n4 (v n2 n3 n4 n5 n1 n)}***
 
@@ -19968,12 +19968,12 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-refl-tvar (U2 n2 n3 n4 n5) n2 n3 n4 (a2 n2 n3 n4 n5 n1 n) :
       sub n2 n2}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U2 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -19981,7 +19981,7 @@ H8:
       ty}***
 H11:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       a2 n2 n3 n4 n5 n1 n : bound_var n2 (U2 n2 n3 n4 n5) n4 n3}***
 
 ==================================
@@ -20060,11 +20060,11 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-refl-tvar (U3 n2 n3 n4 n5) n2 n3 n4 n5 : sub n2 n2}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U3 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -20147,11 +20147,11 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-refl-tvar (U3 n2 n3 n4 n5) n2 n3 n4 n5 : sub n2 n2}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U3 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -20159,7 +20159,7 @@ H8:
       ty}***
 H12:
     {L, n10:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n11:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n10 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n10 (DV n2 n3 n4 n5) |-
       U3 n2 n3 n4 n5 : ty}
 
 ==================================
@@ -20238,11 +20238,11 @@ H4:{L |- DV n2 n3 n4 n5 : var (X n2 n3 n4 n5)}
 H5:{L |- D1 n2 n3 n4 n5 : sub (P n2 n3 n4 n5) (Q n2 n3 n4 n5)}
 H6:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       sa-refl-tvar (U3 n2 n3 n4 n5) n2 n3 n4 n5 : sub n2 n2}@@@
 H7:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
-      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (Q n2 n3 n4 n5) n (DV n2 n3 n4 n5) |-
       U3 n2 n3 n4 n5 : ty}***
 H8:
     {L, n:bound (X n2 n3 n4 n5) (Q n2 n3 n4 n5), n1:
@@ -20250,7 +20250,7 @@ H8:
       ty}***
 H12:
     {L, n10:bound (X n2 n3 n4 n5) (P n2 n3 n4 n5), n11:
-      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n10 (DV n2 n3 n4 n5) |- 
+      bound_var (X n2 n3 n4 n5) (P n2 n3 n4 n5) n10 (DV n2 n3 n4 n5) |-
       U3 n2 n3 n4 n5 : ty}
 
 ==================================
@@ -20327,7 +20327,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-refl-tvar (T1 n2 n3) (N n2 n3) (v n2 n3 n1 n) n2 (a2 n2 n3 n1 n) :
       sub (N n2 n3) (N n2 n3)}@@@
 H7:
@@ -20411,7 +20411,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-refl-tvar (T2 n2 n3) (N1 n2 n3) (DV2 n2 n3) n2 n3 :
       sub (N1 n2 n3) (N1 n2 n3)}@@@
 H7:
@@ -20492,7 +20492,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-refl-tvar (T2 n2 n3) (N1 n2 n3) (DV2 n2 n3) n2 n3 :
       sub (N1 n2 n3) (N1 n2 n3)}@@@
 H7:
@@ -20577,7 +20577,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-refl-tvar (T2 n2 n3) (N1 n2 n3) (DV2 n2 n3) n2 n3 :
       sub (N1 n2 n3) (N1 n2 n3)}@@@
 H7:
@@ -20665,7 +20665,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-refl-tvar (T2 n2 n3) (N1 n2 n3) (DV2 n2 n3) n2 n3 :
       sub (N1 n2 n3) (N1 n2 n3)}@@@
 H7:
@@ -20757,7 +20757,7 @@ H4:{L |- DV n2 n3 : var (X n2 n3)}
 H5:{L |- D1 n2 n3 : sub (P n2 n3) (Q n2 n3)}
 H6:
     {L, n:bound (X n2 n3) (Q n2 n3), n1:
-      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |- 
+      bound_var (X n2 n3) (Q n2 n3) n (DV n2 n3) |-
       sa-refl-tvar (T2 n2 n3) (N1 n2 n3) (DV2 n2 n3) n2 n3 :
       sub (N1 n2 n3) (N1 n2 n3)}@@@
 H7:
@@ -21497,7 +21497,7 @@ H16:{L, n4:ty, n5:var n4, n7:bound n4 T, n9:bound_var n4 T n7 n5 |- T : ty}*
 H17:{L, n2:ty, n10:var n2 |- D2 n2 : wfty (F n2)}
 H18:{L, n2:ty, n10:var n2, n11:bound n2 T |- D2 n2 : wfty (F n2)}
 H19:
-    {L, n2:ty, n10:var n2, n11:bound n2 T, n12:bound_var n2 T n11 n10 |- 
+    {L, n2:ty, n10:var n2, n11:bound n2 T, n12:bound_var n2 T n11 n10 |-
       D2 n2 : wfty (F n2)}
 
 ==================================
@@ -21553,10 +21553,10 @@ H16:{L, n4:ty, n5:var n4, n7:bound n4 T, n9:bound_var n4 T n7 n5 |- T : ty}*
 H17:{L, n2:ty, n10:var n2 |- D2 n2 : wfty (F n2)}
 H18:{L, n2:ty, n10:var n2, n11:bound n2 T |- D2 n2 : wfty (F n2)}
 H19:
-    {L, n2:ty, n10:var n2, n11:bound n2 T, n12:bound_var n2 T n11 n10 |- 
+    {L, n2:ty, n10:var n2, n11:bound n2 T, n12:bound_var n2 T n11 n10 |-
       D2 n2 : wfty (F n2)}
 H20:
-    {L, n3:ty, n2:var n3, n1:bound n3 T, n:bound_var n3 T n1 n2 |- 
+    {L, n3:ty, n2:var n3, n1:bound n3 T, n:bound_var n3 T n1 n2 |-
       D'1 n12 n11 n10 n9 n8 n7 n6 n5 n4 n3 n2 n1 n : sub (F n3) (F n3)}
 
 ==================================
@@ -21605,10 +21605,10 @@ H16:{L, n4:ty, n5:var n4, n7:bound n4 T, n9:bound_var n4 T n7 n5 |- T : ty}*
 H17:{L, n2:ty, n10:var n2 |- D2 n2 : wfty (F n2)}
 H18:{L, n2:ty, n10:var n2, n11:bound n2 T |- D2 n2 : wfty (F n2)}
 H19:
-    {L, n2:ty, n10:var n2, n11:bound n2 T, n12:bound_var n2 T n11 n10 |- 
+    {L, n2:ty, n10:var n2, n11:bound n2 T, n12:bound_var n2 T n11 n10 |-
       D2 n2 : wfty (F n2)}
 H20:
-    {L, n3:ty, n2:var n3, n1:bound n3 T, n:bound_var n3 T n1 n2 |- 
+    {L, n3:ty, n2:var n3, n1:bound n3 T, n:bound_var n3 T n1 n2 |-
       D'1 n3 n2 n1 n : sub (F n3) (F n3)}
 
 ==================================
@@ -21657,10 +21657,10 @@ H16:{L, n4:ty, n5:var n4, n7:bound n4 T, n9:bound_var n4 T n7 n5 |- T : ty}*
 H17:{L, n2:ty, n10:var n2 |- D2 n2 : wfty (F n2)}
 H18:{L, n2:ty, n10:var n2, n11:bound n2 T |- D2 n2 : wfty (F n2)}
 H19:
-    {L, n2:ty, n10:var n2, n11:bound n2 T, n12:bound_var n2 T n11 n10 |- 
+    {L, n2:ty, n10:var n2, n11:bound n2 T, n12:bound_var n2 T n11 n10 |-
       D2 n2 : wfty (F n2)}
 H20:
-    {L, n3:ty, n2:var n3, n1:bound n3 T, n:bound_var n3 T n1 n2 |- 
+    {L, n3:ty, n2:var n3, n1:bound n3 T, n:bound_var n3 T n1 n2 |-
       D'1 n3 n2 n1 n : sub (F n3) (F n3)}
 
 ==================================

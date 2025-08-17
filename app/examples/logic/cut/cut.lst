@@ -1,5 +1,5 @@
 Welcome!
->> Specification cut.lf.
+>> Specification "cut.lf"
 
 >> Schema c := {A}(x:hyp A).
 
@@ -2992,7 +2992,7 @@ IH1:
 H1:{A n2 : proptm}@
 H2:{G |- D1 n2 : conc (A n2)}
 H3:
-    {G, n:hyp (A n2) |- 
+    {G, n:hyp (A n2) |-
       impL (A3 n2) (A4 n2) (B n2) (D3 n2 n) ([c15]D4 n2 n c15) n2 :
       conc (B n2)}@@
 H4:{G, n:hyp (A n2) |- A3 n2 : proptm}**
@@ -3044,7 +3044,7 @@ IH1:
 H1:{A n2 : proptm}@
 H2:{G |- D1 n2 : conc (A n2)}
 H3:
-    {G, n:hyp (A n2) |- 
+    {G, n:hyp (A n2) |-
       impL (A3 n2) (A4 n2) (B n2) (D3 n2 n) ([c15]D4 n2 n c15) n2 :
       conc (B n2)}@@
 H4:{G, n:hyp (A n2) |- A3 n2 : proptm}**
@@ -3096,7 +3096,7 @@ IH1:
 H1:{A n2 : proptm}@
 H2:{G |- D1 n2 : conc (A n2)}
 H3:
-    {G, n:hyp (A n2) |- 
+    {G, n:hyp (A n2) |-
       impL (A3 n2) (A4 n2) (B n2) (D3 n2 n) ([c15]D4 n2 n c15) n2 :
       conc (B n2)}@@
 H4:{G, n:hyp (A n2) |- A3 n2 : proptm}**
@@ -3149,7 +3149,7 @@ IH1:
 H1:{A n2 : proptm}@
 H2:{G |- D1 n2 : conc (A n2)}
 H3:
-    {G, n:hyp (A n2) |- 
+    {G, n:hyp (A n2) |-
       impL (A3 n2) (A4 n2) (B n2) (D3 n2 n) ([c15]D4 n2 n c15) n2 :
       conc (B n2)}@@
 H4:{G, n:hyp (A n2) |- A3 n2 : proptm}**
@@ -3203,7 +3203,7 @@ IH1:
 H1:{A n2 : proptm}@
 H2:{G |- D1 n2 : conc (A n2)}
 H3:
-    {G, n:hyp (A n2) |- 
+    {G, n:hyp (A n2) |-
       impL (A3 n2) (A4 n2) (B n2) (D3 n2 n) ([c15]D4 n2 n c15) n2 :
       conc (B n2)}@@
 H4:{G, n:hyp (A n2) |- A3 n2 : proptm}**
@@ -3259,7 +3259,7 @@ IH1:
 H1:{A n2 : proptm}@
 H2:{G |- D1 n2 : conc (A n2)}
 H3:
-    {G, n:hyp (A n2) |- 
+    {G, n:hyp (A n2) |-
       impL (A3 n2) (A4 n2) (B n2) (D3 n2 n) ([c15]D4 n2 n c15) n2 :
       conc (B n2)}@@
 H4:{G, n:hyp (A n2) |- A3 n2 : proptm}**
@@ -3315,7 +3315,7 @@ IH1:
 H1:{A n2 : proptm}@
 H2:{G |- D1 n2 : conc (A n2)}
 H3:
-    {G, n:hyp (A n2) |- 
+    {G, n:hyp (A n2) |-
       impL (A3 n2) (A4 n2) (B n2) (D3 n2 n) ([c15]D4 n2 n c15) n2 :
       conc (B n2)}@@
 H4:{G, n:hyp (A n2) |- A3 n2 : proptm}**
@@ -3372,7 +3372,7 @@ IH1:
 H1:{A n2 : proptm}@
 H2:{G |- D1 n2 : conc (A n2)}
 H3:
-    {G, n:hyp (A n2) |- 
+    {G, n:hyp (A n2) |-
       impL (A3 n2) (A4 n2) (B n2) (D3 n2 n) ([c15]D4 n2 n c15) n2 :
       conc (B n2)}@@
 H4:{G, n:hyp (A n2) |- A3 n2 : proptm}**
@@ -3430,7 +3430,7 @@ IH1:
 H1:{A n2 : proptm}@
 H2:{G |- D1 n2 : conc (A n2)}
 H3:
-    {G, n:hyp (A n2) |- 
+    {G, n:hyp (A n2) |-
       impL (A3 n2) (A4 n2) (B n2) (D3 n2 n) ([c15]D4 n2 n c15) n2 :
       conc (B n2)}@@
 H4:{G, n:hyp (A n2) |- A3 n2 : proptm}**
@@ -3489,7 +3489,7 @@ IH1:
 H1:{A n2 : proptm}@
 H2:{G |- D1 n2 : conc (A n2)}
 H3:
-    {G, n:hyp (A n2) |- 
+    {G, n:hyp (A n2) |-
       impL (A3 n2) (A4 n2) (B n2) (D3 n2 n) ([c15]D4 n2 n c15) n2 :
       conc (B n2)}@@
 H4:{G, n:hyp (A n2) |- A3 n2 : proptm}**
@@ -4917,7 +4917,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -4962,7 +4962,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5010,7 +5010,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5061,7 +5061,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5113,7 +5113,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5166,7 +5166,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5220,7 +5220,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5275,7 +5275,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5331,7 +5331,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5381,7 +5381,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5431,7 +5431,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5481,7 +5481,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5532,7 +5532,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
@@ -5584,7 +5584,7 @@ IH1:
 H1:{A n3 : proptm}@
 H2:{G |- D1 n3 : conc (A n3)}
 H3:
-    {G, n:hyp (A n3) |- 
+    {G, n:hyp (A n3) |-
       andL (A3 n3) (A4 n3) (B n3) ([c29][c30]D3 n3 n c29 c30) n3 :
       conc (B n3)}@@
 H4:{G, n:hyp (A n3) |- A3 n3 : proptm}**
