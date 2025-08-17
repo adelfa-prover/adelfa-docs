@@ -5,34 +5,12 @@ import { Tabs } from 'nextra/components';
 <Tabs items={['Specification', 'Reasoning']}>
 
 <Tabs.Tab>
-```lf filename="even-or-odd.lf"
-nat : type.
-z : nat.
-s : {x:nat} nat.
-
-even : {N:nat} type.
-odd : {N:nat} type.
-even-z : even z.
-even-s : {N:nat}{O: odd N} even (s N).
-odd-s : {N:nat}{E: even N} odd (s N).
+```lf filename="even-or-odd.lf" readFile
 ```
 </Tabs.Tab>
 
 <Tabs.Tab>
-```adelfa filename="even-or-odd.ath"
-Specification "even-or-odd.lf".
-
-Theorem even-or-odd :
-  forall N, {N : nat} => (exists D, {D : even N}) \/ (exists D, {D : odd N}).
-induction on 1. intros. case H1.
-  %case 1: N = (s x)
-    apply IH to H2. case H3.
-      %case 1.1: even x
-        right. exists (odd-s x D). search.
-      %case 1.2: odd x
-        left. exists (even-s x D). search.
-  %case 2: N = z
-    left. exists even-z. search.
+```adelfa filename="even-or-odd.ath" showOutput outputFile="even-odd.lst" readFile
 ```
 </Tabs.Tab>
 </Tabs>

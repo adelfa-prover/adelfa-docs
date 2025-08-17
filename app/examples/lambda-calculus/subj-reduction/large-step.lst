@@ -1,0 +1,382 @@
+Welcome!
+>> Specification reduce.lf.
+
+>> Schema c := {T}(x:tm,y:of x T).
+
+>> Theorem subject_reduction_lscbn:
+    ctx  Gamma:c,
+      forall  M1 M2 T D1 D2,
+        {Gamma |- D1 : of M1 T} =>
+          {D2 : lscbn M1 M2} => exists  D3, {Gamma |- D3 : of M2 T}.
+
+Subgoal subject_reduction_lscbn:
+
+
+==================================
+ctx Gamma:c,
+  forall M1, forall M2, forall T, forall D1, forall D2,
+    {Gamma |- D1 : of M1 T} =>
+        {D2 : lscbn M1 M2} => exists D3, {Gamma |- D3 : of M2 T}
+
+subject_reduction_lscbn>> induction on 2.
+
+Subgoal subject_reduction_lscbn:
+
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+
+==================================
+ctx Gamma:c,
+  forall M1, forall M2, forall T, forall D1, forall D2,
+    {Gamma |- D1 : of M1 T} =>
+        {D2 : lscbn M1 M2}@ => exists D3, {Gamma |- D3 : of M2 T}
+
+subject_reduction_lscbn>> intros.
+
+Subgoal subject_reduction_lscbn:
+
+Vars: D2:o, D1:o, T:o, M2:o, M1:o
+Contexts: Gamma{}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H1:{Gamma |- D1 : of M1 T}
+H2:{D2 : lscbn M1 M2}@
+
+==================================
+exists D3, {Gamma |- D3 : of M2 T}
+
+subject_reduction_lscbn>> cases H2.
+
+Subgoal subject_reduction_lscbn.1:
+
+Vars: R:(o) -> o, T1:o, D3:o, D4:o, M:o, N:o, D1:o, T:o, M2:o
+Nominals: n:o
+Contexts: Gamma{}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H1:{Gamma |- D1 : of (app M N) T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{M2 : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{T1 : ty}*
+H8:{D3 : lscbn M (lam T1 ([x]R x))}*
+H9:{D4 : lscbn (R N) M2}*
+
+==================================
+exists D3, {Gamma |- D3 : of M2 T}
+
+Subgoal subject_reduction_lscbn.2 is:
+ exists D3, {Gamma |- D3 : of (lam T1 ([c31]R c31)) T}
+
+subject_reduction_lscbn.1>> cases H1.
+
+Subgoal subject_reduction_lscbn.1:
+
+Vars: D5:o, D6:o, D7:o, R:(o) -> o, T1:o, D3:o, D4:o, M:o, N:o, T:o, M2:o
+Nominals: n:o
+Contexts: Gamma{}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{M2 : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{T1 : ty}*
+H8:{D3 : lscbn M (lam T1 ([x]R x))}*
+H9:{D4 : lscbn (R N) M2}*
+H10:{Gamma |- M : tm}
+H11:{Gamma |- N : tm}
+H12:{Gamma |- T : ty}
+H13:{Gamma |- D5 : ty}
+H14:{Gamma |- D6 : of M (arr D5 T)}
+H15:{Gamma |- D7 : of N D5}
+
+==================================
+exists D3, {Gamma |- D3 : of M2 T}
+
+Subgoal subject_reduction_lscbn.2 is:
+ exists D3, {Gamma |- D3 : of (lam T1 ([c31]R c31)) T}
+
+subject_reduction_lscbn.1>> apply IH to H14 H8.
+
+Subgoal subject_reduction_lscbn.1:
+
+Vars: D5:o, D6:o, D7:o, R:(o) -> o, T1:o, D3:o, D4:o, M:o, N:o, D1:(o) -> o,
+        T:o, M2:o
+Nominals: n:o
+Contexts: Gamma{}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{M2 : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{T1 : ty}*
+H8:{D3 : lscbn M (lam T1 ([x]R x))}*
+H9:{D4 : lscbn (R N) M2}*
+H10:{Gamma |- M : tm}
+H11:{Gamma |- N : tm}
+H12:{Gamma |- T : ty}
+H13:{Gamma |- D5 : ty}
+H14:{Gamma |- D6 : of M (arr D5 T)}
+H15:{Gamma |- D7 : of N D5}
+H16:{Gamma |- D1 n : of (lam T1 ([x]R x)) (arr D5 T)}
+
+==================================
+exists D3, {Gamma |- D3 : of M2 T}
+
+Subgoal subject_reduction_lscbn.2 is:
+ exists D3, {Gamma |- D3 : of (lam T1 ([c31]R c31)) T}
+
+subject_reduction_lscbn.1>> cases H16.
+
+Subgoal subject_reduction_lscbn.1:
+
+Vars: a1:(o) -> (o) -> (o) -> o, D5:o, D6:o, D7:o, R:(o) -> o, D3:o, D4:o, M:
+        o, N:o, T:o, M2:o
+Nominals: n3:o, n2:o, n1:o, n:o
+Contexts: Gamma{n1, n2, n3}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{M2 : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{D5 : ty}*
+H8:{D3 : lscbn M (lam D5 ([x]R x))}*
+H9:{D4 : lscbn (R N) M2}*
+H10:{Gamma |- M : tm}
+H11:{Gamma |- N : tm}
+H12:{Gamma |- T : ty}
+H13:{Gamma |- D5 : ty}
+H14:{Gamma |- D6 : of M (arr D5 T)}
+H15:{Gamma |- D7 : of N D5}
+H17:{Gamma, n1:tm |- R n1 : tm}
+H18:{Gamma |- D5 : ty}
+H19:{Gamma |- T : ty}
+H20:{Gamma, n2:tm, n3:of n2 D5 |- a1 n n2 n3 : of (R n2) T}
+
+==================================
+exists D3, {Gamma |- D3 : of M2 T}
+
+Subgoal subject_reduction_lscbn.2 is:
+ exists D3, {Gamma |- D3 : of (lam T1 ([c31]R c31)) T}
+
+subject_reduction_lscbn.1>> inst H20 with n2 = N.
+
+Subgoal subject_reduction_lscbn.1:
+
+Vars: a1:(o) -> (o) -> (o) -> o, D5:o, D6:o, D7:o, R:(o) -> o, D3:o, D4:o, M:
+        o, N:o, T:o, M2:o
+Nominals: n3:o, n2:o, n1:o, n:o
+Contexts: Gamma{n1, n2, n3}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{M2 : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{D5 : ty}*
+H8:{D3 : lscbn M (lam D5 ([x]R x))}*
+H9:{D4 : lscbn (R N) M2}*
+H10:{Gamma |- M : tm}
+H11:{Gamma |- N : tm}
+H12:{Gamma |- T : ty}
+H13:{Gamma |- D5 : ty}
+H14:{Gamma |- D6 : of M (arr D5 T)}
+H15:{Gamma |- D7 : of N D5}
+H17:{Gamma, n1:tm |- R n1 : tm}
+H18:{Gamma |- D5 : ty}
+H19:{Gamma |- T : ty}
+H20:{Gamma, n2:tm, n3:of n2 D5 |- a1 n n2 n3 : of (R n2) T}
+H21:{Gamma, n3:of N D5 |- a1 n N n3 : of (R N) T}
+
+==================================
+exists D3, {Gamma |- D3 : of M2 T}
+
+Subgoal subject_reduction_lscbn.2 is:
+ exists D3, {Gamma |- D3 : of (lam T1 ([c31]R c31)) T}
+
+subject_reduction_lscbn.1>> inst H21 with n3 = D7.
+
+Subgoal subject_reduction_lscbn.1:
+
+Vars: a1:(o) -> (o) -> (o) -> o, D5:o, D6:o, D7:o, R:(o) -> o, D3:o, D4:o, M:
+        o, N:o, T:o, M2:o
+Nominals: n3:o, n2:o, n1:o, n:o
+Contexts: Gamma{n1, n2, n3}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{M2 : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{D5 : ty}*
+H8:{D3 : lscbn M (lam D5 ([x]R x))}*
+H9:{D4 : lscbn (R N) M2}*
+H10:{Gamma |- M : tm}
+H11:{Gamma |- N : tm}
+H12:{Gamma |- T : ty}
+H13:{Gamma |- D5 : ty}
+H14:{Gamma |- D6 : of M (arr D5 T)}
+H15:{Gamma |- D7 : of N D5}
+H17:{Gamma, n1:tm |- R n1 : tm}
+H18:{Gamma |- D5 : ty}
+H19:{Gamma |- T : ty}
+H20:{Gamma, n2:tm, n3:of n2 D5 |- a1 n n2 n3 : of (R n2) T}
+H21:{Gamma, n3:of N D5 |- a1 n N n3 : of (R N) T}
+H22:{Gamma |- a1 n N D7 : of (R N) T}
+
+==================================
+exists D3, {Gamma |- D3 : of M2 T}
+
+Subgoal subject_reduction_lscbn.2 is:
+ exists D3, {Gamma |- D3 : of (lam T1 ([c31]R c31)) T}
+
+subject_reduction_lscbn.1>> apply IH to H22 H9.
+
+Subgoal subject_reduction_lscbn.1:
+
+Vars: a1:(o) -> (o) -> (o) -> o, D5:o, D6:o, D7:o, R:(o) -> o, D3:o, D4:o, M:
+        o, N:o, D1:(o) -> (o) -> (o) -> (o) -> o, T:o, M2:o
+Nominals: n3:o, n2:o, n1:o, n:o
+Contexts: Gamma{n1, n2, n3}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{M2 : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{D5 : ty}*
+H8:{D3 : lscbn M (lam D5 ([x]R x))}*
+H9:{D4 : lscbn (R N) M2}*
+H10:{Gamma |- M : tm}
+H11:{Gamma |- N : tm}
+H12:{Gamma |- T : ty}
+H13:{Gamma |- D5 : ty}
+H14:{Gamma |- D6 : of M (arr D5 T)}
+H15:{Gamma |- D7 : of N D5}
+H17:{Gamma, n1:tm |- R n1 : tm}
+H18:{Gamma |- D5 : ty}
+H19:{Gamma |- T : ty}
+H20:{Gamma, n2:tm, n3:of n2 D5 |- a1 n n2 n3 : of (R n2) T}
+H21:{Gamma, n3:of N D5 |- a1 n N n3 : of (R N) T}
+H22:{Gamma |- a1 n N D7 : of (R N) T}
+H23:{Gamma |- D1 n3 n2 n1 n : of M2 T}
+
+==================================
+exists D3, {Gamma |- D3 : of M2 T}
+
+Subgoal subject_reduction_lscbn.2 is:
+ exists D3, {Gamma |- D3 : of (lam T1 ([c31]R c31)) T}
+
+subject_reduction_lscbn.1>> exists D1 n3 n2 n1 n.
+
+Subgoal subject_reduction_lscbn.1:
+
+Vars: a1:(o) -> (o) -> (o) -> o, D5:o, D6:o, D7:o, R:(o) -> o, D3:o, D4:o, M:
+        o, N:o, D1:(o) -> (o) -> (o) -> (o) -> o, T:o, M2:o
+Nominals: n3:o, n2:o, n1:o, n:o
+Contexts: Gamma{n1, n2, n3}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H3:{M : tm}*
+H4:{N : tm}*
+H5:{M2 : tm}*
+H6:{n:tm |- R n : tm}*
+H7:{D5 : ty}*
+H8:{D3 : lscbn M (lam D5 ([x]R x))}*
+H9:{D4 : lscbn (R N) M2}*
+H10:{Gamma |- M : tm}
+H11:{Gamma |- N : tm}
+H12:{Gamma |- T : ty}
+H13:{Gamma |- D5 : ty}
+H14:{Gamma |- D6 : of M (arr D5 T)}
+H15:{Gamma |- D7 : of N D5}
+H17:{Gamma, n1:tm |- R n1 : tm}
+H18:{Gamma |- D5 : ty}
+H19:{Gamma |- T : ty}
+H20:{Gamma, n2:tm, n3:of n2 D5 |- a1 n n2 n3 : of (R n2) T}
+H21:{Gamma, n3:of N D5 |- a1 n N n3 : of (R N) T}
+H22:{Gamma |- a1 n N D7 : of (R N) T}
+H23:{Gamma |- D1 n3 n2 n1 n : of M2 T}
+
+==================================
+{Gamma |- D1 n3 n2 n1 n : of M2 T}
+
+Subgoal subject_reduction_lscbn.2 is:
+ exists D3, {Gamma |- D3 : of (lam T1 ([c31]R c31)) T}
+
+subject_reduction_lscbn.1>> search.
+
+Subgoal subject_reduction_lscbn.2:
+
+Vars: T1:o, R:(o) -> o, D1:o, T:o
+Nominals: n:o
+Contexts: Gamma{}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H1:{Gamma |- D1 : of (lam T1 ([c16]R c16)) T}
+H3:{n:tm |- R n : tm}*
+H4:{T1 : ty}*
+
+==================================
+exists D3, {Gamma |- D3 : of (lam T1 ([c31]R c31)) T}
+
+subject_reduction_lscbn.2>> exists D1.
+
+Subgoal subject_reduction_lscbn.2:
+
+Vars: T1:o, R:(o) -> o, D1:o, T:o
+Nominals: n:o
+Contexts: Gamma{}:c[]
+IH:
+    ctx Gamma:c,
+      forall M1, forall M2, forall T, forall D1, forall D2,
+        {Gamma |- D1 : of M1 T} =>
+            {D2 : lscbn M1 M2}* => exists D3, {Gamma |- D3 : of M2 T}
+H1:{Gamma |- D1 : of (lam T1 ([c16]R c16)) T}
+H3:{n:tm |- R n : tm}*
+H4:{T1 : ty}*
+
+==================================
+{Gamma |- D1 : of (lam T1 ([c31]R c31)) T}
+
+subject_reduction_lscbn.2>> search.
+Proof Completed!
+
+>> Goodbye!

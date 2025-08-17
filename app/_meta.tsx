@@ -15,12 +15,11 @@ export default {
   "reference-guide": {
     title: "Reference Guide",
   },
+  theory: {
+    title: "Logic",
+  },
   examples: {
     title: "Examples",
-  },
-  "schema-subsumption": {
-    title: "Schema Subsumption",
-    display: "hidden"
   },
   publications: {
     title: "Publications",

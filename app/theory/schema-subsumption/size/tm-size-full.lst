@@ -1,0 +1,481 @@
+>> Theorem tm-has-size : ctx G:C, forall E,
+  {G |- E : tm} => exists N D, {G |- D: size E N}.
+
+Subgoal tm-has-size:
+
+
+==================================
+ctx G:C, forall E, {G |- E : tm} => exists N, exists D, {G |- D : size E N}
+
+tm-has-size>> induction on 1.
+
+Subgoal tm-has-size:
+
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+
+==================================
+ctx G:C, forall E, {G |- E : tm}@ => exists N, exists D, {G |- D : size E N}
+
+tm-has-size>> intros.
+
+Subgoal tm-has-size:
+
+Vars: E:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- E : tm}@
+
+==================================
+exists N, exists D, {G |- D : size E N}
+
+tm-has-size>> case H1 (keep).
+
+Subgoal tm-has-size.1:
+
+Vars: E1:(o) -> o
+Nominals: n:o
+Contexts: G{n}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- lam ([c2]E1 c2) : tm}@
+H2:{G, n:tm |- E1 n : tm}*
+
+==================================
+exists N, exists D, {G |- D : size (lam ([c7]E1 c7)) N}
+
+Subgoal tm-has-size.2 is:
+ exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.1>> weaken H2 with size n (s z).
+
+Subgoal tm-has-size.1:
+
+Vars: E1:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- lam ([c2]E1 c2) : tm}@
+H2:{G, n:tm |- E1 n : tm}*
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+
+==================================
+exists N, exists D, {G |- D : size (lam ([c7]E1 c7)) N}
+
+Subgoal tm-has-size.2 is:
+ exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.1>> apply IH to H3 with (G = G, n1:tm, n:size n1 (s z)).
+
+Subgoal tm-has-size.1:
+
+Vars: D:(o) -> (o) -> o, N:(o) -> (o) -> o, E1:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- lam ([c2]E1 c2) : tm}@
+H2:{G, n:tm |- E1 n : tm}*
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n1:tm, n:size n1 (s z) |- D n1 n : size (E1 n1) (N n1 n)}
+
+==================================
+exists N, exists D, {G |- D : size (lam ([c7]E1 c7)) N}
+
+Subgoal tm-has-size.2 is:
+ exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.1>> assert { G, n1:tm, n:size n1 (s z) |- N n1 n : nat }.
+
+Subgoal tm-has-size.1:
+
+Vars: D:(o) -> (o) -> o, N:(o) -> (o) -> o, E1:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- lam ([c2]E1 c2) : tm}@
+H2:{G, n:tm |- E1 n : tm}*
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n1:tm, n:size n1 (s z) |- D n1 n : size (E1 n1) (N n1 n)}
+H5:{G, n1:tm, n:size n1 (s z) |- N n1 n : nat}
+
+==================================
+exists N, exists D, {G |- D : size (lam ([c7]E1 c7)) N}
+
+Subgoal tm-has-size.2 is:
+ exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.1>> prune H5.
+
+Subgoal tm-has-size.1:
+
+Vars: D:(o) -> (o) -> o, N:o, E1:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- lam ([c2]E1 c2) : tm}@
+H2:{G, n:tm |- E1 n : tm}*
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n1:tm, n:size n1 (s z) |- D n1 n : size (E1 n1) N}
+H5:{G, n1:tm, n:size n1 (s z) |- N : nat}
+
+==================================
+exists N, exists D, {G |- D : size (lam ([c7]E1 c7)) N}
+
+Subgoal tm-has-size.2 is:
+ exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.1>> strengthen H5.
+
+Subgoal tm-has-size.1:
+
+Vars: D:(o) -> (o) -> o, N:o, E1:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- lam ([c2]E1 c2) : tm}@
+H2:{G, n:tm |- E1 n : tm}*
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n1:tm, n:size n1 (s z) |- D n1 n : size (E1 n1) N}
+H5:{G, n1:tm, n:size n1 (s z) |- N : nat}
+H6:{G, n1:tm |- N : nat}
+
+==================================
+exists N, exists D, {G |- D : size (lam ([c7]E1 c7)) N}
+
+Subgoal tm-has-size.2 is:
+ exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.1>> strengthen H6.
+
+Subgoal tm-has-size.1:
+
+Vars: D:(o) -> (o) -> o, N:o, E1:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- lam ([c2]E1 c2) : tm}@
+H2:{G, n:tm |- E1 n : tm}*
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n1:tm, n:size n1 (s z) |- D n1 n : size (E1 n1) N}
+H5:{G, n1:tm, n:size n1 (s z) |- N : nat}
+H6:{G, n1:tm |- N : nat}
+H7:{G |- N : nat}
+
+==================================
+exists N, exists D, {G |- D : size (lam ([c7]E1 c7)) N}
+
+Subgoal tm-has-size.2 is:
+ exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.1>> exists (s N).
+
+Subgoal tm-has-size.1:
+
+Vars: D:(o) -> (o) -> o, N:o, E1:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- lam ([c2]E1 c2) : tm}@
+H2:{G, n:tm |- E1 n : tm}*
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n1:tm, n:size n1 (s z) |- D n1 n : size (E1 n1) N}
+H5:{G, n1:tm, n:size n1 (s z) |- N : nat}
+H6:{G, n1:tm |- N : nat}
+H7:{G |- N : nat}
+
+==================================
+exists D, {G |- D : size (lam ([c7]E1 c7)) (s N)}
+
+Subgoal tm-has-size.2 is:
+ exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.1>> exists size-lam ([x] E1 x) N D.
+
+Subgoal tm-has-size.1:
+
+Vars: D:(o) -> (o) -> o, N:o, E1:(o) -> o
+Nominals: n1:o, n:o
+Contexts: G{n, n1}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- lam ([c2]E1 c2) : tm}@
+H2:{G, n:tm |- E1 n : tm}*
+H3:{G, n:tm, n1:size n (s z) |- E1 n : tm}*
+H4:{G, n1:tm, n:size n1 (s z) |- D n1 n : size (E1 n1) N}
+H5:{G, n1:tm, n:size n1 (s z) |- N : nat}
+H6:{G, n1:tm |- N : nat}
+H7:{G |- N : nat}
+
+==================================
+{G |- size-lam ([x]E1 x) N D : size (lam ([c7]E1 c7)) (s N)}
+
+Subgoal tm-has-size.2 is:
+ exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.1>> search.
+
+Subgoal tm-has-size.2:
+
+Vars: E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> apply IH to H2.
+
+Subgoal tm-has-size.2:
+
+Vars: D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> apply IH to H3.
+
+Subgoal tm-has-size.2:
+
+Vars: D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> assert { G |- N : nat }.
+
+Subgoal tm-has-size.2:
+
+Vars: D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> assert { G |- N1 : nat }.
+
+Subgoal tm-has-size.2:
+
+Vars: D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> apply plus-exist to H6 H7.
+
+Subgoal tm-has-size.2:
+
+Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+H8:{G |- D2 : plus N N1 N3}
+
+==================================
+exists N, exists D, {G |- D : size (app E1 E2) N}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> exists (s N3).
+
+Subgoal tm-has-size.2:
+
+Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+H8:{G |- D2 : plus N N1 N3}
+
+==================================
+exists D, {G |- D : size (app E1 E2) (s N3)}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> exists size-app E1 E2 N N1 N3 D D1 D2.
+
+Subgoal tm-has-size.2:
+
+Vars: D2:o, N3:o, D1:o, N1:o, D:o, N:o, E1:o, E2:o
+Contexts: G{}:C[]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- app E1 E2 : tm}@
+H2:{G |- E1 : tm}*
+H3:{G |- E2 : tm}*
+H4:{G |- D : size E1 N}
+H5:{G |- D1 : size E2 N1}
+H6:{G |- N : nat}
+H7:{G |- N1 : nat}
+H8:{G |- D2 : plus N N1 N3}
+
+==================================
+{G |- size-app E1 E2 N N1 N3 D D1 D2 : size (app E1 E2) (s N3)}
+
+Subgoal tm-has-size.3 is:
+ exists N, exists D, {G |- D : size n N}
+
+tm-has-size.2>> search.
+
+Subgoal tm-has-size.3:
+
+Nominals: n1:o, n:o
+Contexts: G{}:C[(n:tm, n1:size n (s z))]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- n : tm}@
+
+==================================
+exists N, exists D, {G |- D : size n N}
+
+tm-has-size.3>> exists (s z).
+
+Subgoal tm-has-size.3:
+
+Nominals: n1:o, n:o
+Contexts: G{}:C[(n:tm, n1:size n (s z))]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- n : tm}@
+
+==================================
+exists D, {G |- D : size n (s z)}
+
+tm-has-size.3>> exists n1.
+
+Subgoal tm-has-size.3:
+
+Nominals: n1:o, n:o
+Contexts: G{}:C[(n:tm, n1:size n (s z))]
+IH:
+    ctx G:C,
+      forall E, {G |- E : tm}* => exists N, exists D, {G |- D : size E N}
+H1:{G |- n : tm}@
+
+==================================
+{G |- n1 : size n (s z)}
+
+tm-has-size.3>> search.
+Proof Completed!

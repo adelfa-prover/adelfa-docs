@@ -10,5 +10,5 @@ export default {
   },
   "programming-languages": {
     title: "Programming Languages",
-  },
+  }
 };
