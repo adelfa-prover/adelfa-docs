@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { join } from 'path';
+import { join } from "path";
 
 export const removeExtraSubgoals = (s) => {
   const output = [];
@@ -25,7 +25,7 @@ export const removeExtraSubgoals = (s) => {
   return outputString;
 };
 
-const getOutputParts = (s) => {
+export const getOutputParts = (s) => {
   if (!s.startsWith("\n\n")) {
     s = "\n\n" + s;
   }
@@ -42,7 +42,7 @@ const getOutputParts = (s) => {
       // If adelfa is looking for input, keep eating the input until we reach
       // the end of the command.
 
-      let match = l.match(/^(.*)>>/);
+      let match = l.match(/^(.*?)>>/);
       if (match) {
         parts.push(curr);
         const m = match[0] ? [...match[0].matchAll(/\./g)].length + 1 : 1;
@@ -86,7 +86,7 @@ export function outputListing(code, options) {
       ...(filename ? [`Code filename: ${filename}`] : []),
       ...(mdxDir ? [`Code block located in ${mdxDir}`] : []),
     ];
-    throw new Error(errorMessage.join('\n'));
+    throw new Error(errorMessage.join("\n"));
   }
   if (codeListing && listingFile) {
     throw new Error(
