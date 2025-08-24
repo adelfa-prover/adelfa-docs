@@ -85,6 +85,11 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/schema-subsumption",
+        destination: "/theory/schema-subsumption",
+        permanent: true,
+      },
+      {
         source: "/schema-subsumption/:rest*",
         destination: "/theory/schema-subsumption/:rest*",
         permanent: true,
