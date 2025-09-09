@@ -3,9 +3,13 @@ export default {
     title: "Size",
   },
   "subst-size": {
-    title: "Substitution Size"
+    title: "Substitution Size",
   },
-  "orbi": {
-    title: "ORBI Benchmark"
-  }
+  orbi: {
+    title: "ORBI Benchmark",
+  },
+  beluga: {
+    title: "A note on Beluga",
+    display: "hidden",
+  },
 };
