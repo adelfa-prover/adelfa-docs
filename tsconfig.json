@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -29,10 +25,9 @@
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
-, "app/publications/page.mdx", "app/layout.jsx"  ],
-  "exclude": [
-    "node_modules",
-    "sst.config.ts"
-  ]
+    ".next/types/**/*.ts",
+    "app/publications/page.mdx",
+    "app/layout.jsx"
+  ],
+  "exclude": ["node_modules", "sst.config.ts"]
 }

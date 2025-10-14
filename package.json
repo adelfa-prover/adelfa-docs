@@ -32,7 +32,7 @@
     "postcss-import": "^16.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sst": "^3.2.38",
+    "sst": "3.17.19",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
