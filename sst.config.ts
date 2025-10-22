@@ -17,6 +17,7 @@ export default $config({
               redirects: ["www.adelfa-prover.org"],
             }
           : undefined,
+      buildCommand: "NODE_OPTIONS='--max-old-space-size=6144' npm run build",
     });
   },
   console: {
