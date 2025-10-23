@@ -1,4 +1,4 @@
-name: Deploy to SST
+name: Deploy using SST
 
 on:
   push:
@@ -8,15 +8,16 @@ on:
 
 permissions:
   contents: read
+  deployments: write
   pull-requests: write
   issues: write
 
 jobs:
   deploy-production:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment: 'action-env'
+    environment: production
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,8 +27,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -45,9 +46,11 @@ jobs:
 
   deploy-preview:
     if: github.event_name == 'pull_request' && github.event.action != 'closed'
-    environment: 'action-env'
+    environment:
+      name: preview
+      url: ${{ steps.get-url.outputs.url }}
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -57,8 +60,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -82,6 +85,21 @@ jobs:
           URL=$(npx sst state export --stage pr-${{ github.event.number }} | jq -r '.latest.resources[] | select(.type == "sst:aws:Nextjs") | .outputs._metadata.url')
           echo "url=$URL" >> $GITHUB_OUTPUT
 
+      - name: Create/Update GitHub Deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const ref = context.payload.pull_request.head.sha;
+            const { data: dep } = await github.rest.repos.createDeployment({
+              owner: context.repo.owner, repo: context.repo.repo, ref,
+              environment: 'preview', auto_merge: false, required_contexts: []
+            });
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner, repo: context.repo.repo,
+              deployment_id: dep.id, state: 'success',
+              environment_url: '${{ steps.get-url.outputs.url }}'
+            });
+
       - name: Comment on PR
         uses: actions/github-script@v7
         with:
@@ -92,22 +110,22 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
-            
+
             const botComment = comments.find(comment => 
               comment.user.type === 'Bot' && 
               comment.body.includes('## Preview Deployment')
             );
-            
+
             const commentBody = `## Preview Deployment
-            
+
             | Property | Value |
             |----------|-------|
             | Status | Deployed successfully |
             | Preview URL | [${{ steps.get-url.outputs.url }}](${{ steps.get-url.outputs.url }}) |
             | Stage | \`pr-${{ github.event.number }}\` |
-            
+
             This preview deployment will be automatically removed when the PR is closed.`;
-            
+
             if (botComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
@@ -126,9 +144,9 @@ jobs:
 
   remove-preview:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    environment: 'action-env'
+    environment: preview
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -138,8 +156,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -155,6 +173,23 @@ jobs:
         run: |
           npx sst remove --stage pr-${{ github.event.number }}
 
+      - name: Mark Deployment Inactive (best-effort)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              const { data: deployments } = await github.rest.repos.listDeployments({
+                owner: context.repo.owner, repo: context.repo.repo, environment: 'preview',
+                sha: context.payload.pull_request?.head?.sha
+              });
+              for (const d of deployments) {
+                await github.rest.repos.createDeploymentStatus({
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  deployment_id: d.id, state: 'inactive'
+                });
+              }
+            } catch (e) { core.warning(String(e)); }
+
       - name: Comment on PR
         uses: actions/github-script@v7
         with:
@@ -165,12 +200,12 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
-            
+
             const botComment = comments.find(comment => 
               comment.user.type === 'Bot' && 
               comment.body.includes('## Preview Deployment')
             );
-            
+
             if (botComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
