@@ -82,9 +82,9 @@ jobs:
         with:
           issue-number: ${{ github.event.number }}
           body: |
-            🚀 **Preview Deployment**
+            **Preview Deployment**
             
-            **Status:** ✅ Deployed successfully
+            **Status:** Deployed successfully
             
             **Preview URL:** ${{ steps.get-url.outputs.url }}
             
@@ -129,9 +129,9 @@ jobs:
         with:
           issue-number: ${{ github.event.number }}
           body: |
-            🚀 **Preview Deployment**
+            **Preview Deployment**
             
-            **Status:** 🗑️ Removed
+            **Status:** Removed
             
             **Stage:** `pr-${{ github.event.number }}`
             
