@@ -1,0 +1,133 @@
+name: Deploy to SST
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+jobs:
+  deploy-production:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment: 'action-env'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to production
+        run: |
+          npx sst deploy --stage production
+
+  deploy-preview:
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    environment: 'action-env'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy preview
+        id: deploy
+        run: |
+          npx sst deploy --stage pr-${{ github.event.number }}
+
+      - name: Get deployment URL
+        id: get-url
+        run: |
+          # Extract the URL from SST output
+          URL=$(npx sst list --stage pr-${{ github.event.number }} --json | jq -r '.[] | select(.type == "Nextjs") | .url // empty')
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.number }}
+          body: |
+            🚀 **Preview Deployment**
+            
+            **Status:** ✅ Deployed successfully
+            
+            **Preview URL:** ${{ steps.get-url.outputs.url }}
+            
+            **Stage:** `pr-${{ github.event.number }}`
+            
+            This preview will be automatically removed when the PR is closed.
+          edit-mode: replace
+
+  remove-preview:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    environment: 'action-env'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Remove preview deployment
+        run: |
+          npx sst remove --stage pr-${{ github.event.number }}
+
+      - name: Comment on PR
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.number }}
+          body: |
+            🚀 **Preview Deployment**
+            
+            **Status:** 🗑️ Removed
+            
+            **Stage:** `pr-${{ github.event.number }}`
+            
+            The preview deployment has been automatically removed.
+          edit-mode: replace

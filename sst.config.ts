@@ -20,25 +20,4 @@ export default $config({
       buildCommand: "NODE_OPTIONS='--max-old-space-size=6144' npm run build",
     });
   },
-  console: {
-    autodeploy: {
-      target(event) {
-        // Use the `main` branch as the trigger for production deployment.
-        if (
-          event.type === "branch" &&
-          event.branch === "main" &&
-          event.action === "pushed"
-        ) {
-          return {
-            stage: "production",
-          };
-        }
-        if (event.type === "pull_request") {
-          return {
-            stage: `pr-${event.number}`,
-          };
-        }
-      },
-    },
-  },
 });
