@@ -73,8 +73,8 @@ jobs:
       - name: Get deployment URL
         id: get-url
         run: |
-          # Extract the URL from SST output
-          URL=$(npx sst list --stage pr-${{ github.event.number }} --json | jq -r '.[] | select(.type == "Nextjs") | .url // empty')
+          # Extract the URL from SST state export
+          URL=$(npx sst state export --stage pr-${{ github.event.number }} | jq -r '.latest.resources[] | select(.type == "sst:aws:Nextjs") | .outputs._metadata.url')
           echo "url=$URL" >> $GITHUB_OUTPUT
 
       - name: Comment on PR
