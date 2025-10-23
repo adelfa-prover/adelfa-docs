@@ -78,20 +78,46 @@ jobs:
           echo "url=$URL" >> $GITHUB_OUTPUT
 
       - name: Comment on PR
-        uses: peter-evans/create-or-update-comment@v4
+        uses: actions/github-script@v7
         with:
-          issue-number: ${{ github.event.number }}
-          body: |
-            **Preview Deployment**
+          script: |
+            // Find existing bot comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
             
-            **Status:** Deployed successfully
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('## Preview Deployment')
+            );
             
-            **Preview URL:** ${{ steps.get-url.outputs.url }}
+            const commentBody = `## Preview Deployment
             
-            **Stage:** `pr-${{ github.event.number }}`
+            | Property | Value |
+            |----------|-------|
+            | Status | Deployed successfully |
+            | Preview URL | [${{ steps.get-url.outputs.url }}](${{ steps.get-url.outputs.url }}) |
+            | Stage | \`pr-${{ github.event.number }}\` |
             
-            This preview will be automatically removed when the PR is closed.
-          edit-mode: replace
+            This preview deployment will be automatically removed when the PR is closed.`;
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: commentBody
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody
+              });
+            }
 
   remove-preview:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -125,15 +151,34 @@ jobs:
           npx sst remove --stage pr-${{ github.event.number }}
 
       - name: Comment on PR
-        uses: peter-evans/create-or-update-comment@v4
+        uses: actions/github-script@v7
         with:
-          issue-number: ${{ github.event.number }}
-          body: |
-            **Preview Deployment**
+          script: |
+            // Find existing bot comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
             
-            **Status:** Removed
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('## Preview Deployment')
+            );
             
-            **Stage:** `pr-${{ github.event.number }}`
-            
-            The preview deployment has been automatically removed.
-          edit-mode: replace
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: `## Preview Deployment
+                
+                | Property | Value |
+                |----------|-------|
+                | Status | Removed |
+                | Stage | \`pr-${{ github.event.number }}\` |
+                | Cleanup | Completed |
+                
+                The preview deployment has been automatically removed.`
+              });
+            }
