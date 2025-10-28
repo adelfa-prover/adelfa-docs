@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened, closed, ready_for_review]
 
 permissions:
   contents: read
@@ -206,19 +206,21 @@ jobs:
               comment.body.includes('## Preview Deployment')
             );
 
+            const updateCommentBody = `## Preview Deployment
+
+            | Property | Value |
+            |----------|-------|
+            | Status | Removed |
+            | Stage | \`pr-${{ github.event.number }}\` |
+            | Cleanup | Completed |
+
+            The preview deployment has been automatically removed.`;
+
             if (botComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 comment_id: botComment.id,
-                body: `## Preview Deployment
-                
-                | Property | Value |
-                |----------|-------|
-                | Status | Removed |
-                | Stage | \`pr-${{ github.event.number }}\` |
-                | Cleanup | Completed |
-                
-                The preview deployment has been automatically removed.`
+                body: updateCommentBody
               });
             }
