@@ -21,10 +21,7 @@ const withNextra = nextra({
     codeblocks: false,
   },
   mdxOptions: {
-    remarkPlugins: [
-      remarkReadFile,
-      remarkAdelfaFilepath,
-    ],
+    remarkPlugins: [remarkReadFile, remarkAdelfaFilepath],
     rehypePrettyCodeOptions: {
       defaultLang: "adelfa",
       transformers: [
@@ -71,6 +68,9 @@ export default withNextra({
   experimental: {
     scrollRestoration: true,
   },
+  output: "export",
+  distDir: "dist",
+  images: { unoptimized: true },
   poweredByHeader: false,
   async redirects() {
     return [

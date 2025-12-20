@@ -2,8 +2,7 @@
 node_modules
 _pagefind/
 
-# sst
-.sst
-
-# open-next
 .open-next
+
+# build artifacts
+dist

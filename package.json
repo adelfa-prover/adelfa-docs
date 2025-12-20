@@ -28,11 +28,9 @@
     "next": "^15.5.7",
     "nextra": "^4.2.16",
     "nextra-theme-docs": "^4.2.16",
-    "patch-package": "^8.0.0",
     "postcss-import": "^16.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sst": "^3.17.25",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
