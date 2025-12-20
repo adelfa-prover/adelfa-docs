@@ -1,52 +1,70 @@
 @inproceedings{nadathur22ppdp,
-author = {Nadathur, Gopalan and Southern, Mary},
-title = {A Logic for Formalizing Properties of {LF} Specifications},
-year = {2022},
-isbn = {9781450397032},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3551357.3551377},
-doi = {10.1145/3551357.3551377},
-booktitle = {Proceedings of the 24th International Symposium on Principles and Practice of Declarative Programming},
-articleno = {6},
-numpages = {13},
-keywords = {case analysis, dependently typed lambda calculi, formalizing and mechanizing reasoning about typing judgements, induction, two-level logic style of reasoning},
-location = {Tbilisi, Georgia},
-series = {PPDP '22}
+  author    = {Nadathur, Gopalan and Southern, Mary},
+  title     = {A Logic for Formalizing Properties of {LF} Specifications},
+  year      = {2022},
+  isbn      = {9781450397032},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3551357.3551377},
+  doi       = {10.1145/3551357.3551377},
+  booktitle = {Proceedings of the 24th International Symposium on Principles and Practice of Declarative Programming},
+  articleno = {6},
+  numpages  = {13},
+  keywords  = {case analysis, dependently typed lambda calculi, formalizing and mechanizing reasoning about typing judgements, induction, two-level logic style of reasoning},
+  location  = {Tbilisi, Georgia},
+  series    = {PPDP '22}
 }
 
 @unpublished{nadathur21barxiv,
-  author =       "Gopalan Nadathur and Mary Southern",
-  title =        "On encoding {LF} in a predicate logic over simply-typed lambda terms",
-  month =        "Dec",
-  year =         "2021",
-  note =         "Available from \url{https://arxiv.org/abs/2108.10848}.",
-  doi =          {10.48550/arXiv.2108.10848}
+  author = {Gopalan Nadathur and Mary Southern},
+  title  = {On encoding {LF} in a predicate logic over simply-typed lambda terms},
+  month  = {Dec},
+  year   = {2021},
+  note   = {Available from \url{https://arxiv.org/abs/2108.10848}.},
+  doi    = {10.48550/arXiv.2108.10848}
 }
 
 @unpublished{nadathur21arxiv,
-  author =       "Gopalan Nadathur and Mary Southern",
-  title =        "A Logic for Reasoning About {LF} Specifications",
-  month =        "June",
-  year =         "2021",
-  note =         "Available from \url{http://arxiv.org/abs/2107.00111}.",
-  doi =          {10.48550/arXiv.2107.00111}
+  author = {Gopalan Nadathur and Mary Southern},
+  title  = {A Logic for Reasoning About {LF} Specifications},
+  month  = {June},
+  year   = {2021},
+  note   = {Available from \url{http://arxiv.org/abs/2107.00111}.},
+  doi    = {10.48550/arXiv.2107.00111}
 }
-@InProceedings{southern21lfmtp,
-  author =       "Mary Southern and Gopalan Nadathur",
-  title =        "{A}delfa: A System for Reasoning about {LF} Specifications",
-  booktitle =    "International Workshop on Logical Frameworks and
-                 Meta-Languages: Theory and Practice (LFMTP)",
-  year =         "2021",
-  doi  =         {10.4204/eptcs.337.8},
-  note =         "Available from \url{https://cgi.cse.unsw.edu.au/~eptcs/paper.cgi?LFMTP2021:14}"
+@inproceedings{southern21lfmtp,
+  author    = {Mary Southern and Gopalan Nadathur},
+  title     = {{A}delfa: A System for Reasoning about {LF} Specifications},
+  booktitle = {International Workshop on Logical Frameworks and
+               Meta-Languages: Theory and Practice (LFMTP)},
+  year      = {2021},
+  doi       = {10.4204/eptcs.337.8},
+  note      = {Available from \url{https://cgi.cse.unsw.edu.au/~eptcs/paper.cgi?LFMTP2021:14}}
 }
 
-@PhdThesis{southern21phd,
-  author =       "Mary Southern",
-  title =        "A Framework for Reasoning About LF Specifications",
-  school =       "University of Minnesota",
-  year =         "2021",
-  month =        may,
-  URL =          {https://conservancy.umn.edu/handle/11299/223120}
+@phdthesis{southern21phd,
+  author = {Mary Southern},
+  title  = {A Framework for Reasoning About LF Specifications},
+  school = {University of Minnesota},
+  year   = {2021},
+  month  = may,
+  url    = {https://conservancy.umn.edu/handle/11299/223120}
+}
+
+@inproceedings{johnson2025ppdp,
+  author    = {Johnson, Chase and Nadathur, Gopalan},
+  title     = {Transporting Theorems about Typeability in LF Across Schematically Defined Contexts},
+  year      = {2025},
+  isbn      = {9798400720857},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3756907.3756919},
+  doi       = {10.1145/3756907.3756919},
+  abstract  = {The dependently-typed lambda calculus LF is often used as a vehicle for formalizing rule-based descriptions of object systems. Proving properties of object systems encoded in this fashion requires reasoning about formulas over LF typing judgements. An important characteristic of LF is that it supports a higher-order abstract syntax representation of binding structure. When such an encoding is used, the typing judgements include contexts that assign types to bound variables and formulas must therefore allow for quantification over contexts. The possible instantiations of such quantifiers are usually governed by schematic descriptions that must also be made explicit for effectiveness in reasoning. In practical reasoning tasks, it is often necessary to transport theorems involving universal quantification over contexts satisfying one schematic description to those satisfying another description. We provide here a logical justification for this ability. Towards this end, we utilize the logic  (mathcal {L}_{LF}) , which has previously been designed for formalizing properties of LF specifications. We develop a transportation proof rule and show it to be sound relative to the semantics of  (mathcal {L}_{LF}) . Key to this proof rule is a notion of context schema subsumption that uses the subordination relation between types as a means for determining the equivalence of contexts relative to individual LF typing judgements. We discuss the incorporation of this rule into the Adelfa proof assistant and its use in actual reasoning examples.},
+  booktitle = {Proceedings of the 27th International Symposium on Principles and Practice of Declarative Programming},
+  articleno = {12},
+  numpages  = {13},
+  keywords  = {dependently typed lambda calculi, formalizing properties of typing judgements, equivalence of typing contexts, type subordination},
+  location  = {Rende, Italy},
+  series    = {PPDP '25}
 }
