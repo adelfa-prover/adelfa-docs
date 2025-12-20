@@ -69,41 +69,6 @@ export default withNextra({
     scrollRestoration: true,
   },
   output: "export",
-  distDir: "dist",
   images: { unoptimized: true },
   poweredByHeader: false,
-  async redirects() {
-    return [
-      {
-        source: "/adelfa.html",
-        destination: "/",
-        permanent: true,
-      },
-      {
-        source: "/adelfa",
-        destination: "/",
-        permanent: true,
-      },
-      {
-        source: "/schema-subsumption",
-        destination: "/theory/schema-subsumption",
-        permanent: true,
-      },
-      {
-        source: "/schema-subsumption/:rest*",
-        destination: "/theory/schema-subsumption/:rest*",
-        permanent: true,
-      },
-      {
-        source: "/index.html",
-        destination: "/",
-        permanent: true,
-      },
-      {
-        source: "/index",
-        destination: "/",
-        permanent: true,
-      },
-    ];
-  },
 });
