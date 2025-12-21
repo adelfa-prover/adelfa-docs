@@ -69,6 +69,7 @@ export default async function RootLayout({ children }) {
           docsRepositoryBase="https://github.com/adelfa-prover/adelfa-docs/tree/main"
           editLink="Edit this page on GitHub"
           sidebar={{ defaultMenuCollapseLevel: 1 }}
+          copyPageButton={false}
           footer={footer}
           // ...Your additional theme config options
         >
