@@ -1,21 +1,10 @@
 import { readFile } from "fs/promises";
-
 import { Cite, plugins } from "@citation-js/core";
 require("@citation-js/plugin-bibtex");
 require("@citation-js/plugin-csl");
 
-export async function publications() {
-  const entries = await readFile("public/pubs.bib", "utf8");
-  const bib = new Cite(entries);
-  const bibliography = bib.format("bibliography", {
-    asEntryArray: true,
-    template: "acm",
-    lang: "en-US",
-  });
-  return bibliography;
-}
-
-let config = plugins.config.get("@csl");
+// CSL template configuration (LNCS/Springer style)
+const config = plugins.config.get("@csl");
 
 const lncsTemplate = `<?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="en-US">
@@ -164,6 +153,16 @@ const lncsTemplate = `<?xml version="1.0" encoding="utf-8"?>
             </date>
           </group>
         </else-if>
+        <else-if type="thesis">
+          <group delimiter=". ">
+            <text macro="title"/>
+            <text variable="genre"/>
+            <text variable="publisher"/>
+            <date variable="issued">
+              <date-part name="year" prefix="(" suffix=")"/>
+            </date>
+          </group>
+        </else-if>
         <else>
           <group delimiter=", ">
             <text macro="title"/>
@@ -179,4 +178,122 @@ const lncsTemplate = `<?xml version="1.0" encoding="utf-8"?>
   </bibliography>
 </style>`;
 
-config.templates.add("acm", lncsTemplate);
+if (!config.templates.has("lncs")) {
+  config.templates.add("lncs", lncsTemplate);
+}
+
+// Bibliography files
+const BIB_FILES = {
+  refs: "public/refs.bib",
+  pubs: "public/pubs.bib",
+};
+
+// Cache for loaded bibliographies
+let bibCache: Cite | null = null;
+let pubsCache: Cite | null = null;
+
+/**
+ * Load and parse all bibliography files (refs.bib + pubs.bib)
+ */
+export async function loadBibliography(): Promise<Cite> {
+  if (bibCache) {
+    return bibCache;
+  }
+
+  const entries = await Promise.all(
+    Object.values(BIB_FILES).map((filename) => readFile(filename, "utf8")),
+  );
+  bibCache = new Cite(entries.join("\n"));
+  return bibCache;
+}
+
+async function loadPublications(): Promise<Cite> {
+  if (pubsCache) {
+    return pubsCache;
+  }
+
+  const entries = await readFile(BIB_FILES.pubs, "utf8");
+  pubsCache = new Cite(entries);
+  return pubsCache;
+}
+
+export async function formatBibliographyEntries(
+  keys: string[],
+): Promise<Array<[string, string]>> {
+  const bib = await loadBibliography();
+
+  const results: Array<[string, string]> = [];
+
+  for (const key of keys) {
+    const entry = bib.data.find((item: any) => item.id === key);
+
+    if (entry) {
+      const singleCite = new Cite([entry]);
+      const formatted = singleCite.format("bibliography", {
+        template: "lncs",
+        lang: "en-US",
+      });
+
+      // Remove the leading number from the formatted entry
+      const cleanFormatted = formatted.replace(/^\s*\d+\.\s*/, "").trim();
+
+      results.push([key, cleanFormatted]);
+    } else {
+      results.push([
+        key,
+        `[Citation key "${key}" not found in refs.bib or pubs.bib]`,
+      ]);
+    }
+  }
+
+  return results;
+}
+
+export async function getAdelfaPublications(): Promise<
+  Array<[string, string]>
+> {
+  const bib = await loadPublications();
+  const bibliography = bib.format("bibliography", {
+    asEntryArray: true,
+    template: "lncs",
+    lang: "en-US",
+  });
+  return bibliography;
+}
+
+/**
+ * Get all available citation keys
+ */
+export async function getAvailableKeys(): Promise<string[]> {
+  const bib = await loadBibliography();
+  return bib.data.map((item: any) => item.id);
+}
+
+const LINK_CLASS =
+  "x:focus-visible:nextra-focus x:text-primary-600 x:underline x:hover:no-underline x:decoration-from-font x:[text-underline-position:from-font]";
+
+const URL_REGEXP =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
+
+const ARROW_SVG =
+  '<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" height="1em" class="x:inline x:align-baseline x:shrink-0"><path d="M7 17L17 7"></path><path d="M7 7h10v10"></path></svg>';
+
+/**
+ * Convert URLs in text to clickable links with arrow icons
+ */
+export function linkifyUrls(text: string): string {
+  return text.replaceAll(URL_REGEXP, (url) => {
+    const cleanUrl = url.replace(/\.$/, "").trim();
+    const hasDot = url.endsWith(".");
+    return `<a class="${LINK_CLASS}" style="white-space:nowrap;" href="${cleanUrl}">${cleanUrl}${ARROW_SVG}</a>${
+      hasDot ? "." : ""
+    }`;
+  });
+}
+
+/**
+ * Format a bibliography entry, removing leading numbers and converting URLs to links
+ */
+export function formatEntry(entry: string): string {
+  return linkifyUrls(entry.replace(/^\s*\d+\.\s*/, "").trim());
+}

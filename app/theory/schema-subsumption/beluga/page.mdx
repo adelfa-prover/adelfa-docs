@@ -17,14 +17,13 @@ the transport rule in Adelfa does. However, to the best of our knowledge, there
 is not a precise description of how one decides when one schema subsumes
 another.
 
-The best reference is that of [The Next 700 Challenge Problems for Reasoning
-with Higher-Order Abstract Syntax
-Representations](https://link.springer.com/article/10.1007/s10817-015-9327-3).
-It displays Beluga's schema subsumption in the context of a proof relating to
-algorithmic equality of the polymorphic lambda calculus. It proves a series of
-lemmas under the schema `schema atpG = block (a:tp,v:atp a a);{:txt}`. It then
-argues that it can lift these lemmas into the schema `schema aeqG = block
-(x:tm,u:aeq x x) + block (a:tp,v:atp a a);{:txt}` by:
+The best reference is that of "The Next 700 Challenge Problems for Reasoning
+with Higher-Order Abstract Syntax Representations"[@felty15jar]. It displays
+Beluga's schema subsumption in the context of a proof relating to algorithmic
+equality of the polymorphic lambda calculus. It proves a series of lemmas under
+the schema `schema atpG = block (a:tp,v:atp a a);{:txt}`. It then argues that it
+can lift these lemmas into the schema `schema aeqG = block (x:tm,u:aeq x x) +
+block (a:tp,v:atp a a);{:txt}` by:
 
 > When we call a function that requires a context $\gamma$ of schema `atpG` but we
 > have a context of schema `aeqG`, we check that every block `b` in schema `atpG` is
@@ -75,3 +74,5 @@ may be terms in the context which do not have a derivation that it is
 algorithmically equal to itself. A [GitHub
 issue](https://github.com/Beluga-lang/Beluga/issues/276) has been created to
 track this error.
+
+<Bibliography />

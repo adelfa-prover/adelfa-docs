@@ -6,6 +6,7 @@ import { adelfaTransformer } from "./transformers/adelfa-transformer.mjs";
 import { rendererRich } from "./transformers/adelfa-renderer.mjs";
 import { remarkAdelfaFilepath } from "./transformers/remark-adelfa-filepath.mjs";
 import { remarkReadFile } from "./transformers/remark-read-file.mjs";
+import { remarkCitations } from "./transformers/remark-citations.mjs";
 
 const adelfaGrammar = JSON.parse(
   readFileSync("./syntax/adelfa.tmLanguage.json", "utf-8"),
@@ -21,7 +22,7 @@ const withNextra = nextra({
     codeblocks: false,
   },
   mdxOptions: {
-    remarkPlugins: [remarkReadFile, remarkAdelfaFilepath],
+    remarkPlugins: [remarkReadFile, remarkAdelfaFilepath, remarkCitations],
     rehypePrettyCodeOptions: {
       defaultLang: "adelfa",
       transformers: [

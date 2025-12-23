@@ -2,31 +2,9 @@
 title: Publications
 ---
 
-import { publications } from '../../util/publications';
-import { Link } from 'next/link';
-
-export async function Publications() {
-  const linkClass = "x:focus-visible:nextra-focus x:text-primary-600 x:underline x:hover:no-underline x:decoration-from-font x:[text-underline-position:from-font]";
-  const htmlRegexp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
-  const arrowSvg = '<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" height="1em" class="x:inline x:align-baseline x:shrink-0"><path d="M7 17L17 7"></path><path d="M7 7h10v10"></path></svg>';
-  const pubs = await publications();
-  const html = pubs.map(([, e]) =>
-    `<li>${
-    // Remove the leading number formatting in favor of <li> wrapping
-    e.replace(/^\d+\.\s+/, '')
-      // Convert URLs into links
-      .replaceAll(htmlRegexp, (p) => {
-        return p.match(/\.$/) ? `<a class="${linkClass}" href="${p.replace(/\.$/, '')}">${p.replace(/\.$/, '')}${arrowSvg}</a>.`
-          :`<a class="${linkClass}" href="${p}">${p}${arrowSvg}</a>`;
-      })
-    }</li>`)
-    .join('');
-  return <ol className="x:my-6 x:ml-6 x:list-decimal x:space-y-2" dangerouslySetInnerHTML={{ __html: html }} />;
-}
-
 # Publications
 
 Related publications to Adelfa are listed here. A BibTeX file containing these
 references can be found [here](/pubs.bib).
 
-<Publications />
+<AdelfaPublications />
