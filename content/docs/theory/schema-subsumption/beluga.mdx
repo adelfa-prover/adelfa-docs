@@ -1,0 +1,76 @@
+---
+title: A Description of Schema Subsumption in Beluga
+description: Schema Subsumption in Beluga
+---
+
+[Beluga](https://complogic.cs.mcgill.ca/beluga/) is a functional programming
+language which allows one to reason about a formal system. It shares many
+properties with [Twelf](https://twelf.org) in that one defines the system via
+dependent types and writes total functions which constitute proofs about this
+system. It is more expressive than Twelf, for example, it allows explicit
+reasoning about contexts.
+
+Beluga implements schema subsumption which accomplishes the same goal as what
+the transport rule in Adelfa does. However, to the best of our knowledge, there
+is not a precise description of how one decides when one schema subsumes
+another.
+
+The best reference is that of "The Next 700 Challenge Problems for Reasoning
+with Higher-Order Abstract Syntax Representations"[@felty15jar]. It displays
+Beluga's schema subsumption in the context of a proof relating to algorithmic
+equality of the polymorphic lambda calculus. It proves a series of lemmas under
+the schema `schema atpG = block (a:tp,v:atp a a);`. It then argues that it
+can lift these lemmas into the schema `schema aeqG = block (x:tm,u:aeq x x) +
+block (a:tp,v:atp a a);` by:
+
+> When we call a function that requires a context $\gamma$ of schema `atpG` but we
+> have a context of schema `aeqG`, we check that every block `b` in schema `atpG` is
+> a prefix of a block `b'` in the schema `aeqG` and moreover additional declarations
+> present in `b'` are irrelevant to the declarations in `b`. The type checker therefore
+> allows us to pass a context of schema `aeqG` whenever a context `atpG` is
+> required.
+
+However, this seems to be the wrong direction of argument. Checking that every
+block of `atpG` has a corresponding one in `aeqG` does not suffice, for example
+`aeqG` could have additional blocks which the lemma has not accounted for. The
+lifting here is okay since the additional block in `aeqG` does not relate to the
+lemmas directly, but a small example which shows it is unsound is:
+
+```beluga
+LF tm: type =
+| lam: (tm -> tm) -> tm
+;
+
+LF aeq: tm -> tm -> type =
+| ae_l : ({x : tm} aeq x x -> aeq (M x) (N x))
+          -> aeq (lam (\x. M x)) (lam (\x. N x))
+;
+
+schema xaG = block x:tm, ae_v:aeq x x;
+
+rec reflG: {gamma:xaG} {M:[gamma |- tm]} [gamma |- aeq M M] =
+mlam gamma => mlam M => case [gamma |- M] of
+| [gamma |- #p.1] => [gamma |- #p.2]
+| [gamma |- lam \x. M] =>
+  let [gamma, b:block y:tm, ae_v:aeq y y |- D[.., b.1, b.2]] =
+        reflG [gamma, b:block y:tm, ae_v:aeq y y] [gamma, b |- M[.., b.1]]
+  in
+   [gamma |- ae_l \x. \w. D]
+;
+
+schema xaGBad = block (x:tm, ae_v:aeq x x) + block (x : tm);
+
+% This should not be provable. It cannot deal with a `block (x : tm)`
+
+rec reflGBad: {gamma:xaGBad} {M:[gamma |- tm]} [gamma |- aeq M M] =
+mlam gamma => mlam M => reflG [gamma] [gamma |- M]
+;
+```
+
+In this example, `reflGBad` claims that the proof will hold even though there
+may be terms in the context which do not have a derivation that it is
+algorithmically equal to itself. A [GitHub
+issue](https://github.com/Beluga-lang/Beluga/issues/276) has been created to
+track this error.
+
+<Bibliography />

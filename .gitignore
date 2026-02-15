@@ -1,8 +1,7 @@
 .next
 node_modules
-_pagefind/
 
-.open-next
+.source
 
 # build artifacts
 out

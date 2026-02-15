@@ -1,0 +1,100 @@
+---
+title: Transporting Theorems Across Context Schemas
+description: Schema Subsumption Examples
+asIndexPage: true
+---
+
+## Introduction
+
+Prior to reading the discussion within this page, it's necessary to have a rough
+understanding of the syntax and tactics of Adelfa. We recommend the
+reader explore the provided [walkthrough](/walkthrough) or have the [reference
+guide](/reference-guide/syntax) at hand. You may also search using the search bar in
+the top left to look up terms.
+
+If you'd like to install Adelfa and try things out for yourself, you must
+install the latest version from
+[GitHub](https://github.com/adelfa-prover/adelfa) which implements the transport
+rule.
+
+Some code blocks in the examples show the proof state after each command if the
+terminating symbol (`.`) is hovered over or clicked. The latter method allows
+easier scrolling in larger outputs. Try hovering over the following commands to
+see the output:
+
+```adelfa showOutput
+Theorem hover-example : false => true.
+intros. case H1.
+
+%{
+>> Theorem hover-example : false => true.
+
+Subgoal hover-example:
+
+
+==================================
+False => True
+
+hover-example>> intros.
+
+Subgoal hover-example:
+
+H1:False
+
+==================================
+True
+
+hover-example>> case H1.
+Proof Completed!
+}%
+```
+
+We discuss a series of examples which utilize _schema subsumption_ in Adelfa, a
+capability in Adelfa which allows one to transport the validity of a formula
+$\Pi \Gamma\mathcal{C}.F$ into one with the context variable typed by a
+different context schema. When in the scope of Adelfa, this amounts to taking a
+theorem with a context variable quantification which has been proven, such as
+one of the form:
+
+```adelfa
+Schema C := ...
+
+Theorem transport-ex : ctx G:C, ...
+```
+
+and determining when the same proof can be used to complete the same theorem
+under a different context schema:
+
+```adelfa
+Schema C' := ...
+
+Theorem transport-ex' : ctx G:C', ...
+```
+
+These examples are intended to be complementary to the paper "Transporting
+Theorems about Typeability in LF Across Schematically Defined
+Contexts"[@johnson2025ppdp] but aim to be as self-contained as possible. We
+suggest reading the following examples in the order presented below as they are
+intended to build on each other.
+
+Adelfa will always transport a proof if it's able to by default. If you would
+like to follow along with the examples, we recommend using `Set schema_sub
+false.` in sections discussing how the proof would proceed without using the
+transport rule.
+
+1. [Every lambda calculus term has a size](/theory/schema-subsumption/size) displays a
+   straightforward use of theorem transport and discusses alternatives as well
+   as their downsides.
+2. [Size of lambda calculus terms does not decrease after
+   substitution](/theory/schema-subsumption/subst-size) shows the use of transport in
+   a larger development order to bring out how avoiding transport causes more
+   work as one's development grows.
+3. [ORBI](/theory/schema-subsumption/orbi) completes a standardized benchmark for
+   what is referred to as "Non-Linear Context Extensions," which schema
+   subsumption permits.
+4. [POPLmark](/theory/schema-subsumption/poplmark) utilizes schema subsumption across
+   schemas with multiple blocks.
+
+[A note on Beluga's schema subsumption](/theory/schema-subsumption/beluga)
+
+<Bibliography />
