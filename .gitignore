@@ -2,6 +2,7 @@
 node_modules
 
 .source
+.DS_Store
 
 # build artifacts
 out
