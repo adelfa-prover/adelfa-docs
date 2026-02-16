@@ -1,17 +1,18 @@
-import { visit } from 'unist-util-visit';
-import { dirname } from 'path';
+import { visit } from "unist-util-visit";
+import { dirname, basename, extname, join } from "path";
+import { existsSync } from "fs";
 
 export function remarkAdelfaFilepath() {
   return (tree, file) => {
-    visit(tree, 'code', (node) => {
-      // Only process adelfa code blocks with outputFile
-      if (node.lang === 'adelfa' && node.meta?.includes('outputFile=')) {
-        // Get the directory of the current MDX file
-        const mdxDir = dirname(file.path || file.history[0] || '');
+    visit(tree, "code", (node) => {
+      if (node.lang === "adelfa" && node.meta?.includes("outputFile=")) {
+        const filePath = file.path || file.history[0] || "";
+        const mdxDir = dirname(filePath);
 
-        // Add the directory path to the metadata
-        // We'll add it as a special property that won't interfere with existing parsing
-        node.meta = `${node.meta} __mdxDir="${mdxDir}"`;
+        const siblingDir = join(mdxDir, basename(filePath, extname(filePath)));
+        const resolvedDir = existsSync(siblingDir) ? siblingDir : mdxDir;
+
+        node.meta = `${node.meta} __mdxDir="${resolvedDir}"`;
       }
     });
   };

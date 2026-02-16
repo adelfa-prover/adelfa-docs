@@ -1,0 +1,144 @@
+---
+title: Download
+description: Download Adelfa and its Proof General support.
+---
+
+## Installation
+
+There are several ways to obtain Adelfa. We recommend using
+[opam](https://opam.ocaml.org/), the OCaml package manager, to install Adelfa.
+However, you can also clone the code from GitHub or download the source code
+directly from this website.
+
+<Tabs items={['opam', 'git', 'source']}>
+  <Tab>
+    The recommended way for installing Adelfa is through OPAM.
+
+    ```bash
+    opam install adelfa
+    ```
+
+  </Tab>
+  <Tab>
+    The code for Adelfa is hosted on
+    [Github](https://github.com/adelfa-prover/adelfa). You can clone the
+    repository and install the code using Dune.
+
+    ```bash
+    git clone https://github.com/adelfa-prover/adelfa.git
+    cd adelfa
+    dune install
+    ```
+
+  </Tab>
+  <Tab>
+    You may also obtain the source code by downloading [the latest release from Github](https://github.com/adelfa-prover/adelfa/releases/latest).
+  </Tab>
+</Tabs>
+
+## VSCode Support
+
+We provide a [VSCode
+extension](https://marketplace.visualstudio.com/items?itemName=adelfa.adelfa-vscode)
+for developing proofs in Adelfa. The extension is in active development so it
+may have issues. If you encounter any issues, please [report
+them](https://github.com/adelfa-prover/adelfa-vscode/issues). For a more robust
+experience, we recommend using the [Emacs/Proof General
+setup](#emacs--proof-general-support).
+
+## Emacs / Proof General Support
+
+The distribution of Adelfa provides a [Proof
+General](https://proofgeneral.github.io/) mode and syntax highlighting for
+developing proofs in its `PG/` directory which has the following structure:
+
+<Files>
+  <Folder name="PG" defaultOpen>
+    <Folder name="adelfa" defaultOpen>
+      <File name="adelfa-syntax.el" />
+      <File name="adelfa.el" />
+    </Folder>
+    <File name="README.md" />
+  </Folder>
+</Files>
+
+<Steps>
+<Step>
+### Install Proof General
+
+Install Proof General as instructed by its documentation at
+https://proofgeneral.github.io/download/.
+
+</Step>
+
+<Step>
+### Add Adelfa to Proof General Source
+
+Copy the entirety of the `adelfa` directory into the folder where Proof General was
+installed. The folder structure should now resemble:
+
+<Files>
+  <Folder name="adelfa" defaultOpen>
+    <File name="adelfa-syntax.el"/>
+    <File name="adelfa.el"/>
+  </Folder>
+  <Folder name="ci"/>
+  <Folder name="coq"/>
+  <Folder name="generic">
+    <File name="proof-site.el"/>
+  </Folder>
+  <File name="proof-general.el"/>
+</Files>
+</Step>
+
+<Step>
+### Setup Adelfa in Proof General
+
+In the file `PG/generic/proof-site.el`, add an entry for Adelfa in PG's
+`proof-assistant-table-default` resembling `(adelfa "Adelfa" "ath")`. The
+`proof-assistant-table-default` should resemble something similar to:
+
+```lisp
+(defconst proof-assistant-table-default
+    '(
+      ;; Main instances of PG.
+
+      (adelfa "Adelfa" "ath")
+      (coq "Coq" "v" nil (".vo" ".glob"))
+      ; ...
+     ))
+```
+
+</Step>
+
+<Step>
+### Complete Proof General Setup
+
+In your Emacs configuration, commonly located at `~/.emacs` or `~/.emacs.d/init.el`, add the following lines:
+
+```lisp
+(defconst proof-site-file
+  (expand-file-name "path-to-pg/PG/generic/proof-site.el"))
+
+(when (file-exists-p proof-site-file)
+  (setq proof-splash-enable nil
+        proof-output-tooltips nil
+        proof-three-window-mode-policy 'horizontal)
+
+  (load-file proof-site-file)
+
+  (add-hook 'adelfa-mode-hook
+            #'(lambda ()
+                (setq indent-line-function 'indent-relative)))
+
+  (setq auto-mode-alist
+        (append
+         '(("\\.ath\\'" . adelfa-mode))
+         auto-mode-alist)))
+```
+
+Where `path-to-pg` should be changed to the file path of your proof general
+installation.
+
+</Step>
+</Steps>

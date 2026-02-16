@@ -1,4 +1,4 @@
-import { visit, SKIP } from 'unist-util-visit';
+import { visit, SKIP } from "unist-util-visit";
 
 /**
  * Remark plugin to transform [@key] citation syntax into CiteRef components
@@ -21,7 +21,7 @@ export function remarkCitations() {
     const keyToNum = new Map();
 
     // First pass: find all citations and assign numbers
-    visit(tree, 'text', (node) => {
+    visit(tree, "text", (node) => {
       const regex = /\[@([a-zA-Z0-9_-]+)\]/g;
       let match;
       while ((match = regex.exec(node.value)) !== null) {
@@ -39,7 +39,7 @@ export function remarkCitations() {
     }
 
     // Second pass: transform text nodes with citations
-    visit(tree, 'text', (node, index, parent) => {
+    visit(tree, "text", (node, index, parent) => {
       if (!parent || index === undefined) return;
 
       const regex = /\[@([a-zA-Z0-9_-]+)\]/g;
@@ -64,41 +64,43 @@ export function remarkCitations() {
         // Add text before the citation
         if (match.index > lastIndex) {
           newNodes.push({
-            type: 'text',
+            type: "text",
             value: node.value.slice(lastIndex, match.index),
           });
         }
 
         // Add the CiteRef component
         newNodes.push({
-          type: 'mdxJsxTextElement',
-          name: 'CiteRef',
+          type: "mdxJsxTextElement",
+          name: "CiteRef",
           attributes: [
             {
-              type: 'mdxJsxAttribute',
-              name: 'num',
+              type: "mdxJsxAttribute",
+              name: "num",
               value: {
-                type: 'mdxJsxAttributeValueExpression',
+                type: "mdxJsxAttributeValueExpression",
                 value: String(num),
                 data: {
                   estree: {
-                    type: 'Program',
-                    body: [{
-                      type: 'ExpressionStatement',
-                      expression: {
-                        type: 'Literal',
-                        value: num,
-                        raw: String(num),
+                    type: "Program",
+                    body: [
+                      {
+                        type: "ExpressionStatement",
+                        expression: {
+                          type: "Literal",
+                          value: num,
+                          raw: String(num),
+                        },
                       },
-                    }],
-                    sourceType: 'module',
+                    ],
+                    sourceType: "module",
                   },
                 },
               },
             },
             {
-              type: 'mdxJsxAttribute',
-              name: 'citeKey',
+              type: "mdxJsxAttribute",
+              name: "citeKey",
               value: key,
             },
           ],
@@ -111,7 +113,7 @@ export function remarkCitations() {
       // Add remaining text after last citation
       if (lastIndex < node.value.length) {
         newNodes.push({
-          type: 'text',
+          type: "text",
           value: node.value.slice(lastIndex),
         });
       }
@@ -124,11 +126,11 @@ export function remarkCitations() {
     });
 
     // Third pass: inject keys into Bibliography components
-    visit(tree, 'mdxJsxFlowElement', (node) => {
-      if (node.name === 'Bibliography') {
+    visit(tree, "mdxJsxFlowElement", (node) => {
+      if (node.name === "Bibliography") {
         // Check if keys attribute already exists
         const hasKeys = node.attributes?.some(
-          attr => attr.type === 'mdxJsxAttribute' && attr.name === 'keys'
+          (attr) => attr.type === "mdxJsxAttribute" && attr.name === "keys",
         );
 
         if (!hasKeys) {
@@ -138,26 +140,28 @@ export function remarkCitations() {
           }
 
           node.attributes.push({
-            type: 'mdxJsxAttribute',
-            name: 'keys',
+            type: "mdxJsxAttribute",
+            name: "keys",
             value: {
-              type: 'mdxJsxAttributeValueExpression',
+              type: "mdxJsxAttributeValueExpression",
               value: JSON.stringify(citedKeys),
               data: {
                 estree: {
-                  type: 'Program',
-                  body: [{
-                    type: 'ExpressionStatement',
-                    expression: {
-                      type: 'ArrayExpression',
-                      elements: citedKeys.map(key => ({
-                        type: 'Literal',
-                        value: key,
-                        raw: JSON.stringify(key),
-                      })),
+                  type: "Program",
+                  body: [
+                    {
+                      type: "ExpressionStatement",
+                      expression: {
+                        type: "ArrayExpression",
+                        elements: citedKeys.map((key) => ({
+                          type: "Literal",
+                          value: key,
+                          raw: JSON.stringify(key),
+                        })),
+                      },
                     },
-                  }],
-                  sourceType: 'module',
+                  ],
+                  sourceType: "module",
                 },
               },
             },

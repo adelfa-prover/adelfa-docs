@@ -122,8 +122,8 @@ Proof Completed!`;
 
 Subgoal ty_independent:`;
     const parts = getOutputParts(input);
-    expect(parts[0]).toBe('Welcome!');
-    expect(parts[1]).toBe('');
-    expect(parts[2]).toBe('');
+    expect(parts[0]).toBe("Welcome!");
+    expect(parts[1]).toBe("");
+    expect(parts[2]).toBe("");
   });
 });

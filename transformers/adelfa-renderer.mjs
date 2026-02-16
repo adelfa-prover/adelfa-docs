@@ -15,59 +15,19 @@ export function extend(extension, node) {
 export function rendererRich(options = {}) {
   const { hast } = options;
 
-  function highlightPopupContent(info) {
-    const popupContents = [];
-    if (info.output.length === 0) return [];
-
-    const content = `>> ${info.input}\n\n${info.output}`;
-
-    const typeCode = {
-      type: "element",
-      tagName: "code",
-      properties: {},
-      children: this.codeToHast(content, {
-        ...this.options,
-        transformers: [],
-        lang: "adelfa",
-        structure: content.trim().includes("\n") ? "classic" : "inline",
-      }).children.map((child) => ({
-        ...child,
-        properties: {
-          class: "",
-        },
-      })),
-    };
-    typeCode.properties.class = "twoslash-popup-code";
-
-    popupContents.push(extend(hast?.popupTypes, typeCode));
-
-    return popupContents;
-  }
-
   return {
     nodeStaticInfo(info, node) {
-      const themedContent = highlightPopupContent.call(this, info);
-
-      if (!themedContent.length) return node;
-
-      const popup = extend(hast?.hoverPopup, {
-        type: "element",
-        tagName: "span",
-        properties: {
-          class: "twoslash-popup-container",
-        },
-        children: themedContent,
-      });
+      if (!info.output?.length) return node;
 
       return extend(hast?.hoverToken, {
         type: "element",
         tagName: "span",
         properties: {
           class: "twoslash-hover",
+          "data-popup-input": info.input,
+          "data-popup-output": info.output,
         },
-        children: hast?.hoverCompose
-          ? hast?.hoverCompose({ popup, token: node })
-          : [popup, node],
+        children: [node],
       });
     },
   };

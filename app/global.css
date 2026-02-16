@@ -1,0 +1,54 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+.katex-display {
+  overflow-x: auto;
+  padding: 10px 10px;
+}
+
+/* Adelfa hover popups */
+.twoslash-hover {
+  position: relative;
+  border-bottom: 1px dotted currentColor;
+  cursor: pointer;
+}
+
+.twoslash-popup-container {
+  display: none;
+  position: fixed;
+  z-index: 50;
+  width: max-content;
+  max-width: 80vw;
+  padding: 0;
+  border: 1px solid var(--color-fd-border);
+  border-radius: 0.5rem;
+  background: var(--color-fd-background);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  white-space: pre-wrap;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+.twoslash-popup-container figure {
+  margin-block: 0;
+}
+
+.twoslash-popup-container pre {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+
+.twoslash-hover.active > .twoslash-popup-container {
+  display: block;
+}
+
+.popup-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+

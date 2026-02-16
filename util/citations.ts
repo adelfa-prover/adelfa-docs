@@ -270,24 +270,19 @@ export async function getAvailableKeys(): Promise<string[]> {
 }
 
 const LINK_CLASS =
-  "x:focus-visible:nextra-focus x:text-primary-600 x:underline x:hover:no-underline x:decoration-from-font x:[text-underline-position:from-font]";
+  "text-fd-primary underline decoration-from-font [text-underline-position:from-font]";
 
 const URL_REGEXP =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
 
-const ARROW_SVG =
-  '<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" height="1em" class="x:inline x:align-baseline x:shrink-0"><path d="M7 17L17 7"></path><path d="M7 7h10v10"></path></svg>';
-
 /**
- * Convert URLs in text to clickable links with arrow icons
+ * Convert URLs in text to clickable links
  */
 export function linkifyUrls(text: string): string {
   return text.replaceAll(URL_REGEXP, (url) => {
     const cleanUrl = url.replace(/\.$/, "").trim();
     const hasDot = url.endsWith(".");
-    return `<a class="${LINK_CLASS}" style="white-space:nowrap;" href="${cleanUrl}">${cleanUrl}${ARROW_SVG}</a>${
-      hasDot ? "." : ""
-    }`;
+    return `<a class="${LINK_CLASS}" href="${cleanUrl}" rel="noreferrer noopener" target="_blank">${cleanUrl}</a>${hasDot ? "\u2060." : ""}`;
   });
 }
 

@@ -1,0 +1,908 @@
+---
+title: Tactics
+description: Tactics for constructing proofs in Adelfa.
+---
+
+In this page, we use the following LF signature to parameterize proof
+developments on this page. These developments will display each tactic being
+used, usually through a toy theorem.
+
+```lf filename="tactics.lf"
+nat : type.
+z : nat.
+s : {N:nat} nat.
+
+plus : nat -> nat -> nat -> type.
+plus-z : {N:nat} plus z N N.
+plus-s : {N1:nat}{N2:nat}{N3:nat}
+         {D: plus N1 N2 N3}
+         plus (s N1) N2 (s N3).
+```
+
+## `search [<NUM>].`
+
+Search for a derivation of the current goal using matching with assumption
+formulas and decomposing judgments into subgoals using LF derivation rules. If a
+`<NUM>` is provided, assumption judgements are decomposed `<NUM>` times. If a
+`<NUM>` is not provided, the
+[`search_depth`](/reference-guide/top-level-commands#search_depth) option is
+used. The [`search_depth`](/reference-guide/top-level-commands#search_depth) can
+be changed with the
+[`Set`](/reference-guide/top-level-commands#set-option-value) command.
+
+## `intros.`
+
+Introduces variables and assumptions from a goal formula until it no longer has
+top-level universal quantification, context quantification, or implications.
+
+```adelfa showOutput
+Specification "tactics.lf".
+Schema C := ().
+Theorem intro-example: ctx G:C, forall N1, { N1 : nat } => { s N1 : nat }.
+intros.
+
+%{
+>> Specification "tactics.lf".
+
+>> Schema C := ().
+
+>> Theorem intro-example: ctx G:C, forall N1, { N1 : nat } => { s N1 : nat }.
+
+Subgoal intro-example:
+
+
+==================================
+ctx G:C, forall N1, {N1 : nat} => {s N1 : nat}
+
+intro-example>> intros.
+
+Subgoal intro-example:
+
+Vars: N1:o
+Contexts: G{}:C[]
+H1:{N1 : nat}
+
+==================================
+{s N1 : nat}
+}%
+```
+
+## `split.`
+
+Creates subgoals for each subformula, `F1` and `F2` if the current goal is a
+conjunction `F1 /\ F2`.
+
+```adelfa showOutput
+Theorem split_example : true /\ false.
+split.
+
+%{
+
+>> Theorem split_example : true /\ false.
+
+Subgoal split_example:
+
+
+==================================
+True /\ False
+
+split_example>> split.
+
+Subgoal split_example:
+
+
+==================================
+True
+
+Subgoal split_example is:
+ False
+}%
+
+```
+
+## `left.`
+
+Changes the goal to be the left side formula, `F1` if the current goal is a
+disjunction, `F1 \/ F2`.
+
+```adelfa showOutput
+Theorem left_example : true \/ false.
+left.
+
+%{
+
+>> Theorem left_example : true \/ false.
+
+Subgoal left_example:
+
+
+==================================
+True \/ False
+
+left_example>> left.
+
+Subgoal left_example:
+
+
+==================================
+True
+}%
+
+
+```
+
+## `right.`
+
+Changes the goal to be the right side formula, `F2` if the current goal is a
+disjunction, `F1 \/ F2`.
+
+```adelfa showOutput
+Theorem right_example : false \/ true.
+right.
+
+%{
+
+>> Theorem right_example : false \/ true.
+
+Subgoal right_example:
+
+
+==================================
+False \/ True
+
+right_example>> right.
+
+Subgoal right_example:
+
+
+==================================
+True
+}%
+```
+
+## `assert <FORMULA> [<NUM>].`
+
+Changes the proof state to one which has the given formula as a goal; once
+derivation of this goal is complete returns to the previous proof state with the
+given formula added as an assumption. Providing a `<NUM>` will decompose
+assumption judgements `<NUM>` times. If the asserted formula can be proven, it
+is added to the proof state immediately. This option defaults to
+[`search_depth`](/reference-guide/top-level-commands#search_depth) when not
+provided and may be changed with the
+[`Set`](/reference-guide/top-level-commands#set-option-value) command.
+
+```adelfa showOutput
+Specification "tactics.lf".
+
+Theorem plus_exist : forall N1 N2,
+  {N1:nat} => {N2:nat} => exists N3 D, {D : plus N1 N2 N3}.
+induction on 1. intros. case H1.
+apply IH to H3 H2.
+% Adelfa decomposes the {D: plus N N2 N3}* assumption
+% to find this is derivable, adding it directly to the
+% assumption set.
+assert { N3 : nat }.
+undo.
+% We can tell adelfa to not perform any decomposition,
+% to find this is derivable, adding it directly to the
+% assumption set.
+assert { N3 : nat} 0.
+
+%{
+>> Specification "tactics.lf".
+
+>> Theorem plus_exist : forall N1 N2,
+  {N1:nat} => {N2:nat} => exists N3 D, {D : plus N1 N2 N3}.
+
+Subgoal plus_exist:
+
+
+==================================
+forall N1, forall N2,
+  {N1 : nat} => {N2 : nat} => exists N3, exists D, {D : plus N1 N2 N3}
+
+plus_exist>> induction on 1.
+
+Subgoal plus_exist:
+
+IH:
+    forall N1, forall N2,
+      {N1 : nat}* => {N2 : nat} => exists N3, exists D, {D : plus N1 N2 N3}
+
+==================================
+forall N1, forall N2,
+  {N1 : nat}@ => {N2 : nat} => exists N3, exists D, {D : plus N1 N2 N3}
+
+plus_exist>> intros.
+
+Subgoal plus_exist:
+
+Vars: N2:o, N1:o
+IH:
+    forall N1, forall N2,
+      {N1 : nat}* => {N2 : nat} => exists N3, exists D, {D : plus N1 N2 N3}
+H1:{N1 : nat}@
+H2:{N2 : nat}
+
+==================================
+exists N3, exists D, {D : plus N1 N2 N3}
+
+plus_exist>> case H1.
+
+Subgoal plus_exist.1:
+
+Vars: N:o, N2:o
+IH:
+    forall N1, forall N2,
+      {N1 : nat}* => {N2 : nat} => exists N3, exists D, {D : plus N1 N2 N3}
+H2:{N2 : nat}
+H3:{N : nat}*
+
+==================================
+exists N3, exists D, {D : plus (s N) N2 N3}
+
+Subgoal plus_exist.2 is:
+ exists N3, exists D, {D : plus z N2 N3}
+
+plus_exist.1>> apply IH to H3 H2.
+
+Subgoal plus_exist.1:
+
+Vars: D:o, N3:o, N:o, N2:o
+IH:
+    forall N1, forall N2,
+      {N1 : nat}* => {N2 : nat} => exists N3, exists D, {D : plus N1 N2 N3}
+H2:{N2 : nat}
+H3:{N : nat}*
+H4:{D : plus N N2 N3}
+
+==================================
+exists N3, exists D, {D : plus (s N) N2 N3}
+
+Subgoal plus_exist.2 is:
+ exists N3, exists D, {D : plus z N2 N3}
+
+plus_exist.1>> assert { N3 : nat }.
+
+Subgoal plus_exist.1:
+
+Vars: D:o, N3:o, N:o, N2:o
+IH:
+    forall N1, forall N2,
+      {N1 : nat}* => {N2 : nat} => exists N3, exists D, {D : plus N1 N2 N3}
+H2:{N2 : nat}
+H3:{N : nat}*
+H4:{D : plus N N2 N3}
+H5:{N3 : nat}
+
+==================================
+exists N3, exists D, {D : plus (s N) N2 N3}
+
+Subgoal plus_exist.2 is:
+ exists N3, exists D, {D : plus z N2 N3}
+
+plus_exist.1>> undo.
+
+Subgoal plus_exist.1:
+
+Vars: D:o, N3:o, N:o, N2:o
+IH:
+    forall N1, forall N2,
+      {N1 : nat}* => {N2 : nat} => exists N3, exists D, {D : plus N1 N2 N3}
+H2:{N2 : nat}
+H3:{N : nat}*
+H4:{D : plus N N2 N3}
+
+==================================
+exists N3, exists D, {D : plus (s N) N2 N3}
+
+Subgoal plus_exist.2 is:
+ exists N3, exists D, {D : plus z N2 N3}
+
+plus_exist.1>> assert { N3 : nat} 0.
+
+Subgoal plus_exist.1:
+
+Vars: D:o, N3:o, N:o, N2:o
+IH:
+    forall N1, forall N2,
+      {N1 : nat}* => {N2 : nat} => exists N3, exists D, {D : plus N1 N2 N3}
+H2:{N2 : nat}
+H3:{N : nat}*
+H4:{D : plus N N2 N3}
+
+==================================
+{N3 : nat}
+
+Subgoal plus_exist.1 is:
+ exists N3, exists D, {D : plus (s N) N2 N3}
+
+Subgoal plus_exist.2 is:
+ exists N3, exists D, {D : plus z N2 N3}
+}%
+```
+
+## `apply <NAME> to <HYP NAMES> [with <BINDINGS>].`
+
+Applies a hypothesis of the form `ctx Gamma1:C1 ... Gammaj:Cj, forall X1 ... Xi,
+H1 => ... => Hk => F` to argument hypotheses which match `H1, ..., Hk`. The
+result is an instantiation of `F`. Either or both of `i` and `j` may be zero. That is,
+there need not be universally quantified variables or context variables. The
+`with` clause allows specific instantiations of any of the variables `X1 ... Xi` and
+`Gamma1 ... Gammaj`.
+
+```adelfa showOutput
+Specification "tactics.lf".
+
+Theorem plus-z-rhs : forall N,
+  { N : nat } => exists D, { D : plus N z N }.
+induction on 1. intros. case H1.
+apply IH to H2. exists plus-s N1 z N1 D. search.
+exists plus-z z. search.
+
+Theorem plus-comm : forall N1 N2 N3 D1,
+  { D1 : plus N1 N2 N3 } =>
+  % what would be a lemma is listed here to display how one can apply
+  % assumption formulas.
+  (forall M1 M2 M3 P, { P : plus M1 M2 M3 }
+    => exists P2, { P2 : plus M1 (s M2) (s M3) }) =>
+  exists D2, { D2 : plus N2 N1 N3 }.
+induction on 1. intros. case H1.
+apply IH to H6 H2. apply H2 to H7. exists P2. search.
+apply plus-z-rhs to H3. exists D. search.
+
+
+%{
+>> Specification "tactics.lf".
+
+>> Theorem plus-z-rhs : forall N,
+  { N : nat } => exists D, { D : plus N z N }.
+
+Subgoal plus-z-rhs:
+
+
+==================================
+forall N, {N : nat} => exists D, {D : plus N z N}
+
+plus-z-rhs>> induction on 1.
+
+Subgoal plus-z-rhs:
+
+IH:forall N, {N : nat}* => exists D, {D : plus N z N}
+
+==================================
+forall N, {N : nat}@ => exists D, {D : plus N z N}
+
+plus-z-rhs>> intros.
+
+Subgoal plus-z-rhs:
+
+Vars: N:o
+IH:forall N, {N : nat}* => exists D, {D : plus N z N}
+H1:{N : nat}@
+
+==================================
+exists D, {D : plus N z N}
+
+plus-z-rhs>> case H1.
+
+Subgoal plus-z-rhs.1:
+
+Vars: N1:o
+IH:forall N, {N : nat}* => exists D, {D : plus N z N}
+H2:{N1 : nat}*
+
+==================================
+exists D, {D : plus (s N1) z (s N1)}
+
+Subgoal plus-z-rhs.2 is:
+ exists D, {D : plus z z z}
+
+plus-z-rhs.1>> apply IH to H2.
+
+Subgoal plus-z-rhs.1:
+
+Vars: D:o, N1:o
+IH:forall N, {N : nat}* => exists D, {D : plus N z N}
+H2:{N1 : nat}*
+H3:{D : plus N1 z N1}
+
+==================================
+exists D, {D : plus (s N1) z (s N1)}
+
+Subgoal plus-z-rhs.2 is:
+ exists D, {D : plus z z z}
+
+plus-z-rhs.1>> exists plus-s N1 z N1 D.
+
+Subgoal plus-z-rhs.1:
+
+Vars: D:o, N1:o
+IH:forall N, {N : nat}* => exists D, {D : plus N z N}
+H2:{N1 : nat}*
+H3:{D : plus N1 z N1}
+
+==================================
+{plus-s N1 z N1 D : plus (s N1) z (s N1)}
+
+Subgoal plus-z-rhs.2 is:
+ exists D, {D : plus z z z}
+
+plus-z-rhs.1>> search.
+
+Subgoal plus-z-rhs.2:
+
+IH:forall N, {N : nat}* => exists D, {D : plus N z N}
+
+==================================
+exists D, {D : plus z z z}
+
+plus-z-rhs.2>> exists plus-z z.
+
+Subgoal plus-z-rhs.2:
+
+IH:forall N, {N : nat}* => exists D, {D : plus N z N}
+
+==================================
+{plus-z z : plus z z z}
+
+plus-z-rhs.2>> search.
+Proof Completed!
+
+>> Theorem plus-comm : forall N1 N2 N3 D1,
+  { D1 : plus N1 N2 N3 } =>
+  % what would be a lemma is listed here to display how one can apply
+  % assumption formulas.
+  (forall M1 M2 M3 P, { P : plus M1 M2 M3 }
+    => exists P2, { P2 : plus M1 (s M2) (s M3) }) =>
+  exists D2, { D2 : plus N2 N1 N3 }.
+
+Subgoal plus-comm:
+
+
+==================================
+forall N1, forall N2, forall N3, forall D1,
+  {D1 : plus N1 N2 N3} =>
+      forall M1, forall M2, forall M3, forall P,
+        {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+          exists D2, {D2 : plus N2 N1 N3}
+
+plus-comm>> induction on 1.
+
+Subgoal plus-comm:
+
+IH:
+    forall N1, forall N2, forall N3, forall D1,
+      {D1 : plus N1 N2 N3}* =>
+          forall M1, forall M2, forall M3, forall P,
+            {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+              exists D2, {D2 : plus N2 N1 N3}
+
+==================================
+forall N1, forall N2, forall N3, forall D1,
+  {D1 : plus N1 N2 N3}@ =>
+      forall M1, forall M2, forall M3, forall P,
+        {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+          exists D2, {D2 : plus N2 N1 N3}
+
+plus-comm>> intros.
+
+Subgoal plus-comm:
+
+Vars: D1:o, N3:o, N2:o, N1:o
+IH:
+    forall N1, forall N2, forall N3, forall D1,
+      {D1 : plus N1 N2 N3}* =>
+          forall M1, forall M2, forall M3, forall P,
+            {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+              exists D2, {D2 : plus N2 N1 N3}
+H1:{D1 : plus N1 N2 N3}@
+H2:
+    forall M1, forall M2, forall M3, forall P,
+      {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)}
+
+==================================
+exists D2, {D2 : plus N2 N1 N3}
+
+plus-comm>> case H1.
+
+Subgoal plus-comm.1:
+
+Vars: D:o, N4:o, N6:o, N2:o
+IH:
+    forall N1, forall N2, forall N3, forall D1,
+      {D1 : plus N1 N2 N3}* =>
+          forall M1, forall M2, forall M3, forall P,
+            {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+              exists D2, {D2 : plus N2 N1 N3}
+H2:
+    forall M1, forall M2, forall M3, forall P,
+      {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)}
+H3:{N4 : nat}*
+H4:{N2 : nat}*
+H5:{N6 : nat}*
+H6:{D : plus N4 N2 N6}*
+
+==================================
+exists D2, {D2 : plus N2 (s N4) (s N6)}
+
+Subgoal plus-comm.2 is:
+ exists D2, {D2 : plus N3 z N3}
+
+plus-comm.1>> apply IH to H6 H2.
+
+Subgoal plus-comm.1:
+
+Vars: D2:o, D:o, N4:o, N6:o, N2:o
+IH:
+    forall N1, forall N2, forall N3, forall D1,
+      {D1 : plus N1 N2 N3}* =>
+          forall M1, forall M2, forall M3, forall P,
+            {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+              exists D2, {D2 : plus N2 N1 N3}
+H2:
+    forall M1, forall M2, forall M3, forall P,
+      {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)}
+H3:{N4 : nat}*
+H4:{N2 : nat}*
+H5:{N6 : nat}*
+H6:{D : plus N4 N2 N6}*
+H7:{D2 : plus N2 N4 N6}
+
+==================================
+exists D2, {D2 : plus N2 (s N4) (s N6)}
+
+Subgoal plus-comm.2 is:
+ exists D2, {D2 : plus N3 z N3}
+
+plus-comm.1>> apply H2 to H7.
+
+Subgoal plus-comm.1:
+
+Vars: P2:o, D2:o, D:o, N4:o, N6:o, N2:o
+IH:
+    forall N1, forall N2, forall N3, forall D1,
+      {D1 : plus N1 N2 N3}* =>
+          forall M1, forall M2, forall M3, forall P,
+            {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+              exists D2, {D2 : plus N2 N1 N3}
+H2:
+    forall M1, forall M2, forall M3, forall P,
+      {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)}
+H3:{N4 : nat}*
+H4:{N2 : nat}*
+H5:{N6 : nat}*
+H6:{D : plus N4 N2 N6}*
+H7:{D2 : plus N2 N4 N6}
+H8:{P2 : plus N2 (s N4) (s N6)}
+
+==================================
+exists D2, {D2 : plus N2 (s N4) (s N6)}
+
+Subgoal plus-comm.2 is:
+ exists D2, {D2 : plus N3 z N3}
+
+plus-comm.1>> exists P2.
+
+Subgoal plus-comm.1:
+
+Vars: P2:o, D2:o, D:o, N4:o, N6:o, N2:o
+IH:
+    forall N1, forall N2, forall N3, forall D1,
+      {D1 : plus N1 N2 N3}* =>
+          forall M1, forall M2, forall M3, forall P,
+            {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+              exists D2, {D2 : plus N2 N1 N3}
+H2:
+    forall M1, forall M2, forall M3, forall P,
+      {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)}
+H3:{N4 : nat}*
+H4:{N2 : nat}*
+H5:{N6 : nat}*
+H6:{D : plus N4 N2 N6}*
+H7:{D2 : plus N2 N4 N6}
+H8:{P2 : plus N2 (s N4) (s N6)}
+
+==================================
+{P2 : plus N2 (s N4) (s N6)}
+
+Subgoal plus-comm.2 is:
+ exists D2, {D2 : plus N3 z N3}
+
+plus-comm.1>> search.
+
+Subgoal plus-comm.2:
+
+Vars: N3:o
+IH:
+    forall N1, forall N2, forall N3, forall D1,
+      {D1 : plus N1 N2 N3}* =>
+          forall M1, forall M2, forall M3, forall P,
+            {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+              exists D2, {D2 : plus N2 N1 N3}
+H2:
+    forall M1, forall M2, forall M3, forall P,
+      {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)}
+H3:{N3 : nat}*
+
+==================================
+exists D2, {D2 : plus N3 z N3}
+
+plus-comm.2>> apply plus-z-rhs to H3.
+
+Subgoal plus-comm.2:
+
+Vars: D:o, N3:o
+IH:
+    forall N1, forall N2, forall N3, forall D1,
+      {D1 : plus N1 N2 N3}* =>
+          forall M1, forall M2, forall M3, forall P,
+            {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+              exists D2, {D2 : plus N2 N1 N3}
+H2:
+    forall M1, forall M2, forall M3, forall P,
+      {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)}
+H3:{N3 : nat}*
+H4:{D : plus N3 z N3}
+
+==================================
+exists D2, {D2 : plus N3 z N3}
+
+plus-comm.2>> exists D.
+
+Subgoal plus-comm.2:
+
+Vars: D:o, N3:o
+IH:
+    forall N1, forall N2, forall N3, forall D1,
+      {D1 : plus N1 N2 N3}* =>
+          forall M1, forall M2, forall M3, forall P,
+            {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)} =>
+              exists D2, {D2 : plus N2 N1 N3}
+H2:
+    forall M1, forall M2, forall M3, forall P,
+      {P : plus M1 M2 M3} => exists P2, {P2 : plus M1 (s M2) (s M3)}
+H3:{N3 : nat}*
+H4:{D : plus N3 z N3}
+
+==================================
+{D : plus N3 z N3}
+
+plus-comm.2>> search.
+Proof Completed!
+}%
+```
+
+## `induction on <NUM>.`
+
+Given a goal of the form `ctx Gamma1:C1 Gamma2:C2 ..., forall X Y ..., H1 => H2
+=> ... => F` the induction tactic allows you to induct on one of `H1, H2, ...`.
+The hypothesis to be inducted on must be an atomic formula. The choice of
+induction is based on the number `<NUM>`. Applying the induction tactic results
+in an inductive hypothesis being added to the current set of hypotheses.
+Specifics on this inductive hypothesis and how it relates to the goal are given
+in the section [Inductive
+Restrictions](/reference-guide/syntax#inductive-restrictions).
+
+Adelfa supports nested induction through repeated calls to the induction tactic.
+See the [Inductive Restrictions](/reference-guide/syntax#inductive-restrictions)
+section for more details.
+
+## `exists M.`
+
+Instantiates an existential goal with the given term, if it is of the correct
+arity type.
+
+```adelfa showOutput
+Specification "tactics.lf".
+
+Theorem exist-example : exists N, { N : nat }.
+exists z. search.
+
+%{
+>> Specification "tactics.lf".
+
+>> Theorem exist-example : exists N, { N : nat }.
+
+Subgoal exist-example:
+
+
+==================================
+exists N, {N : nat}
+
+exist-example>> exists z.
+
+Subgoal exist-example:
+
+
+==================================
+{z : nat}
+
+exist-example>> search.
+Proof Completed!
+}%
+```
+
+## `case <HYP NAME>[(keep)].`
+
+Performs case analysis on the given assumption formula. By default, the
+assumption is removed, use `(keep)` to retain it.
+
+```adelfa showOutput
+Specification "tactics.lf".
+
+Theorem cases-example : forall N, {N : nat} => { s N : nat }.
+intros. case H1.
+% keep derivation which formed { N : nat }
+undo. case H1 (keep).
+
+
+%{
+>> Specification "tactics.lf".
+
+>> Theorem cases-example : forall N, {N : nat} => { s N : nat }.
+
+Subgoal cases-example:
+
+
+==================================
+forall N, {N : nat} => {s N : nat}
+
+cases-example>> intros.
+
+Subgoal cases-example:
+
+Vars: N:o
+H1:{N : nat}
+
+==================================
+{s N : nat}
+
+cases-example>> case H1.
+
+Subgoal cases-example.1:
+
+Vars: N1:o
+H2:{N1 : nat}
+
+==================================
+{s (s N1) : nat}
+
+Subgoal cases-example.2 is:
+ {s z : nat}
+
+cases-example.1>> undo.
+
+Subgoal cases-example:
+
+Vars: N:o
+H1:{N : nat}
+
+==================================
+{s N : nat}
+
+cases-example>> case H1 (keep).
+
+Subgoal cases-example.1:
+
+Vars: N1:o
+H1:{s N1 : nat}
+H2:{N1 : nat}
+
+==================================
+{s (s N1) : nat}
+
+Subgoal cases-example.2 is:
+ {s z : nat}
+}%
+```
+
+## `weaken <HYP NAME> with A [<NUM>].`
+
+When the given assumption formula is of the form `{G |- M : A}`, and it can be
+verified that the LF type `A` must be well formed in the current context under
+`G`, then a new assumption is added in which the typing judgment is weakened to
+include the given type.
+
+```adelfa showOutput
+Specification "tactics.lf".
+
+Theorem wk-example : forall N, { N : nat } => false.
+intros. weaken H1 with nat.
+
+%{
+>> Specification "tactics.lf".
+
+>> Theorem wk-example : forall N, { N : nat } => false.
+
+Subgoal wk-example:
+
+
+==================================
+forall N, {N : nat} => False
+
+wk-example>> intros.
+
+Subgoal wk-example:
+
+Vars: N:o
+H1:{N : nat}
+
+==================================
+False
+
+wk-example>> weaken H1 with nat.
+
+Subgoal wk-example:
+
+Vars: N:o
+Nominals: n:o
+H1:{N : nat}
+H2:{n:nat |- N : nat}
+
+==================================
+False
+}%
+```
+
+## `strengthen <HYP NAME>.`
+
+If the given assumption formula is of the form `{G, n:A1 |- M : A2}` if `n` does
+not appear in `M` or `A2` then a new assumption is added in which the typing
+judgment is strengthened to `{G |- M : A2}`.
+
+## `ctxpermute <HYP NAME> to G.`
+
+If the given assumption is of the form `{G' |- M : A}`, and if the given context
+is a valid permutation of the context `G'` (i.e. does not violate dependencies),
+then a new assumption is added with the permuted context expression `G`.
+
+## `permute <HYP NAME> with <PERM>.`
+
+Applies a permutation of nominal constants to the argument hypothesis. `<PERM>`
+must be a complete permutation. Mappings can be unidirectional `n1 -> n2, n2 ->
+n` or bidirectional `n1 <-> n2`. If the provided permutation is complete and
+limited to be within the relevant assumption's restricted set, a new assumption
+is added with the permutation applied to it.
+
+## `inst <HYP NAME> with n = M.`
+
+If the given assumption formula is of the form `{G1,n:B,G2 |- M:A}`, and the
+term `M` can be determined to be such that `{G1 |- M : B}` is valid then this tactic
+replaces the given assumption with one in which `n:B` is removed from the context
+expression and all occurrences of `n` are replaced by `M`.
+
+## `prune <HYP NAME>.`
+
+If the given assumption is of the form `{G |- X n1 ... nm : A}` for some
+eigenvariable `X` and distinct nominal constants `n1,...,nm` then this tactic
+will prune those nominal constants appearing as arguments to `X` which
+
+1. Do not already appear in `G` and
+2. Are not permitted in the instantiations for the context variable in `G`.
+
+## `undo.`
+
+Undoes the last step of reasoning.
+
+## `skip.`
+
+Skip to the next subgoal of the derivation and completes the theorem if there
+are no more goals.
+
+## `abort.`
+
+Abort the proof construction and return to top-level loop without adding formula
+to the available lemmas.
+
+## `unfold [<HYP NAME>].`
+
+If the given assumption formula is a defined predicate then it is unfolded using
+the relevant definition, using the first clause which matches. If no assumption
+formula is given, the goal formula is unfolded.
+
+## `applydfn <PROP> [to <HYP NAME>].`
+
+Applies a clause of the definition of `<PROP>` to the given assumption formula.
+The first clause which matches is the one used. If no assumption formula is
+provided the definition is applied to the goal formula.
