@@ -2,8 +2,8 @@
 
 View the documentation at [adelfa-prover.org](https://adelfa-prover.org).
 
-This website uses [Nextra](https://nextra.site) to generate documentation for
-the Adelfa project.
+This website uses [Fumadocs](https://fumadocs.vercel.app) to generate
+documentation for the Adelfa project.
 
 Each push to the `main` branch will automatically trigger a deployment to the
 website.
@@ -38,19 +38,18 @@ After npm has been installed, run `npm install` to install the dependencies.
 Then, run `npm run dev` to start the development server and visit
 https://localhost:3000 to see how the pages will appear on the website.
 
-The code utilizes [Next.js's App Router](https://nextjs.org/docs) to generate
-pages at the correct location. This means that to edit the
-`/reference-guide/syntax/` page, the `app/reference-guide/syntax/page.mdx` file
-will need to be edited.
+Content pages are located in the `content/docs/` directory as `.mdx` files. This
+means that to edit the `/reference-guide/syntax/` page, the
+`content/docs/reference-guide/syntax.mdx` file will need to be edited.
 
-Given this, open the desired `page.mdx` and begin editing it in the text editor
+Given this, open the desired `.mdx` file and begin editing it in the text editor
 of your choice. After saving the file, your browser should automatically reload
 the page to reflect your changes.
 
 For example, to modify the home page, open https://localhost:3000 in your
-browser and `app/page.mdx` in a text editor, make a change in the markdown file
-and wait for the browser to reflect this change. You can verify this is
-occurring by the following output in your terminal.
+browser and `content/docs/index.mdx` in a text editor, make a change in the
+markdown file and wait for the browser to reflect this change. You can verify
+this is occurring by the following output in your terminal.
 
 ```
 ✓ Compiled / in 364ms (2274 modules)
