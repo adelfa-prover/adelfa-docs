@@ -10,7 +10,8 @@
 /* Adelfa hover popups */
 .twoslash-hover {
   position: relative;
-  border-bottom: 1px dotted currentColor;
+  text-decoration: underline dotted currentColor;
+  text-underline-offset: 3px;
   cursor: pointer;
 }
 
@@ -51,4 +52,3 @@
   height: 0;
   pointer-events: none;
 }
-

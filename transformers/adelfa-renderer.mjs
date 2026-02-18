@@ -16,18 +16,21 @@ export function rendererRich(options = {}) {
   const { hast } = options;
 
   return {
-    nodeStaticInfo(info, node) {
+    nodeStaticInfo(info, node, options = {}) {
       if (!info.output?.length) return node;
+
+      const properties = {
+        class: "twoslash-hover",
+        "data-popup-input": info.input,
+        "data-popup-output": info.output,
+      };
+      if (options.style) properties.style = options.style;
 
       return extend(hast?.hoverToken, {
         type: "element",
         tagName: "span",
-        properties: {
-          class: "twoslash-hover",
-          "data-popup-input": info.input,
-          "data-popup-output": info.output,
-        },
-        children: [node],
+        properties,
+        children: Array.isArray(node) ? node : [node],
       });
     },
   };

@@ -1,11 +1,5 @@
 import { shouldShowOutputAdelfa, outputListing } from "./adelfa-utils.mjs";
 
-// TODO: Shiki Twoslash wants to have the popup associated with a _single_
-// token. Previously I just applied the popup to all tokens within a command,
-// but the popups are quite large, so the JS heap would overflow. Clearly, this
-// is not sustainable. What the solution likely is, then, is to include a step
-// which groups tokens of commands into one token and then we apply the popup
-// classes to that one element.
 export function adelfaTransformer({ renderer }) {
   return {
     name: "adelfaInputProcessor",
@@ -21,8 +15,8 @@ export function adelfaTransformer({ renderer }) {
         let currentCommand = "";
         let commandStart = 0;
         let commandCount = 1;
-        let commandStartLine = 0;
-        let commandStartColumn = 0;
+        let stmtStartLine = 0;
+        let stmtStartCol = 0;
         let line = 0;
         let col = 0;
         while (i < code.length) {
@@ -35,7 +29,6 @@ export function adelfaTransformer({ renderer }) {
           }
           // Recognize comments and skip them.
           if (!inString && code[i] === "%") {
-            const startOfCommentPos = i - 1;
             while (code[i] !== undefined && code[i] !== "\n") {
               i++;
               col++;
@@ -44,8 +37,10 @@ export function adelfaTransformer({ renderer }) {
               i++;
               line++;
               col = 0;
-              commandStartLine = line;
-              commandStartColumn = col;
+              if (currentCommand.trim() === "") {
+                stmtStartLine = line;
+                stmtStartCol = col;
+              }
               continue;
             }
             continue;
@@ -64,6 +59,8 @@ export function adelfaTransformer({ renderer }) {
               line,
               character: col - 1,
               length: 1,
+              startLine: stmtStartLine,
+              startCharacter: stmtStartCol,
               input,
               output: outputParts[commandCount++],
             });
@@ -79,8 +76,8 @@ export function adelfaTransformer({ renderer }) {
               }
             }
             currentCommand = "";
-            commandStartLine = line;
-            commandStartColumn = col;
+            stmtStartLine = line;
+            stmtStartCol = col;
             commandStart = i;
             continue;
           }
@@ -89,8 +86,10 @@ export function adelfaTransformer({ renderer }) {
             i++;
             line++;
             col = 0;
-            commandStartLine = line;
-            commandStartColumn = col;
+            if (currentCommand.trim() === "") {
+              stmtStartLine = line;
+              stmtStartCol = col;
+            }
             continue;
           }
           currentCommand += code[i];
@@ -109,60 +108,168 @@ export function adelfaTransformer({ renderer }) {
     },
     code(codeEl) {
       if (!this.meta?.adelfaNodes) return;
-      const tokensMap = [];
-      this.lines.forEach((lineEl, line) => {
-        let index = 0;
-        for (const token of lineEl.children.flatMap((i) =>
-          i.type === "element" ? i.children || [] : [],
-        )) {
-          if ("value" in token && typeof token.value === "string") {
-            tokensMap.push([line, index, index + token.value.length, token]);
-            index += token.value.length;
+
+      const nodes = this.meta.adelfaNodes;
+
+      const getTextContent = (node) => {
+        if (node.type === "text") return node.value || "";
+        if (node.children) return node.children.map(getTextContent).join("");
+        return "";
+      };
+
+      const splitAtBoundaries = (children, boundaries) => {
+        const sorted = [...boundaries].sort((a, b) => a - b);
+        const result = [];
+        let col = 0;
+
+        children.forEach((child) => {
+          const text = getTextContent(child);
+          const start = col;
+          const end = col + text.length;
+          col = end;
+
+          const cuts = sorted.filter((b) => b > start && b < end);
+          if (cuts.length === 0) {
+            result.push(child);
+            return;
           }
+
+          const points = [0, ...cuts.map((b) => b - start), text.length];
+          for (let i = 0; i < points.length - 1; i++) {
+            const slice = text.slice(points[i], points[i + 1]);
+            if (slice.length === 0) continue;
+
+            if (child.type === "text") {
+              result.push({ ...child, value: slice });
+            } else if (child.type === "element") {
+              result.push({
+                ...child,
+                properties: { ...child.properties },
+                children: [{ type: "text", value: slice }],
+              });
+            }
+          }
+        });
+
+        return result;
+      };
+
+      // Classify statements as single-line or multi-line
+      const singleLineByLine = new Map();
+      const multiLineStmts = [];
+
+      nodes.forEach((node) => {
+        if (node.startLine === node.line) {
+          if (!singleLineByLine.has(node.startLine)) {
+            singleLineByLine.set(node.startLine, []);
+          }
+          singleLineByLine.get(node.startLine).push(node);
+        } else {
+          multiLineStmts.push(node);
         }
       });
-      const locateTextTokens = (
-        /** @type {number} */ line,
-        /** @type {number} */ character,
-        /** @type {number} */ length,
-      ) => {
-        const start = character;
-        const end = character + length;
-        if (length === 0) {
-          return tokensMap
-            .filter(([l, s, e]) => l === line && s < start && start <= e)
-            .map((i) => i[3]);
-        }
-        // Otherwise we find the tokens that are completely inside the range
-        // Because we did the breakpoints earlier, we can safely assume that
-        // there will be no across-boundary tokens
-        return tokensMap
-          .filter(
-            ([l, s, e]) =>
-              // l === line && start <= s && s < end && start < e && e <= end,
-              l === line && s < end && start < e,
-          )
-          .map((i) => i[3]);
-      };
-      const tokensSkipHover = new Set();
-      const actionsHovers = [];
 
-      for (const node of this.meta.adelfaNodes) {
-        const tokens = locateTextTokens(node.line, node.character, node.length);
-        actionsHovers.push(() => {
-          tokens.forEach((token) => {
-            if (tokensSkipHover.has(token)) return;
-            // Already hovered, don't hover again
-            tokensSkipHover.add(token);
-            const clone = { ...token };
-            Object.assign(
-              token,
-              renderer.nodeStaticInfo.call(this, node, clone),
-            );
-          });
+      // Process single-line statements (modify line element children in place)
+      singleLineByLine.forEach((stmts, lineIdx) => {
+        const lineEl = this.lines[lineIdx];
+        if (!lineEl) return;
+
+        stmts.sort((a, b) => a.startCharacter - b.startCharacter);
+
+        // Compute column boundaries where splits are needed
+        const boundaries = new Set();
+        stmts.forEach((stmt) => {
+          boundaries.add(stmt.startCharacter);
+          boundaries.add(stmt.character + stmt.length);
         });
-      }
-      actionsHovers.forEach((i) => i());
+
+        // Split children so no token straddles a statement boundary
+        const splitChildren = splitAtBoundaries(lineEl.children, boundaries);
+
+        let col = 0;
+        const childInfos = splitChildren.map((child) => {
+          const text = getTextContent(child);
+          const info = { child, start: col, end: col + text.length };
+          col += text.length;
+          return info;
+        });
+
+        const newChildren = [];
+        let childIdx = 0;
+
+        stmts.forEach((stmt) => {
+          const stmtStart = stmt.startCharacter;
+          const stmtEnd = stmt.character + stmt.length;
+
+          // Add children before this statement
+          while (
+            childIdx < childInfos.length &&
+            childInfos[childIdx].end <= stmtStart
+          ) {
+            newChildren.push(childInfos[childIdx].child);
+            childIdx++;
+          }
+
+          // Collect children within this statement
+          const stmtChildren = [];
+          while (
+            childIdx < childInfos.length &&
+            childInfos[childIdx].start < stmtEnd
+          ) {
+            stmtChildren.push(childInfos[childIdx].child);
+            childIdx++;
+          }
+
+          if (stmtChildren.length > 0) {
+            const result = renderer.nodeStaticInfo.call(
+              this,
+              stmt,
+              stmtChildren,
+            );
+            if (Array.isArray(result)) {
+              newChildren.push(...result);
+            } else {
+              newChildren.push(result);
+            }
+          }
+        });
+
+        // Add remaining children
+        while (childIdx < childInfos.length) {
+          newChildren.push(childInfos[childIdx].child);
+          childIdx++;
+        }
+
+        lineEl.children = newChildren;
+      });
+
+      // Process multi-line statements (wrap line elements in codeEl.children)
+      // Process in reverse order so splicing doesn't shift earlier indices
+      [...multiLineStmts]
+        .sort((a, b) => b.startLine - a.startLine)
+        .forEach((stmt) => {
+          const startLineEl = this.lines[stmt.startLine];
+          const endLineEl = this.lines[stmt.line];
+
+          const startIdx = codeEl.children.indexOf(startLineEl);
+          const endIdx = codeEl.children.indexOf(endLineEl);
+
+          if (startIdx === -1 || endIdx === -1) return;
+
+          const wrappedChildren = codeEl.children.slice(startIdx, endIdx + 1);
+          const result = renderer.nodeStaticInfo.call(
+            this,
+            stmt,
+            wrappedChildren,
+            { style: "display:block" },
+          );
+
+          if (Array.isArray(result)) {
+            codeEl.children.splice(startIdx, endIdx - startIdx + 1, ...result);
+          } else {
+            codeEl.children.splice(startIdx, endIdx - startIdx + 1, result);
+          }
+        });
     },
   };
 }
