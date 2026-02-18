@@ -1,0 +1,51 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-alpha:
+    runs-on: ubuntu-latest
+    environment: alpha
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+      - run: npm ci
+      - run: npm run build
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+      - run: test -f out/index.html
+      - run: aws s3 sync out "s3://${{ vars.BUCKET_NAME }}" --delete
+      - run: aws cloudfront create-invalidation --distribution-id "${{ vars.DISTRIBUTION_ID }}" --paths "/*"
+
+  deploy-prod:
+    needs: deploy-alpha
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+      - run: npm ci
+      - run: npm run build
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+      - run: test -f out/index.html
+      - run: aws s3 sync out "s3://${{ vars.BUCKET_NAME }}" --delete
+      - run: aws cloudfront create-invalidation --distribution-id "${{ vars.DISTRIBUTION_ID }}" --paths "/*"
