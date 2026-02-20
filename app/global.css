@@ -2,6 +2,14 @@
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 
+@theme {
+  --color-fd-muted-foreground: hsl(0, 0%, 40%);
+}
+
+.dark {
+  --color-fd-muted-foreground: hsl(0, 0%, 70%, 0.9);
+}
+
 .katex-display {
   overflow-x: auto;
   padding: 10px 10px;
