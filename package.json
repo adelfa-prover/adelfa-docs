@@ -2,6 +2,7 @@
   "name": "adelfa-doc",
   "version": "0.0.1",
   "description": "Adelfa docs",
+  "type": "module",
   "scripts": {
     "build": "next build",
     "dev": "next",

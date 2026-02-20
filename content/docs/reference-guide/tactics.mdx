@@ -24,10 +24,8 @@ plus-s : {N1:nat}{N2:nat}{N3:nat}
 Search for a derivation of the current goal using matching with assumption
 formulas and decomposing judgments into subgoals using LF derivation rules. If a
 `<NUM>` is provided, assumption judgements are decomposed `<NUM>` times. If a
-`<NUM>` is not provided, the
-[`search_depth`](/reference-guide/top-level-commands#search_depth) option is
-used. The [`search_depth`](/reference-guide/top-level-commands#search_depth) can
-be changed with the
+`<NUM>` is not provided, the `search_depth` option is used. The `search_depth`
+can be changed with the
 [`Set`](/reference-guide/top-level-commands#set-option-value) command.
 
 ## `intros.`
@@ -167,8 +165,7 @@ derivation of this goal is complete returns to the previous proof state with the
 given formula added as an assumption. Providing a `<NUM>` will decompose
 assumption judgements `<NUM>` times. If the asserted formula can be proven, it
 is added to the proof state immediately. This option defaults to
-[`search_depth`](/reference-guide/top-level-commands#search_depth) when not
-provided and may be changed with the
+`search_depth` when not provided and may be changed with the
 [`Set`](/reference-guide/top-level-commands#set-option-value) command.
 
 ```adelfa showOutput
