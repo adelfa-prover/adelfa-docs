@@ -9,10 +9,12 @@ import {
   shift,
   arrow,
 } from "@floating-ui/dom";
-import { highlightPopup } from "@/lib/popup-highlighter";
+import { getHighlighter, highlightPopup } from "@/lib/popup-highlighter";
 
 export default function PopupHandler() {
   useEffect(() => {
+    getHighlighter();
+
     let cleanupAutoUpdate: (() => void) | null = null;
     let currentHover: Element | null = null;
     let hoverTimeout: ReturnType<typeof setTimeout> | null = null;

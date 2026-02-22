@@ -3,7 +3,7 @@ import type { HighlighterCore } from "@shikijs/core";
 let highlighter: HighlighterCore | null = null;
 let highlighterPromise: Promise<HighlighterCore> | null = null;
 
-async function getHighlighter(): Promise<HighlighterCore> {
+export async function getHighlighter(): Promise<HighlighterCore> {
   if (highlighter) return highlighter;
   if (highlighterPromise) return highlighterPromise;
 
