@@ -53,6 +53,9 @@ export async function generateMetadata(props: {
     description: page.data.description,
     alternates: {
       canonical: page.url,
+      types: {
+        "text/markdown": `${page.url}.mdx`,
+      },
     },
     openGraph: {
       title: isRoot ? "Adelfa" : page.data.title,
