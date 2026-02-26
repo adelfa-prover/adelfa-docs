@@ -27,6 +27,7 @@
     "@citation-js/plugin-bibtex": "^0.7.16",
     "@citation-js/plugin-csl": "^0.7.14",
     "@floating-ui/dom": "^1.7.5",
+    "@takumi-rs/image-response": "^0.69.2",
     "citation-js": "^0.7.16",
     "fumadocs-core": "^15.8.5",
     "fumadocs-mdx": "^14.2.7",

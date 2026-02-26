@@ -1,4 +1,5 @@
 import { source } from "@/lib/source";
+import { getOgImage } from "@/lib/og";
 import {
   DocsPage,
   DocsBody,
@@ -48,6 +49,9 @@ export async function generateMetadata(props: {
 
   const isRoot = !params.slug || params.slug.length === 0;
 
+  const ogImage = getOgImage(params.slug);
+  const ogTitle = isRoot ? "Adelfa" : page.data.title;
+
   return {
     title: isRoot ? { absolute: "Adelfa" } : page.data.title,
     description: page.data.description,
@@ -58,9 +62,24 @@ export async function generateMetadata(props: {
       },
     },
     openGraph: {
-      title: isRoot ? "Adelfa" : page.data.title,
+      title: ogTitle,
       description: page.data.description,
       url: page.url,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: ogTitle,
+          type: "image/webp",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description: page.data.description ?? undefined,
+      images: [ogImage],
     },
   };
 }

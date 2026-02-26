@@ -8,6 +8,7 @@ const config = {
   images: { unoptimized: true },
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
+  serverExternalPackages: ["@takumi-rs/image-response"],
 };
 
 export default withMDX(config);
