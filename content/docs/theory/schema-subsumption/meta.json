@@ -1,3 +1,4 @@
 {
-  "pages": ["size", "subst-size", "orbi", "poplmark"]
+  "title": "Schema Subsumption",
+  "pages": ["introduction", "size", "subst-size", "orbi", "poplmark"]
 }
