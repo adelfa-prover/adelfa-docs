@@ -13,7 +13,11 @@ import lfGrammar from "./syntax/lf.tmLanguage.json";
 const adelfaIcon =
   '<img src="/adelfa-logo.svg" style="width:14px;height:14px;filter:grayscale(100%)" />';
 
-export const docs = defineDocs({ dir: "content/docs" });
+export const docs = defineDocs({
+  dir: "content/docs",
+  docs: { postprocess: { includeProcessedMarkdown: true } },
+});
+
 export default defineConfig({
   mdxOptions: {
     remarkPlugins: [
