@@ -39,8 +39,8 @@ Then, run `npm run dev` to start the development server and visit
 https://localhost:3000 to see how the pages will appear on the website.
 
 Content pages are located in the `content/docs/` directory as `.mdx` files. This
-means that to edit the `/reference-guide/syntax/` page, the
-`content/docs/reference-guide/syntax.mdx` file will need to be edited.
+means that to edit the `/reference-guide/` page, the
+`content/docs/reference-guide.mdx` file will need to be edited.
 
 Given this, open the desired `.mdx` file and begin editing it in the text editor
 of your choice. After saving the file, your browser should automatically reload
