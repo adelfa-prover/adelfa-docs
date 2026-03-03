@@ -2,6 +2,7 @@ import { RootProvider } from "fumadocs-ui/provider";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import PopupHandler from "@/components/PopupHandler";
+import "katex/dist/katex.css";
 import "./global.css";
 
 export const metadata: Metadata = {
@@ -28,12 +29,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/katex/dist/katex.css"
-        />
-      </head>
+      <head />
       <body>
         <RootProvider search={{ options: { type: "static" } }}>
           <PopupHandler />
