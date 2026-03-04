@@ -8,6 +8,9 @@ const config = {
   images: { unoptimized: true },
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
+  experimental: {
+    inlineCss: true,
+  },
   serverExternalPackages: ["@takumi-rs/image-response"],
 };
 
