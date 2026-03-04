@@ -11,7 +11,7 @@ import adelfaGrammar from "./syntax/adelfa.tmLanguage.json";
 import lfGrammar from "./syntax/lf.tmLanguage.json";
 
 const adelfaIcon =
-  '<img src="/adelfa-logo.svg" style="width:14px;height:14px;filter:grayscale(100%)" />';
+  '<img src="/adelfa-logo.svg" style="width:14px;height:14px;filter:grayscale(100%)" alt="Adelfa logo" />';
 
 export const docs = defineDocs({
   dir: "content/docs",
