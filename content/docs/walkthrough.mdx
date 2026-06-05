@@ -37,21 +37,21 @@ In addition to an evaluation semantics, we encode typing of the lambda calculus.
 
 ```math
 {
-  {\Gamma \vdash e_1  (\tau \to \sigma) \qquad \Gamma \vdash e_2  \tau}
+  {\Gamma \vdash e_1 : (\tau \to \sigma) \qquad \Gamma \vdash e_2 : \tau}
   \over
-  {\Gamma \vdash (e_1\ e_2)  \sigma}
+  {\Gamma \vdash (e_1\ e_2) : \sigma}
 }\mathtt{of\textrm{-}app}
 \qquad\quad
 {
-  {\Gamma, x\tau \vdash e\sigma}
+  {\Gamma, x : \tau \vdash e : \sigma}
   \over
-  {\Gamma \vdash (\lambda x. e)(\tau \to \sigma)}
+  {\Gamma \vdash (\lambda x. e) : (\tau \to \sigma)}
 }{\mathtt{of\textrm{-}abs} \atop {x \not\in \Gamma}}
 \qquad\quad
 {
-  {x\tau \in \Gamma}
+  {x:\tau \in \Gamma}
   \over
-  {\Gamma \vdash x  \tau}
+  {\Gamma \vdash x : \tau}
 }\mathtt{of\textrm{-}var}
 ```
 
@@ -67,7 +67,7 @@ We now discuss showing that evaluation of terms does not change the type, called
 _subject reduction_ or type preservation. The informal proof is phrased as:
 
 > For any $\lambda$-calculus terms $e$ and $e'$ such that $e \Downarrow e'$
-> and $\Gamma \vdash e\tau$ hold, then $\Gamma \vdash e'\tau$ must hold.
+> and $\Gamma \vdash e\tau$ hold, then $\Gamma \vdash e' : \tau$ must hold.
 
 
 We will now work through how we can specify these rules in LF, then use Adelfa
