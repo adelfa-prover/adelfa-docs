@@ -82,7 +82,6 @@ forall E V T D1 D2, {|- D1 : eval E V} -> {|- D2: of E T} ->
 We will get the following proof state.
 
 ```adelfa
-// [!code word:*]
 IH : forall E V T D1 D2, {|- D1 : eval E V}* -> {|- D2: of E T} ->
       exists D3, {|- D3: of V T}
 ============================

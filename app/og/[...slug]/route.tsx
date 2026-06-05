@@ -2,6 +2,12 @@ import { ImageResponse } from "@takumi-rs/image-response";
 import { source } from "@/lib/source";
 import { generateOgStaticParams } from "@/lib/og";
 import { OgTemplate } from "./template";
+import { readFileSync } from "fs";
+import { join } from "path";
+
+const bgData = readFileSync(
+  join(process.cwd(), "app/og/[...slug]/og-bg.png"),
+).toString("base64");
 
 export async function GET(
   _req: Request,
@@ -17,8 +23,10 @@ export async function GET(
 
   return new ImageResponse(
     <OgTemplate
+      slugs={page.slugs}
       title={page.data.title}
       description={page.data.description}
+      backgroundImage={`data:image/png;base64,${bgData}`}
     />,
     {
       width: 1200,
