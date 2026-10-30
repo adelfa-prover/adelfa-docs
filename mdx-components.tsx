@@ -8,6 +8,7 @@ import {
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 import { Steps, Step } from "fumadocs-ui/components/steps";
 import { Files, Folder, File } from "fumadocs-ui/components/files";
+import { AdelfaPopups } from "@/components/AdelfaPopups";
 
 function AdelfaCode(_props: {
   lang: "adelfa" | "lf";
@@ -25,6 +26,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Bibliography,
     AdelfaPublications,
     AdelfaCode,
+    AdelfaPopups,
     Tabs,
     Tab,
     Steps,

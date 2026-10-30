@@ -3,10 +3,8 @@ import type { BundledLanguage } from "shiki";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { remarkAdelfaCode } from "./transformers/remark-adelfa-code.mjs";
-import { remarkAdelfaFilepath } from "./transformers/remark-adelfa-filepath.mjs";
 import { remarkCitations } from "./transformers/remark-citations.mjs";
 import { adelfaTransformer } from "./transformers/adelfa-transformer.mjs";
-import { rendererRich } from "./transformers/adelfa-renderer.mjs";
 import adelfaGrammar from "./syntax/adelfa.tmLanguage.json";
 import lfGrammar from "./syntax/lf.tmLanguage.json";
 
@@ -22,7 +20,6 @@ export default defineConfig({
   mdxOptions: {
     remarkPlugins: [
       remarkAdelfaCode,
-      remarkAdelfaFilepath,
       remarkCitations,
       remarkMath,
     ],
@@ -48,7 +45,7 @@ export default defineConfig({
       },
       defaultLanguage: "adelfa",
       themes: { light: "github-light", dark: "github-dark" },
-      transformers: [adelfaTransformer({ renderer: rendererRich() })],
+      transformers: [adelfaTransformer()],
     },
   },
 });

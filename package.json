@@ -48,7 +48,7 @@
     "@types/react": "19.0.10",
     "github-slugger": "^2.0.0",
     "next-validate-link": "^1.6.4",
-    "shiki": "^1.29.2",
+    "shiki": "^3.22.0",
     "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.9.2",

@@ -1,7 +1,6 @@
 import { RootProvider } from "fumadocs-ui/provider";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import PopupHandler from "@/components/PopupHandler";
 import "katex/dist/katex.css";
 import "./global.css";
 
@@ -32,7 +31,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head />
       <body>
         <RootProvider search={{ options: { type: "static" } }}>
-          <PopupHandler />
           {children}
         </RootProvider>
       </body>
