@@ -13,10 +13,11 @@ can more easily represent objects with binding operations via _higher-order
 abstract syntax_.
 
 In this example, we will reason about the $\lambda$-calculus with big step
-(sometimes referred to as "call-by name") evaluation semantics. We denote this
-as a relation between two terms $e_1 \Downarrow e_2$. The "input" term is on the
-left of the $\Downarrow$ and the result of the evaluation is the term on the
-right.
+evaluation semantics. We denote this as a relation between two terms $e_1
+\Downarrow e_2$. The input term is on the left of the $\Downarrow$ and the
+result of the evaluation is the term on the right. The rules here implement a
+call-by-name evaluation strategy, since $\texttt{eval\textrm{-}app}$ immediately
+substitutes $e_2$ into the body without evaluating it.
 
 ```math
 {{}\over{}(\lambda x. e) \Downarrow (\lambda x. e)}{\mathtt{eval\textrm{-}abs}}
